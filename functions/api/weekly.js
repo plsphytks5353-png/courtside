@@ -1,4 +1,4 @@
-// Simple in-memory cache (warm for the lifetime of the serverless instance)
+// モジュールレベルキャッシュ（同一Workerインスタンス内で有効・5分TTL）
 let _cache = { data: null, ts: 0 };
 
 async function fetchScheduleRaw() {
@@ -13,24 +13,23 @@ async function fetchScheduleRaw() {
   return raw;
 }
 
-function addDays(dateObj, n) {
+function addUTCDays(dateObj, n) {
   const d = new Date(dateObj);
   d.setUTCDate(d.getUTCDate() + n);
   return d;
 }
 
-function fmtDate(d) {
-  // Returns "MM/DD/YYYY" matching schedule JSON format
+function fmtMMDDYYYY(d) {
   const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
   const dd = String(d.getUTCDate()).padStart(2, '0');
   return `${mm}/${dd}/${d.getUTCFullYear()}`;
 }
 
-export default async function handler(req, res) {
-  let dateStr = req.query.date;
+export async function onRequest({ request }) {
+  const url = new URL(request.url);
+  let dateStr = url.searchParams.get('date');
   if (!dateStr) {
-    const now = new Date();
-    dateStr = now.toISOString().slice(0, 10);
+    dateStr = new Date().toISOString().slice(0, 10);
   }
 
   try {
@@ -38,14 +37,13 @@ export default async function handler(req, res) {
 
     const d = new Date(dateStr + 'T00:00:00Z');
     const weekday = d.getUTCDay(); // 0=Sun
-    // Monday-based week
-    const monday = addDays(d, weekday === 0 ? -6 : -(weekday - 1));
+    const monday = addUTCDays(d, weekday === 0 ? -6 : -(weekday - 1));
     const weekDates = new Set();
-    for (let i = 0; i < 7; i++) weekDates.add(fmtDate(addDays(monday, i)));
+    for (let i = 0; i < 7; i++) weekDates.add(fmtMMDDYYYY(addUTCDays(monday, i)));
 
     const result = [];
     for (const dateEntry of raw.leagueSchedule.gameDates) {
-      const gd = dateEntry.gameDate.slice(0, 10); // "MM/DD/YYYY"
+      const gd = dateEntry.gameDate.slice(0, 10);
       if (!weekDates.has(gd)) continue;
       for (const g of dateEntry.games) {
         const ht = g.homeTeam, at = g.awayTeam;
@@ -75,10 +73,13 @@ export default async function handler(req, res) {
       }
     }
 
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200).json({ games: result });
+    return new Response(JSON.stringify({ games: result }), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
   }
 }

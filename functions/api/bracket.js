@@ -21,7 +21,7 @@ async function fetchBracket() {
   for (const dateEntry of raw.leagueSchedule.gameDates) {
     for (const g of dateEntry.games ?? []) {
       const label = g.gameLabel ?? '';
-      if (!Object.keys(ROUND_ORDER).some(r => label.includes(r))) continue;
+      if (!Object.keys(ROUND_ORDER).some(k => label.includes(k))) continue;
       const at = g.awayTeam.teamTricode;
       const ht = g.homeTeam.teamTricode;
       if (!at || !ht) continue;
@@ -38,7 +38,7 @@ async function fetchBracket() {
         series[key] = { top: null, bot: null, label, conf, roundNum, text: st, latestGameId: g.gameId };
       }
       if (sn === 'Game 1') {
-        series[key].top = ht; // home team = higher seed
+        series[key].top = ht;
         series[key].bot = at;
       }
       if (st && st !== 'Series tied 0-0') series[key].text = st;
@@ -63,13 +63,16 @@ async function fetchBracket() {
   return result;
 }
 
-export default async function handler(req, res) {
+export async function onRequest() {
   try {
     const data = await fetchBracket();
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200).json(data);
+    return new Response(JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
   }
 }

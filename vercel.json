@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/scoreboard", "destination": "/api/scoreboard" },
-    { "source": "/api/boxscore", "destination": "/api/boxscore" },
-    { "source": "/api/playbyplay", "destination": "/api/playbyplay" },
-    { "source": "/api/weekly", "destination": "/api/weekly" },
-    { "source": "/api/bracket", "destination": "/api/bracket" }
-  ]
-}
