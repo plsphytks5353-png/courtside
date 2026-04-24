@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>試合スケジュール | CourtSide</title>
+  <meta name="description" content="2026 NBA プレーオフ 第1ラウンドの試合スケジュール。ライブ配信・見逃し配信・ハイライト動画。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --crimson: #BF0000;
+      --crimson-bright: #E60012;
+      --ink: #0A0A0A;
+      --ink-2: #121212;
+      --ink-3: #1C1C1C;
+      --line: #2A2A2A;
+    }
+    html, body { background: var(--ink); color: #fff; }
+    body { font-family: "Noto Sans JP", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .font-display { font-family: "Oswald", "Noto Sans JP", sans-serif; letter-spacing: 0.02em; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .live-dot { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .55; transform: scale(1.25); }
+    }
+    .card-hover { transition: transform .2s ease, border-color .2s ease, background-color .2s ease; }
+    .row-hover:hover { background: rgba(255,255,255,.03); border-color:#3a3a3a; }
+    .team-logo {
+      display:flex; align-items:center; justify-content:center;
+      font-family:"Oswald",sans-serif; font-weight:700; letter-spacing:.02em; color:#fff;
+    }
+    .chip { font-size: 10px; letter-spacing: .08em; }
+    .section-title-bar { width: 4px; background: var(--crimson); }
+    .subheader-bg {
+      background:
+        radial-gradient(900px 300px at 70% 0%, rgba(191,0,0,.35), transparent 70%),
+        linear-gradient(180deg, #140000 0%, #0A0A0A 100%);
+    }
+    .today-ribbon {
+      background: linear-gradient(90deg, var(--crimson) 0%, #7A0000 100%);
+    }
+    @keyframes scorePulse {
+      0%, 100% { transform: scale(1); text-shadow: none; }
+      40% { transform: scale(1.22); text-shadow: 0 0 14px rgba(230,0,18,.75); }
+    }
+    .score-flash { animation: scorePulse .75s ease; display: inline-block; transform-origin: center; }
+    a { color: inherit; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- ========================= TOP INFO BAR ========================= -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+      <span class="text-gray-500 hidden md:inline">|</span>
+      <a href="index.html#plans" class="hidden md:inline hover:text-white">初月500円で全試合見放題 ▶</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="#" class="hover:text-white">ヘルプ</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white">アプリ</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white">ログイン</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= HEADER ========================= -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+      <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-white border-b-2 border-[var(--crimson)] pb-1">試合</a>
+      <a href="index.html#highlights" class="text-gray-300 hover:text-white">動画</a>
+      <a href="index.html#news" class="text-gray-300 hover:text-white">ニュース</a>
+      <a href="index.html#standings" class="text-gray-300 hover:text-white">順位表</a>
+      <a href="index.html#teams" class="text-gray-300 hover:text-white">チーム</a>
+      <a href="index.html#plans" class="text-gray-300 hover:text-white">プラン</a>
+    </nav>
+    <div class="flex-1"></div>
+    <button aria-label="検索" class="p-2 text-gray-300 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+    <a href="index.html#plans" class="hidden sm:inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-4 py-2 rounded text-sm">
+      今すぐ視聴
+    </a>
+  </div>
+</header>
+
+<!-- ========================= PAGE TITLE + WEEK NAV ========================= -->
+<section class="subheader-bg border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 py-8 md:py-10">
+    <nav class="text-xs text-gray-400 mb-4">
+      <a href="index.html" class="hover:text-white">ホーム</a>
+      <span class="mx-2 text-gray-600">/</span>
+      <span class="text-white">試合スケジュール</span>
+    </nav>
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div>
+        <h1 class="font-display text-4xl md:text-5xl font-bold mb-2">試合スケジュール</h1>
+        <p id="week-subtitle" class="text-gray-300 text-sm">読み込み中...</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btn-prev-week" onclick="shiftWeek(-7)" class="flex items-center gap-1 px-3 py-2 border border-[var(--line)] rounded text-sm text-gray-300 hover:text-white hover:border-white/40">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          前週
+        </button>
+        <button onclick="goToday()" class="px-4 py-2 bg-[var(--crimson)] text-white font-bold rounded text-sm">今週</button>
+        <button id="btn-next-week" onclick="shiftWeek(7)" class="flex items-center gap-1 px-3 py-2 border border-[var(--line)] rounded text-sm text-gray-300 hover:text-white hover:border-white/40">
+          次週
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mini date tabs (JS生成) -->
+    <div id="date-tabs" class="mt-6 flex gap-2 overflow-x-auto hide-scrollbar"></div>
+  </div>
+</section>
+
+<!-- ========================= FILTERS ========================= -->
+<section class="sticky top-16 z-30 bg-[var(--ink)]/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 py-3 flex flex-wrap items-center gap-3 text-sm">
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-gray-500">ステータス:</span>
+      <div id="filter-status" class="flex gap-1 bg-[var(--ink-2)] rounded p-0.5 border border-[var(--line)] text-xs">
+        <button data-value="all" class="px-3 py-1.5 rounded bg-[var(--crimson)] text-white font-bold">すべて</button>
+        <button data-value="2" class="px-3 py-1.5 rounded text-gray-400 hover:text-white">LIVE</button>
+        <button data-value="1" class="px-3 py-1.5 rounded text-gray-400 hover:text-white">予定</button>
+        <button data-value="3" class="px-3 py-1.5 rounded text-gray-400 hover:text-white">終了</button>
+      </div>
+    </div>
+
+    <span class="text-gray-700">|</span>
+
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-gray-500">カンファレンス:</span>
+      <div id="filter-conf" class="flex gap-1 bg-[var(--ink-2)] rounded p-0.5 border border-[var(--line)] text-xs">
+        <button data-value="all" class="px-3 py-1.5 rounded bg-white/10 text-white font-bold">すべて</button>
+        <button data-value="east" class="px-3 py-1.5 rounded text-gray-400 hover:text-white">東地区</button>
+        <button data-value="west" class="px-3 py-1.5 rounded text-gray-400 hover:text-white">西地区</button>
+      </div>
+    </div>
+
+    <span class="text-gray-700">|</span>
+
+    <select class="bg-[var(--ink-2)] border border-[var(--line)] rounded px-3 py-1.5 text-xs text-gray-300 hover:text-white focus:outline-none focus:border-white/40">
+      <option>すべてのチーム</option>
+      <optgroup label="東地区">
+        <option>Boston Celtics</option>
+        <option>New York Knicks</option>
+        <option>Milwaukee Bucks</option>
+        <option>Cleveland Cavaliers</option>
+        <option>Miami Heat</option>
+        <option>Philadelphia 76ers</option>
+        <option>Orlando Magic</option>
+        <option>Atlanta Hawks</option>
+        <option>Chicago Bulls</option>
+        <option>Brooklyn Nets</option>
+        <option>Indiana Pacers</option>
+        <option>Toronto Raptors</option>
+        <option>Charlotte Hornets</option>
+        <option>Washington Wizards</option>
+        <option>Detroit Pistons</option>
+      </optgroup>
+      <optgroup label="西地区">
+        <option>Denver Nuggets</option>
+        <option>Los Angeles Lakers</option>
+        <option>Oklahoma City Thunder</option>
+        <option>Golden State Warriors</option>
+        <option>Dallas Mavericks</option>
+        <option>Phoenix Suns</option>
+        <option>Minnesota Timberwolves</option>
+        <option>New Orleans Pelicans</option>
+        <option>LA Clippers</option>
+        <option>Sacramento Kings</option>
+        <option>Houston Rockets</option>
+        <option>Memphis Grizzlies</option>
+        <option>Utah Jazz</option>
+        <option>San Antonio Spurs</option>
+        <option>Portland Trail Blazers</option>
+      </optgroup>
+    </select>
+
+    <select class="bg-[var(--ink-2)] border border-[var(--line)] rounded px-3 py-1.5 text-xs text-gray-300 hover:text-white focus:outline-none focus:border-white/40">
+      <option>すべてのラウンド</option>
+      <option>プレーイン最終戦</option>
+      <option>第1ラウンド</option>
+      <option>カンファレンスセミファイナル</option>
+      <option>カンファレンスファイナル</option>
+      <option>NBAファイナル</option>
+    </select>
+
+    <div class="flex-1"></div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-gray-500 hidden md:inline">表示:</span>
+      <div class="flex gap-0.5 bg-[var(--ink-2)] rounded p-0.5 border border-[var(--line)]">
+        <button class="px-2.5 py-1.5 rounded bg-white/10 text-white" aria-label="リスト表示">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <button class="px-2.5 py-1.5 rounded text-gray-400 hover:text-white" aria-label="グリッド表示">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </button>
+        <button class="px-2.5 py-1.5 rounded text-gray-400 hover:text-white" aria-label="カレンダー表示">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE CONTENT (JS生成) -->
+<div id="schedule-days" class="min-h-[400px]">
+  <div class="max-w-[1280px] mx-auto px-4 py-12 text-center">
+    <div class="inline-block w-8 h-8 border-2 border-[var(--crimson)] border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-gray-400 text-sm mt-4">スケジュールを読み込み中...</p>
+  </div>
+</div>
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="bg-black border-t border-[var(--line)] pt-12 pb-8">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+      <div class="col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+          <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          NBA 全試合を日本語でライブ配信。<br />
+          日本唯一の NBA 公式ライセンス・ストリーミングサービス。
+        </p>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3">サービス</div>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="index.html" class="hover:text-white">ホーム</a></li>
+          <li><a href="schedule.html" class="hover:text-white">試合スケジュール</a></li>
+          <li><a href="index.html#highlights" class="hover:text-white">ハイライト動画</a></li>
+          <li><a href="index.html#standings" class="hover:text-white">順位表</a></li>
+          <li><a href="index.html#plans" class="hover:text-white">プラン</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3">サポート</div>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="#" class="hover:text-white">ヘルプセンター</a></li>
+          <li><a href="#" class="hover:text-white">お問い合わせ</a></li>
+          <li><a href="#" class="hover:text-white">視聴環境</a></li>
+          <li><a href="#" class="hover:text-white">解約方法</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3">CourtSideについて</div>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="#" class="hover:text-white">会社情報</a></li>
+          <li><a href="#" class="hover:text-white">プライバシーポリシー</a></li>
+          <li><a href="#" class="hover:text-white">利用規約</a></li>
+          <li><a href="#" class="hover:text-white">特定商取引法</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-6 border-t border-[var(--line)] text-xs text-gray-500 text-center">
+      © 2026 CourtSide. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const TM = {
+    ATL:{n:'Hawks',c:'Atlanta',g:'linear-gradient(135deg,#E03A3E,#C1D32F)'},
+    BOS:{n:'Celtics',c:'Boston',g:'linear-gradient(135deg,#007A33,#BA9653)'},
+    BKN:{n:'Nets',c:'Brooklyn',g:'linear-gradient(135deg,#000,#CFCFCF)'},
+    CHA:{n:'Hornets',c:'Charlotte',g:'linear-gradient(135deg,#1D1160,#00788C)'},
+    CHI:{n:'Bulls',c:'Chicago',g:'linear-gradient(135deg,#CE1141,#000)'},
+    CLE:{n:'Cavaliers',c:'Cleveland',g:'linear-gradient(135deg,#860038,#041E42)'},
+    DAL:{n:'Mavericks',c:'Dallas',g:'linear-gradient(135deg,#00538C,#002B5C)'},
+    DEN:{n:'Nuggets',c:'Denver',g:'linear-gradient(135deg,#5D76A9,#0C2340)'},
+    DET:{n:'Pistons',c:'Detroit',g:'linear-gradient(135deg,#C8102E,#1D42BA)'},
+    GSW:{n:'Warriors',c:'Golden State',g:'linear-gradient(135deg,#1D428A,#FFC72C)'},
+    HOU:{n:'Rockets',c:'Houston',g:'linear-gradient(135deg,#CE1141,#000)'},
+    IND:{n:'Pacers',c:'Indiana',g:'linear-gradient(135deg,#002D62,#FDBB30)'},
+    LAC:{n:'Clippers',c:'LA',g:'linear-gradient(135deg,#C8102E,#1D1160)'},
+    LAL:{n:'Lakers',c:'Los Angeles',g:'linear-gradient(135deg,#552583,#FDB927)'},
+    MEM:{n:'Grizzlies',c:'Memphis',g:'linear-gradient(135deg,#5D76A9,#12173F)'},
+    MIA:{n:'Heat',c:'Miami',g:'linear-gradient(135deg,#98002E,#F9A01B)'},
+    MIL:{n:'Bucks',c:'Milwaukee',g:'linear-gradient(135deg,#00471B,#EEE1C6)'},
+    MIN:{n:'Timberwolves',c:'Minnesota',g:'linear-gradient(135deg,#0C2340,#236192)'},
+    NOP:{n:'Pelicans',c:'New Orleans',g:'linear-gradient(135deg,#0C2340,#C8102E)'},
+    NYK:{n:'Knicks',c:'New York',g:'linear-gradient(135deg,#006BB6,#F58426)'},
+    OKC:{n:'Thunder',c:'Oklahoma City',g:'linear-gradient(135deg,#007AC1,#EF3B24)'},
+    ORL:{n:'Magic',c:'Orlando',g:'linear-gradient(135deg,#0077C0,#000)'},
+    PHI:{n:'76ers',c:'Philadelphia',g:'linear-gradient(135deg,#006BB6,#ED174C)'},
+    PHX:{n:'Suns',c:'Phoenix',g:'linear-gradient(135deg,#1D1160,#E56020)'},
+    POR:{n:'Trail Blazers',c:'Portland',g:'linear-gradient(135deg,#E03A3E,#000)'},
+    SAC:{n:'Kings',c:'Sacramento',g:'linear-gradient(135deg,#5A2B81,#63727A)'},
+    SAS:{n:'Spurs',c:'San Antonio',g:'linear-gradient(135deg,#000,#C4CED4)'},
+    TOR:{n:'Raptors',c:'Toronto',g:'linear-gradient(135deg,#CE1141,#000)'},
+    UTA:{n:'Jazz',c:'Utah',g:'linear-gradient(135deg,#002B5C,#F9A01B)'},
+    WAS:{n:'Wizards',c:'Washington',g:'linear-gradient(135deg,#002B5C,#E31837)'},
+  };
+  const tm = t => TM[t] || {n:t, c:'', g:'#333'};
+
+  const DAY_JA = ['日','月','火','水','木','金','土'];
+  const DAY_EN = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+  // 状態
+  let currentMonday = getThisMonday();
+  let weekGames = [];       // スケジュールAPIから
+  let todayMap = {};        // スコアボードAPIから (gameId → game)
+  let statusFilter = 'all'; // all/2/1/3
+  let confFilter = 'all';   // all/east/west
+
+  function getThisMonday() {
+    const d = new Date();
+    const day = d.getUTCDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    const m = new Date(d);
+    m.setUTCDate(d.getUTCDate() + diff);
+    m.setUTCHours(0,0,0,0);
+    return m;
+  }
+
+  function addDays(date, n) {
+    const d = new Date(date);
+    d.setUTCDate(d.getUTCDate() + n);
+    return d;
+  }
+
+  function isoDate(d) { return d.toISOString().split('T')[0]; }
+
+  function jstTime(utcStr) {
+    if (!utcStr) return '';
+    const d = new Date(utcStr);
+    if (isNaN(d)) return '';
+    d.setHours(d.getHours() + 9);
+    const h = d.getUTCHours(), m = d.getUTCMinutes();
+    return `${h}:${String(m).padStart(2,'0')}`;
+  }
+
+  function todayUTC() {
+    const d = new Date();
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+  }
+
+  /* ── ゲームロー HTML ── */
+  function gameRow(g) {
+    const live = todayMap[g.gameId];
+    const status = live ? live.gameStatus : g.gameStatus;
+    const ht = g.homeTeam, at = g.awayTeam;
+    const htm = tm(ht.teamTricode), atm = tm(at.teamTricode);
+    const hScore = live ? live.homeTeam.score : (g.gameStatus === 3 ? ht.score : '');
+    const aScore = live ? live.awayTeam.score : (g.gameStatus === 3 ? at.score : '');
+
+    const hWin = status === 3 && hScore > aScore;
+    const aWin = status === 3 && aScore > hScore;
+
+    let statusBadge = '';
+    if (status === 2) {
+      const period = live?.period || '';
+      const clock = live?.gameClock ? parseClock(live.gameClock) : '';
+      statusBadge = `<span class="inline-flex items-center gap-1 chip bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm">
+        <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>LIVE${period ? ' Q'+period : ''}${clock ? ' '+clock : ''}</span>`;
+    } else if (status === 3) {
+      statusBadge = `<span class="chip bg-gray-700 text-white font-bold px-2 py-0.5 rounded-sm">Final</span>`;
+    } else {
+      const t = jstTime(g.gameDateTimeUTC);
+      statusBadge = `<span class="chip text-gray-400 px-1">${t ? t+' JST' : g.gameStatusText}</span>`;
+    }
+
+    const seriesInfo = g.seriesText
+      ? `<div class="text-gray-500 text-[10px] mt-0.5">${g.gameLabel} · ${g.seriesText}</div>`
+      : g.gameLabel ? `<div class="text-gray-500 text-[10px] mt-0.5">${g.gameLabel}</div>` : '';
+
+    const detailLink = (status === 2 || status === 3)
+      ? `<a href="game.html?id=${g.gameId}" class="block text-center bg-[var(--crimson)]/80 hover:bg-[var(--crimson)] border border-[var(--crimson)] py-2 rounded text-sm font-bold transition-colors">試合詳細 ›</a>`
+      : `<div class="text-center text-xs text-gray-600 py-2">開始前</div>`;
+
+    return `
+      <article class="row-hover bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 sm:p-5">
+        <div class="flex flex-col sm:grid sm:grid-cols-12 gap-3 sm:gap-4 sm:items-center">
+          <!-- ステータス (mobile: 横並び) -->
+          <div class="sm:col-span-2 flex sm:block items-center gap-2">
+            ${statusBadge}
+            <div class="text-[10px] text-gray-500 mt-0 sm:mt-1">${g.arenaCity || ''}</div>
+          </div>
+          <!-- チーム -->
+          <div class="sm:col-span-7 space-y-2">
+            <div class="flex items-center gap-3">
+              <div class="team-logo w-9 h-9 rounded-full shrink-0 text-xs" style="background:${atm.g}">${at.teamTricode}</div>
+              <div class="flex-1 min-w-0">
+                <div class="font-bold text-sm ${aWin ? 'text-white' : status===3 ? 'text-gray-400' : ''}">${atm.c} ${atm.n}</div>
+              </div>
+              <div class="font-display text-2xl font-bold ${aWin ? 'text-white' : status===3 ? 'text-gray-400' : 'text-gray-600'}">${aScore !== '' ? aScore : '–'}</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="team-logo w-9 h-9 rounded-full shrink-0 text-xs" style="background:${htm.g}">${ht.teamTricode}</div>
+              <div class="flex-1 min-w-0">
+                <div class="font-bold text-sm ${hWin ? 'text-white' : status===3 ? 'text-gray-400' : ''}">${htm.c} ${htm.n}</div>
+              </div>
+              <div class="font-display text-2xl font-bold ${hWin ? 'text-white' : status===3 ? 'text-gray-400' : 'text-gray-600'}">${hScore !== '' ? hScore : '–'}</div>
+            </div>
+            ${seriesInfo}
+          </div>
+          <!-- CTA -->
+          <div class="sm:col-span-3">${detailLink}</div>
+        </div>
+      </article>`;
+  }
+
+  function parseClock(c) {
+    if (!c) return '';
+    const r = c.match(/PT(\d+)M([\d.]+)S/);
+    return r ? `${r[1]}:${Math.floor(parseFloat(r[2])).toString().padStart(2,'0')}` : '';
+  }
+
+  /* ── フィルター適用 ── */
+  function applyFilters(games) {
+    return games.filter(g => {
+      const live = todayMap[g.gameId];
+      const status = live ? live.gameStatus : g.gameStatus;
+      if (statusFilter === '2' && status !== 2) return false;
+      if (statusFilter === '1' && status !== 1) return false;
+      if (statusFilter === '3' && status !== 3) return false;
+      if (confFilter !== 'all') {
+        const label = g.gameLabel?.toLowerCase() || '';
+        if (confFilter === 'east' && !label.includes('east')) return false;
+        if (confFilter === 'west' && !label.includes('west')) return false;
+      }
+      return true;
+    });
+  }
+
+  /* ── メイン描画 ── */
+  function render() {
+    const today = todayUTC();
+    const weekDates = Array.from({length:7}, (_,i) => addDays(currentMonday, i));
+
+    // 日付タブ
+    const tabsEl = document.getElementById('date-tabs');
+    if (tabsEl) {
+      tabsEl.innerHTML = weekDates.map(d => {
+        const key = isoDate(d);
+        const dayGames = weekGames.filter(g => g.gameDateTimeUTC?.startsWith(key) ||
+          (g.gameDateTimeUTC && new Date(g.gameDateTimeUTC).toISOString().split('T')[0] === key));
+        const count = dayGames.length;
+        const isToday = key === today;
+        const live = dayGames.some(g => (todayMap[g.gameId]?.gameStatus || g.gameStatus) === 2);
+        return `<a href="#day-${key}" class="shrink-0 flex flex-col items-center gap-1 px-4 py-3 border rounded hover:border-white/40 transition-colors ${isToday ? 'bg-[var(--crimson)] border-[var(--crimson)] text-white' : 'bg-[var(--ink-2)] border-[var(--line)]'}">
+          <span class="text-[10px] uppercase ${isToday ? 'opacity-80' : 'text-gray-500'}">${isToday ? 'TODAY' : DAY_EN[d.getUTCDay()]}</span>
+          <span class="font-display text-lg font-bold">${d.getUTCMonth()+1}/${d.getUTCDate()}</span>
+          <span class="chip ${isToday ? 'opacity-80' : live ? 'text-[var(--crimson-bright)]' : 'text-gray-400'}">${count ? count+'試合' : '–'}</span>
+        </a>`;
+      }).join('');
+    }
+
+    // 週サブタイトル
+    const sub = document.getElementById('week-subtitle');
+    if (sub) {
+      const mon = weekDates[0], sun = weekDates[6];
+      const total = weekGames.length;
+      const liveCount = weekGames.filter(g => (todayMap[g.gameId]?.gameStatus || g.gameStatus) === 2).length;
+      sub.innerHTML = `${mon.getUTCFullYear()}年${mon.getUTCMonth()+1}月${mon.getUTCDate()}日(${DAY_JA[mon.getUTCDay()]}) – ${sun.getUTCMonth()+1}月${sun.getUTCDate()}日(${DAY_JA[sun.getUTCDay()]}) ／
+        <span class="text-white font-bold">全${total}試合</span>${liveCount ? `<span class="text-gray-500 mx-1">|</span><span class="text-[var(--crimson-bright)] font-bold">LIVE ${liveCount}試合</span>` : ''}`;
+    }
+
+    // 試合セクション
+    const container = document.getElementById('schedule-days');
+    if (!container) return;
+
+    const filtered = applyFilters(weekGames);
+    let html = '';
+
+    for (const d of weekDates) {
+      const key = isoDate(d);
+      const dayGames = filtered.filter(g => {
+        if (!g.gameDateTimeUTC) return false;
+        return new Date(g.gameDateTimeUTC).toISOString().split('T')[0] === key;
+      });
+      if (!dayGames.length) continue;
+
+      const isToday = key === today;
+      const hasLive = dayGames.some(g => (todayMap[g.gameId]?.gameStatus || g.gameStatus) === 2);
+      const allDone = dayGames.every(g => (todayMap[g.gameId]?.gameStatus || g.gameStatus) === 3);
+      const statusLabel = hasLive ? '<span class="chip bg-[var(--crimson)]/20 text-[var(--crimson-bright)] border border-[var(--crimson)]/30 px-2 py-0.5 rounded">LIVE中</span>'
+        : allDone ? '<span class="chip text-gray-500 border border-[var(--line)] px-2 py-0.5 rounded">終了</span>' : '';
+
+      html += `<section id="day-${key}" class="py-8 scroll-mt-36">
+        <div class="max-w-[1280px] mx-auto px-4">
+          <div class="flex items-center gap-3 mb-5 flex-wrap">
+            <div class="w-1 h-6 bg-[var(--crimson)] rounded-sm shrink-0"></div>
+            <h2 class="font-display text-2xl md:text-3xl font-bold">${d.getUTCMonth()+1}月${d.getUTCDate()}日
+              <span class="text-gray-500">(${DAY_JA[d.getUTCDay()]})</span>
+              ${isToday ? '<span class="text-sm text-[var(--crimson-bright)] font-bold ml-1">TODAY</span>' : ''}
+            </h2>
+            ${statusLabel}
+            <span class="text-sm text-gray-500">${dayGames.length}試合</span>
+          </div>
+          <div class="space-y-3">${dayGames.map(g => gameRow(g)).join('')}</div>
+        </div>
+      </section>`;
+    }
+
+    if (!html) {
+      container.innerHTML = '<div class="max-w-[1280px] mx-auto px-4 py-16 text-center text-gray-500">この週は試合がありません</div>';
+    } else {
+      container.innerHTML = html;
+    }
+  }
+
+  /* ── データフェッチ ── */
+  async function fetchAll() {
+    const dateStr = isoDate(currentMonday);
+    const weekUrl = `/api/weekly?date=${dateStr}`;
+    const sbUrl = '/api/scoreboard';
+
+    try {
+      const [weekRes, sbRes] = await Promise.all([
+        fetch(weekUrl, {cache:'no-store'}),
+        fetch(sbUrl, {cache:'no-store'})
+      ]);
+      const weekData = await weekRes.json();
+      weekGames = weekData.games || [];
+
+      const sbData = await sbRes.json();
+      todayMap = {};
+      for (const g of sbData.scoreboard?.games || []) todayMap[g.gameId] = g;
+
+      render();
+    } catch (e) {
+      console.warn('[Schedule] fetch error:', e);
+    }
+  }
+
+  /* ── 週ナビ ── */
+  window.shiftWeek = function(days) {
+    currentMonday = addDays(currentMonday, days);
+    weekGames = [];
+    document.getElementById('schedule-days').innerHTML =
+      '<div class="max-w-[1280px] mx-auto px-4 py-12 text-center"><div class="inline-block w-8 h-8 border-2 border-[var(--crimson)] border-t-transparent rounded-full animate-spin"></div></div>';
+    fetchAll();
+  };
+  window.goToday = function() {
+    currentMonday = getThisMonday();
+    weekGames = [];
+    fetchAll();
+  };
+
+  /* ── フィルターボタン ── */
+  function initFilters() {
+    // ステータスフィルター
+    const statusBtns = document.querySelectorAll('#filter-status button');
+    statusBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        statusFilter = btn.dataset.value;
+        statusBtns.forEach(b => {
+          b.classList.toggle('bg-[var(--crimson)]', b === btn);
+          b.classList.toggle('text-white', b === btn);
+          b.classList.toggle('font-bold', b === btn);
+          b.classList.toggle('text-gray-400', b !== btn);
+        });
+        render();
+      });
+    });
+    // カンファレンスフィルター
+    const confBtns = document.querySelectorAll('#filter-conf button');
+    confBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        confFilter = btn.dataset.value;
+        confBtns.forEach(b => {
+          b.classList.toggle('bg-white/10', b === btn);
+          b.classList.toggle('text-white', b === btn);
+          b.classList.toggle('font-bold', b === btn);
+          b.classList.toggle('text-gray-400', b !== btn);
+        });
+        render();
+      });
+    });
+  }
+
+  // スムーススクロール
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (a) {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const el = document.querySelector(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      }
+    }
+  });
+
+  initFilters();
+  fetchAll();
+  setInterval(fetchAll, 30_000);
+})();
+</script>
+
+</body>
+</html>

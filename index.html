@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CourtSide | NBA ライブスコア・速報</title>
+  <meta name="description" content="CourtSide なら NBA レギュラーシーズン・プレーオフの全試合をライブ配信。ハイライト動画、最新ニュース、選手・チーム情報もすべて日本語で。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --crimson: #BF0000;
+      --crimson-bright: #E60012;
+      --ink: #0A0A0A;
+      --ink-2: #121212;
+      --ink-3: #1C1C1C;
+      --line: #2A2A2A;
+    }
+    html, body { background: var(--ink); color: #fff; }
+    body { font-family: "Noto Sans JP", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .font-display { font-family: "Oswald", "Noto Sans JP", sans-serif; letter-spacing: 0.02em; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .live-dot { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .55; transform: scale(1.25); }
+    }
+    .ticker { animation: ticker 55s linear infinite; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .card-hover { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card-hover:hover { transform: translateY(-3px); border-color: #555; box-shadow: 0 10px 30px rgba(191,0,0,.15); }
+    .hero-bg {
+      background:
+        radial-gradient(1200px 400px at 80% 0%, rgba(191,0,0,.45), transparent 70%),
+        radial-gradient(800px 400px at 10% 100%, rgba(230,0,18,.35), transparent 70%),
+        linear-gradient(180deg, #140000 0%, #0A0A0A 100%);
+    }
+    @keyframes scorePulse {
+      0%, 100% { transform: scale(1); text-shadow: none; }
+      40% { transform: scale(1.22); text-shadow: 0 0 14px rgba(230,0,18,.75); }
+    }
+    .score-flash { animation: scorePulse .75s ease; display: inline-block; transform-origin: center; }
+    .team-logo {
+      display:flex; align-items:center; justify-content:center;
+      font-family:"Oswald",sans-serif; font-weight:700; letter-spacing:.02em;
+      color:#fff;
+    }
+    .chip { font-size: 10px; letter-spacing: .08em; }
+    .section-title-bar { width: 4px; background: var(--crimson); }
+    a { color: inherit; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- ========================= TOP INFO BAR ========================= -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+      <span class="text-gray-500 hidden md:inline">|</span>
+      <a href="#plans" class="hidden md:inline hover:text-white">初月500円で全試合見放題 ▶</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="#" class="hover:text-white">ヘルプ</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white">アプリ</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white">ログイン</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= HEADER ========================= -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="#" class="flex items-center gap-2 shrink-0">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+      <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="#" class="text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合</a>
+      <a href="bracket.html" class="text-gray-300 hover:text-white">ブラケット</a>
+      <a href="#games" class="text-gray-300 hover:text-white">ライブ</a>
+      <a href="#highlights" class="text-gray-300 hover:text-white">動画</a>
+      <a href="#news" class="text-gray-300 hover:text-white">ニュース</a>
+      <a href="#standings" class="text-gray-300 hover:text-white">順位表</a>
+      <a href="#teams" class="text-gray-300 hover:text-white">チーム</a>
+      <a href="#plans" class="text-gray-300 hover:text-white">プラン</a>
+    </nav>
+    <div class="flex-1"></div>
+    <button aria-label="検索" class="p-2 text-gray-300 hover:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+    <a href="#plans" class="hidden sm:inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-4 py-2 rounded text-sm">
+      今すぐ視聴
+    </a>
+  </div>
+</header>
+
+<!-- ========================= HERO ========================= -->
+<section class="hero-bg">
+  <div class="max-w-[1280px] mx-auto px-4 py-10 md:py-16">
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-7">
+        <div id="hero-game-badge" class="flex items-center gap-3 mb-4">
+          <span class="inline-flex items-center gap-1.5 bg-[var(--crimson)] text-white font-bold px-2.5 py-1 rounded-sm text-xs">
+            <span class="w-1.5 h-1.5 bg-white rounded-full live-dot"></span>
+            LIVE
+          </span>
+          <span class="chip uppercase text-gray-300 font-bold">プレーオフ 第1ラウンド Game 1</span>
+        </div>
+        <h1 id="hero-game-title" class="font-display text-5xl md:text-7xl font-bold leading-none mb-3">
+          LAKERS <span class="text-gray-500">vs</span> CELTICS
+        </h1>
+        <p class="text-gray-300 text-base md:text-lg mb-6 leading-relaxed">
+          レギュラーシーズン西地区2位のレイカーズと東地区1位のセルティックスが激突。<br class="hidden md:block" />
+          プレーオフ幕開けのゴールデンカードを日本語実況・解説で完全生中継。
+        </p>
+        <div class="flex flex-wrap items-center gap-3 mb-8 text-sm text-gray-300">
+          <span>4月22日(水) 10:30 TIP-OFF</span>
+          <span class="text-gray-600">|</span>
+          <span>TD Garden</span>
+          <span class="text-gray-600">|</span>
+          <span>実況: 中村信博 / 解説: 佐々木クリス</span>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="#" class="inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-6 py-3 rounded text-base">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            今すぐ視聴する
+          </a>
+          <a href="#" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded text-base backdrop-blur">
+            試合の詳細
+          </a>
+        </div>
+      </div>
+
+      <!-- Scoreboard card -->
+      <div class="lg:col-span-5">
+        <div id="hero-scoreboard" class="bg-[var(--ink-2)]/90 border border-[var(--line)] rounded-lg p-6 backdrop-blur">
+          <div class="flex items-center justify-between text-xs text-gray-400 mb-5">
+            <span class="font-bold text-[var(--crimson-bright)] js-live-clock" data-game="lal-bos">● Q2 残り 4:12</span>
+            <span>TD Garden</span>
+          </div>
+          <div class="grid grid-cols-3 items-center gap-4">
+            <div class="text-center">
+              <div class="team-logo w-16 h-16 mx-auto rounded-full mb-2" style="background:linear-gradient(135deg,#552583,#FDB927);">LAL</div>
+              <div class="text-sm font-bold">Lakers</div>
+              <div class="text-xs text-gray-400">(1-0)</div>
+            </div>
+            <div class="text-center">
+              <div class="font-display text-5xl md:text-6xl font-bold leading-none flex items-center justify-center gap-3">
+                <span class="js-live-score" data-game="lal-bos" data-team="away">52</span>
+                <span class="text-gray-600 text-2xl">-</span>
+                <span class="js-live-score" data-game="lal-bos" data-team="home">48</span>
+              </div>
+              <div class="text-xs text-gray-400 mt-2">4月22日(水)</div>
+            </div>
+            <div class="text-center">
+              <div class="team-logo w-16 h-16 mx-auto rounded-full mb-2" style="background:linear-gradient(135deg,#007A33,#BA9653);">BOS</div>
+              <div class="text-sm font-bold">Celtics</div>
+              <div class="text-xs text-gray-400">(0-1)</div>
+            </div>
+          </div>
+          <div class="mt-5 pt-5 border-t border-[var(--line)] grid grid-cols-4 text-center text-xs">
+            <div><div class="text-gray-500">Q1</div><div class="text-white font-bold">28-22</div></div>
+            <div><div class="text-gray-500">Q2</div><div class="text-white font-bold">24-26</div></div>
+            <div><div class="text-gray-500">Q3</div><div class="text-gray-600">-</div></div>
+            <div><div class="text-gray-500">Q4</div><div class="text-gray-600">-</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= BREAKING TICKER ========================= -->
+<div class="bg-[var(--crimson)] overflow-hidden">
+  <div class="max-w-full flex items-center">
+    <div class="bg-black text-white font-bold px-4 py-2 text-xs uppercase tracking-widest shrink-0 border-r-4 border-[var(--crimson)]">
+      Breaking
+    </div>
+    <div class="overflow-hidden flex-1">
+      <div id="ticker-inner" class="ticker flex gap-10 whitespace-nowrap py-2 text-sm font-medium">
+        <span>🏀 Jokic が今季2度目のトリプルダブル達成</span>
+        <span>📈 Warriors、プレーオフシード確定</span>
+        <span>🗞️ 八村塁、プレーオフ G1 で20得点8リバウンド</span>
+        <span>🎥 Curry の試合終了間際 42ft ブザービーター、必見</span>
+        <span>🔥 Wembanyama、ブロック王ほぼ確実</span>
+        <span>🏆 MVP 候補3名発表、Doncic が最有力</span>
+        <!-- duplicate for seamless loop -->
+        <span>🏀 Jokic が今季2度目のトリプルダブル達成</span>
+        <span>📈 Warriors、プレーオフシード確定</span>
+        <span>🗞️ 八村塁、プレーオフ G1 で20得点8リバウンド</span>
+        <span>🎥 Curry の試合終了間際 42ft ブザービーター、必見</span>
+        <span>🔥 Wembanyama、ブロック王ほぼ確実</span>
+        <span>🏆 MVP 候補3名発表、Doncic が最有力</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= TODAY'S GAMES ========================= -->
+<section id="games" class="py-12 md:py-16 bg-[var(--ink)]">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+      <div class="flex items-stretch gap-3">
+        <div class="section-title-bar"></div>
+        <div>
+          <h2 class="font-display text-3xl md:text-4xl font-bold">今日の試合</h2>
+          <p id="games-date" class="text-gray-400 text-sm mt-1">読み込み中...</p>
+        </div>
+      </div>
+      <div class="flex gap-1 bg-[var(--ink-2)] rounded p-1 text-xs border border-[var(--line)]">
+        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/20</button>
+        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/21</button>
+        <button class="px-3 py-1.5 rounded bg-[var(--crimson)] text-white font-bold">4/22</button>
+        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/23</button>
+        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/24</button>
+      </div>
+    </div>
+
+    <div id="games-scroll" class="flex gap-4 overflow-x-auto hide-scrollbar pb-2 snap-x">
+      <!-- JS で動的レンダリング -->
+    </div>
+
+    <div class="mt-6 text-center">
+      <a href="schedule.html" class="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-white border border-[var(--line)] rounded px-4 py-2">
+        全試合スケジュールを見る →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= HIGHLIGHTS ========================= -->
+<section id="highlights" class="py-12 md:py-16 bg-[var(--ink-2)] border-y border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+      <div class="flex items-stretch gap-3">
+        <div class="section-title-bar"></div>
+        <div>
+          <h2 class="font-display text-3xl md:text-4xl font-bold">ハイライト動画</h2>
+          <p class="text-gray-400 text-sm mt-1">昨日の名シーンを1分半でまとめ視聴</p>
+        </div>
+      </div>
+      <div class="flex gap-2 text-xs overflow-x-auto hide-scrollbar pb-1">
+        <button class="shrink-0 px-3 py-1.5 rounded-full bg-[var(--crimson)] text-white font-bold">すべて</button>
+        <button class="shrink-0 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white">Top Plays</button>
+        <button class="shrink-0 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white">ダンク</button>
+        <button class="shrink-0 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white">3P</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Video cards -->
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#552583,#FDB927);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-[var(--crimson)] text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">HIGHLIGHT</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">1:38</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">八村塁、プレーオフ初スタメンで20得点8リバウンドの大活躍</h3>
+          <p class="text-xs text-gray-400 mt-1">Lakers vs Celtics Game 1 · 5時間前</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#1D428A,#FFC72C);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-black/70 text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">TOP PLAY</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">0:42</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Curry の試合終了ブザーを超える 42ft ディープスリー</h3>
+          <p class="text-xs text-gray-400 mt-1">Warriors vs Nuggets · 2時間前</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#5D76A9,#0C2340);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-[var(--crimson)] text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">TRIPLE-DOUBLE</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">2:15</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Jokic が今季2度目のトリプルダブル (28pts / 11reb / 13ast)</h3>
+          <p class="text-xs text-gray-400 mt-1">Nuggets · 昨日</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#000,#6F4E37);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-black/70 text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">DUNK</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">0:18</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Wembanyama の相手をまたぐアリウープダンク</h3>
+          <p class="text-xs text-gray-400 mt-1">Spurs · 昨日</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#007A33,#BA9653);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-black/70 text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">CLUTCH</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">1:02</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Tatum、第4Q 残り4秒のステップバックで決着</h3>
+          <p class="text-xs text-gray-400 mt-1">Celtics · 昨日</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#00471B,#EEE1C6);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-black/70 text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">ASSIST</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">0:24</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Giannis、ノールックビハインドパスから豪快スラム</h3>
+          <p class="text-xs text-gray-400 mt-1">Bucks · 2日前</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#C8102E,#1D1160);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-black/70 text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">3P</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">1:11</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Harden、1Q だけで3P 6本のショー</h3>
+          <p class="text-xs text-gray-400 mt-1">Clippers · 2日前</p>
+        </div>
+      </a>
+
+      <a href="#" class="group">
+        <div class="relative aspect-video rounded-lg overflow-hidden border border-[var(--line)] card-hover" style="background:linear-gradient(135deg,#98002E,#F9A01B);">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+              <svg class="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="absolute top-2 left-2 bg-black/70 text-white font-bold px-1.5 py-0.5 rounded-sm text-[10px]">BLOCK</div>
+          <div class="absolute bottom-2 right-2 bg-black/80 text-white px-1.5 py-0.5 rounded-sm text-[11px] font-bold">0:09</div>
+        </div>
+        <div class="pt-3">
+          <h3 class="font-bold text-sm leading-snug line-clamp-2">Bam、シュート後即追いブロックで相手を止める</h3>
+          <p class="text-xs text-gray-400 mt-1">Heat · 3日前</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="#" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded text-sm">
+        もっと動画を見る →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= NEWS + STANDINGS ========================= -->
+<section id="news" class="py-12 md:py-16">
+  <div class="max-w-[1280px] mx-auto px-4 grid lg:grid-cols-12 gap-8">
+    <!-- News -->
+    <div class="lg:col-span-8">
+      <div class="flex items-stretch gap-3 mb-6">
+        <div class="section-title-bar"></div>
+        <div>
+          <h2 class="font-display text-3xl md:text-4xl font-bold">最新ニュース</h2>
+          <p class="text-gray-400 text-sm mt-1">記者・解説陣による日本語オリジナル記事</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Featured -->
+        <a href="#" class="md:col-span-2 group block bg-[var(--ink-2)] border border-[var(--line)] rounded-lg overflow-hidden card-hover">
+          <div class="grid md:grid-cols-5">
+            <div class="md:col-span-2 aspect-video md:aspect-auto" style="background:linear-gradient(135deg,#552583,#BF0000,#0A0A0A);"></div>
+            <div class="md:col-span-3 p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="chip bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm uppercase">Playoffs</span>
+                <span class="text-xs text-gray-400">2026.04.22 10:12</span>
+              </div>
+              <h3 class="font-bold text-xl md:text-2xl leading-snug mb-3">
+                「勝ちにきた」八村塁、自身初のプレーオフ G1 でスタメン定着。LeBron と並ぶインパクト
+              </h3>
+              <p class="text-sm text-gray-300 leading-relaxed line-clamp-3">
+                Lakers の八村塁が Celtics との第1戦で先発起用され、前半だけで13得点。攻守ともにチームを牽引し、ヘッドコーチからも「今夜のキーマンだった」と高評価を受けた。第2戦への期待も高まる。
+              </p>
+              <div class="mt-4 text-[var(--crimson-bright)] text-sm font-bold group-hover:underline">記事を読む →</div>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="group block bg-[var(--ink-2)] border border-[var(--line)] rounded-lg overflow-hidden card-hover">
+          <div class="aspect-video" style="background:linear-gradient(135deg,#5D76A9,#0C2340);"></div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="chip bg-white/10 border border-white/20 text-white font-bold px-2 py-0.5 rounded-sm uppercase">MVP</span>
+              <span class="text-xs text-gray-400">2026.04.22</span>
+            </div>
+            <h3 class="font-bold text-base leading-snug group-hover:text-[var(--crimson-bright)]">
+              2026 MVP 候補3名が公式発表。Jokic, Doncic, SGA が最終選考へ
+            </h3>
+          </div>
+        </a>
+
+        <a href="#" class="group block bg-[var(--ink-2)] border border-[var(--line)] rounded-lg overflow-hidden card-hover">
+          <div class="aspect-video" style="background:linear-gradient(135deg,#C8102E,#1D1160);"></div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="chip bg-white/10 border border-white/20 text-white font-bold px-2 py-0.5 rounded-sm uppercase">Trade</span>
+              <span class="text-xs text-gray-400">2026.04.22</span>
+            </div>
+            <h3 class="font-bold text-base leading-snug group-hover:text-[var(--crimson-bright)]">
+              オフシーズン有力トレード情報。ビッグマン市場に動き
+            </h3>
+          </div>
+        </a>
+
+        <a href="#" class="group block bg-[var(--ink-2)] border border-[var(--line)] rounded-lg overflow-hidden card-hover">
+          <div class="aspect-video" style="background:linear-gradient(135deg,#007A33,#BA9653);"></div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="chip bg-white/10 border border-white/20 text-white font-bold px-2 py-0.5 rounded-sm uppercase">Interview</span>
+              <span class="text-xs text-gray-400">2026.04.21</span>
+            </div>
+            <h3 class="font-bold text-base leading-snug group-hover:text-[var(--crimson-bright)]">
+              独占インタビュー：Tatum が語る、今季のリーダーシップと家族の支え
+            </h3>
+          </div>
+        </a>
+
+        <a href="#" class="group block bg-[var(--ink-2)] border border-[var(--line)] rounded-lg overflow-hidden card-hover">
+          <div class="aspect-video" style="background:linear-gradient(135deg,#E03A3E,#C4CED4);"></div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="chip bg-white/10 border border-white/20 text-white font-bold px-2 py-0.5 rounded-sm uppercase">Analysis</span>
+              <span class="text-xs text-gray-400">2026.04.21</span>
+            </div>
+            <h3 class="font-bold text-base leading-snug group-hover:text-[var(--crimson-bright)]">
+              Thunder がプレーオフで勝ち切るために必要な3つの戦術的調整
+            </h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Standings sidebar -->
+    <aside id="standings" class="lg:col-span-4 space-y-6">
+      <div class="bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5">
+        <div class="flex items-stretch gap-3 mb-4">
+          <div class="section-title-bar"></div>
+          <h3 class="font-display text-xl font-bold">順位表（東地区 Top5）</h3>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="text-gray-400 text-xs">
+            <tr class="border-b border-[var(--line)]">
+              <th class="text-left py-2 font-normal">#</th>
+              <th class="text-left py-2 font-normal">チーム</th>
+              <th class="text-right py-2 font-normal">W</th>
+              <th class="text-right py-2 font-normal">L</th>
+              <th class="text-right py-2 font-normal">PCT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-[var(--crimson-bright)] font-bold">1</td><td class="py-2 font-medium">Celtics</td><td class="py-2 text-right">58</td><td class="py-2 text-right">24</td><td class="py-2 text-right">.707</td></tr>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-[var(--crimson-bright)] font-bold">2</td><td class="py-2 font-medium">Knicks</td><td class="py-2 text-right">54</td><td class="py-2 text-right">28</td><td class="py-2 text-right">.659</td></tr>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-[var(--crimson-bright)] font-bold">3</td><td class="py-2 font-medium">Bucks</td><td class="py-2 text-right">51</td><td class="py-2 text-right">31</td><td class="py-2 text-right">.622</td></tr>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-gray-300 font-bold">4</td><td class="py-2 font-medium">Cavaliers</td><td class="py-2 text-right">49</td><td class="py-2 text-right">33</td><td class="py-2 text-right">.598</td></tr>
+            <tr><td class="py-2 text-gray-300 font-bold">5</td><td class="py-2 font-medium">Heat</td><td class="py-2 text-right">46</td><td class="py-2 text-right">36</td><td class="py-2 text-right">.561</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5">
+        <div class="flex items-stretch gap-3 mb-4">
+          <div class="section-title-bar"></div>
+          <h3 class="font-display text-xl font-bold">順位表（西地区 Top5）</h3>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="text-gray-400 text-xs">
+            <tr class="border-b border-[var(--line)]">
+              <th class="text-left py-2 font-normal">#</th>
+              <th class="text-left py-2 font-normal">チーム</th>
+              <th class="text-right py-2 font-normal">W</th>
+              <th class="text-right py-2 font-normal">L</th>
+              <th class="text-right py-2 font-normal">PCT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-[var(--crimson-bright)] font-bold">1</td><td class="py-2 font-medium">Nuggets</td><td class="py-2 text-right">57</td><td class="py-2 text-right">25</td><td class="py-2 text-right">.695</td></tr>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-[var(--crimson-bright)] font-bold">2</td><td class="py-2 font-medium">Lakers</td><td class="py-2 text-right">53</td><td class="py-2 text-right">29</td><td class="py-2 text-right">.646</td></tr>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-[var(--crimson-bright)] font-bold">3</td><td class="py-2 font-medium">Thunder</td><td class="py-2 text-right">52</td><td class="py-2 text-right">30</td><td class="py-2 text-right">.634</td></tr>
+            <tr class="border-b border-[var(--line)]/60"><td class="py-2 text-gray-300 font-bold">4</td><td class="py-2 font-medium">Warriors</td><td class="py-2 text-right">48</td><td class="py-2 text-right">34</td><td class="py-2 text-right">.585</td></tr>
+            <tr><td class="py-2 text-gray-300 font-bold">5</td><td class="py-2 font-medium">Mavericks</td><td class="py-2 text-right">47</td><td class="py-2 text-right">35</td><td class="py-2 text-right">.573</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a href="#" class="block text-center text-sm text-gray-300 hover:text-white border border-[var(--line)] rounded px-4 py-2.5">
+        順位表の全チームを見る →
+      </a>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= TEAMS GRID ========================= -->
+<section id="teams" class="py-12 md:py-16 bg-[var(--ink-2)] border-y border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="flex items-stretch gap-3 mb-6">
+      <div class="section-title-bar"></div>
+      <div>
+        <h2 class="font-display text-3xl md:text-4xl font-bold">チーム一覧</h2>
+        <p class="text-gray-400 text-sm mt-1">NBA 全30チームの試合・選手情報</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+      <!-- 30 teams -->
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#007A33,#BA9653);">BOS</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Celtics</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#000,#CFCFCF);">BKN</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Nets</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#006BB6,#F58426);">NYK</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Knicks</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#006BB6,#ED174C);">PHI</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">76ers</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#CE1141,#000);">TOR</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Raptors</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#CE1141,#000);">CHI</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Bulls</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#860038,#041E42);">CLE</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Cavaliers</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#C8102E,#1D42BA);">DET</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Pistons</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#002D62,#FDBB30);">IND</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Pacers</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#00471B,#EEE1C6);">MIL</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Bucks</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#E03A3E,#C1D32F);">ATL</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Hawks</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#1D1160,#00788C);">CHA</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Hornets</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#98002E,#F9A01B);">MIA</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Heat</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#0077C0,#000);">ORL</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Magic</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#002B5C,#E31837);">WAS</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Wizards</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#5D76A9,#0C2340);">DEN</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Nuggets</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#0C2340,#236192);">MIN</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Timberwolves</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#007AC1,#EF3B24);">OKC</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Thunder</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#E03A3E,#000);">POR</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Trail Blazers</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#002B5C,#F9A01B);">UTA</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Jazz</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#1D428A,#FFC72C);">GSW</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Warriors</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#C8102E,#1D1160);">LAC</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Clippers</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#552583,#FDB927);">LAL</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Lakers</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#5A2D81,#08101F);">PHX</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Suns</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#5A2B81,#63727A);">SAC</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Kings</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#00538C,#002B5C);">DAL</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Mavericks</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#CE1141,#000);">HOU</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Rockets</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#5D76A9,#12173F);">MEM</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Grizzlies</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#0C2340,#C8102E);">NOP</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Pelicans</span>
+      </a>
+      <a href="#" class="group flex flex-col items-center gap-2">
+        <div class="team-logo w-14 h-14 rounded-full text-xs card-hover border border-[var(--line)]" style="background:linear-gradient(135deg,#000,#C4CED4);">SAS</div>
+        <span class="text-[11px] text-gray-400 group-hover:text-white text-center">Spurs</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PLANS CTA ========================= -->
+<section id="plans" class="py-14 md:py-20 relative overflow-hidden">
+  <div class="absolute inset-0 hero-bg"></div>
+  <div class="relative max-w-[1280px] mx-auto px-4">
+    <div class="text-center mb-10">
+      <span class="inline-block chip bg-[var(--crimson)] text-white font-bold px-3 py-1 rounded-sm uppercase mb-4">今なら初月500円</span>
+      <h2 class="font-display text-4xl md:text-5xl font-bold mb-3">プラン選択</h2>
+      <p class="text-gray-300 max-w-2xl mx-auto">
+        ライフスタイルに合わせて選べる2つのプラン。<br class="hidden md:block" />
+        いつでも解約可能・契約期間の縛りなし。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <!-- Standard -->
+      <div class="bg-[var(--ink-2)] border border-[var(--line)] rounded-xl p-8 card-hover">
+        <div class="text-sm font-bold text-gray-400 mb-2 uppercase tracking-wider">Standard</div>
+        <h3 class="font-display text-3xl font-bold mb-1">スタンダード</h3>
+        <p class="text-sm text-gray-400 mb-6">ライトに NBA を楽しみたい方に</p>
+        <div class="flex items-baseline gap-1 mb-6">
+          <span class="font-display text-5xl font-bold">¥990</span>
+          <span class="text-gray-400">/月</span>
+        </div>
+        <ul class="space-y-3 text-sm mb-8">
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> 週5試合ライブ配信</li>
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> 全試合ハイライト視聴</li>
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> アーカイブ配信（30日間）</li>
+          <li class="flex gap-2 text-gray-500"><span>–</span> プレーオフ全試合ライブ</li>
+          <li class="flex gap-2 text-gray-500"><span>–</span> NBA TV 24時間配信</li>
+        </ul>
+        <a href="#" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded">このプランを選ぶ</a>
+      </div>
+
+      <!-- Premium -->
+      <div class="bg-gradient-to-br from-[#1A0000] to-[var(--ink-2)] border-2 border-[var(--crimson)] rounded-xl p-8 relative card-hover">
+        <span class="absolute -top-3 left-8 chip bg-[var(--crimson)] text-white font-bold px-3 py-1 rounded uppercase">オススメ</span>
+        <div class="text-sm font-bold text-[var(--crimson-bright)] mb-2 uppercase tracking-wider">Premium</div>
+        <h3 class="font-display text-3xl font-bold mb-1">プレミアム</h3>
+        <p class="text-sm text-gray-400 mb-6">NBA をフルに楽しみたい方に</p>
+        <div class="flex items-baseline gap-1 mb-6">
+          <span class="font-display text-5xl font-bold">¥1,990</span>
+          <span class="text-gray-400">/月</span>
+        </div>
+        <ul class="space-y-3 text-sm mb-8">
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> 全試合ライブ配信（約1,300試合）</li>
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> プレーオフ・ファイナル全試合</li>
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> NBA TV 24時間ライブ</li>
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> マルチアングル視聴</li>
+          <li class="flex gap-2"><span class="text-[var(--crimson-bright)]">✓</span> 4K 画質対応</li>
+        </ul>
+        <a href="#" class="block text-center bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold py-3 rounded">このプランを選ぶ</a>
+      </div>
+    </div>
+
+    <p class="text-center text-xs text-gray-500 mt-8">※ 表示価格はすべて税込です。初月 ¥500 キャンペーンは新規登録者限定。</p>
+  </div>
+</section>
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="bg-black border-t border-[var(--line)] pt-12 pb-8">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+      <div class="col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+          <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed mb-4">
+          NBA 全試合を日本語でライブ配信。<br />
+          日本唯一の NBA 公式ライセンス・ストリーミングサービス。
+        </p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10" aria-label="X">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10" aria-label="Instagram">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2 0 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.3 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .3-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2 0-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.3-1-.4-2.2-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.3 2.2-.4 1.2-.1 1.6-.1 4.8-.1M12 0C8.7 0 8.3 0 7.1.1 5.8.1 5 .3 4.2.6c-.8.3-1.5.8-2.2 1.4-.6.6-1.1 1.4-1.4 2.2-.3.8-.5 1.6-.6 2.9C0 8.3 0 8.7 0 12s0 3.7.1 4.9c.1 1.3.3 2.1.6 2.9.3.8.8 1.5 1.4 2.2.6.6 1.4 1.1 2.2 1.4.8.3 1.6.5 2.9.6C8.3 24 8.7 24 12 24s3.7 0 4.9-.1c1.3-.1 2.1-.3 2.9-.6.8-.3 1.5-.8 2.2-1.4.6-.6 1.1-1.4 1.4-2.2.3-.8.5-1.6.6-2.9.1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.1-.6-2.9-.3-.8-.8-1.5-1.4-2.2-.6-.6-1.4-1.1-2.2-1.4-.8-.3-1.6-.5-2.9-.6C15.7 0 15.3 0 12 0zm0 5.8A6.2 6.2 0 1 0 12 18.2 6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.8-10.4a1.4 1.4 0 1 1-2.9 0 1.4 1.4 0 0 1 2.9 0z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10" aria-label="YouTube">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.02 3.02 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.02 3.02 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.02 3.02 0 0 0 2.122 2.136C4.495 20.455 12 20.455 12 20.455s7.505 0 9.377-.505a3.02 3.02 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.546 15.568V8.432L15.818 12l-6.272 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="text-sm font-bold mb-3">サービス</div>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="#" class="hover:text-white">ホーム</a></li>
+          <li><a href="schedule.html" class="hover:text-white">試合スケジュール</a></li>
+          <li><a href="#highlights" class="hover:text-white">ハイライト動画</a></li>
+          <li><a href="#standings" class="hover:text-white">順位表</a></li>
+          <li><a href="#plans" class="hover:text-white">プラン</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3">サポート</div>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="#" class="hover:text-white">ヘルプセンター</a></li>
+          <li><a href="#" class="hover:text-white">お問い合わせ</a></li>
+          <li><a href="#" class="hover:text-white">視聴環境</a></li>
+          <li><a href="#" class="hover:text-white">解約方法</a></li>
+          <li><a href="#" class="hover:text-white">アプリをダウンロード</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3">CourtSideについて</div>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="#" class="hover:text-white">会社情報</a></li>
+          <li><a href="#" class="hover:text-white">プライバシーポリシー</a></li>
+          <li><a href="#" class="hover:text-white">利用規約</a></li>
+          <li><a href="#" class="hover:text-white">特定商取引法</a></li>
+          <li><a href="#" class="hover:text-white">採用情報</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-6 border-t border-[var(--line)] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+      <div>© 2026 CourtSide. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-white">日本語</a>
+        <a href="#" class="hover:text-white">English</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── チームメタデータ ──────────────────────────────────────────── */
+  const TM = {
+    ATL:{n:'Hawks',        c:'Atlanta',        g:'linear-gradient(135deg,#E03A3E,#C1D32F)'},
+    BOS:{n:'Celtics',      c:'Boston',         g:'linear-gradient(135deg,#007A33,#BA9653)'},
+    BKN:{n:'Nets',         c:'Brooklyn',       g:'linear-gradient(135deg,#000,#CFCFCF)'},
+    CHA:{n:'Hornets',      c:'Charlotte',      g:'linear-gradient(135deg,#1D1160,#00788C)'},
+    CHI:{n:'Bulls',        c:'Chicago',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    CLE:{n:'Cavaliers',    c:'Cleveland',      g:'linear-gradient(135deg,#860038,#041E42)'},
+    DAL:{n:'Mavericks',    c:'Dallas',         g:'linear-gradient(135deg,#00538C,#002B5C)'},
+    DEN:{n:'Nuggets',      c:'Denver',         g:'linear-gradient(135deg,#5D76A9,#0C2340)'},
+    DET:{n:'Pistons',      c:'Detroit',        g:'linear-gradient(135deg,#C8102E,#1D42BA)'},
+    GSW:{n:'Warriors',     c:'Golden State',   g:'linear-gradient(135deg,#1D428A,#FFC72C)'},
+    HOU:{n:'Rockets',      c:'Houston',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    IND:{n:'Pacers',       c:'Indiana',        g:'linear-gradient(135deg,#002D62,#FDBB30)'},
+    LAC:{n:'Clippers',     c:'LA',             g:'linear-gradient(135deg,#C8102E,#1D1160)'},
+    LAL:{n:'Lakers',       c:'Los Angeles',    g:'linear-gradient(135deg,#552583,#FDB927)'},
+    MEM:{n:'Grizzlies',    c:'Memphis',        g:'linear-gradient(135deg,#5D76A9,#12173F)'},
+    MIA:{n:'Heat',         c:'Miami',          g:'linear-gradient(135deg,#98002E,#F9A01B)'},
+    MIL:{n:'Bucks',        c:'Milwaukee',      g:'linear-gradient(135deg,#00471B,#EEE1C6)'},
+    MIN:{n:'Timberwolves', c:'Minnesota',      g:'linear-gradient(135deg,#0C2340,#236192)'},
+    NOP:{n:'Pelicans',     c:'New Orleans',    g:'linear-gradient(135deg,#0C2340,#C8102E)'},
+    NYK:{n:'Knicks',       c:'New York',       g:'linear-gradient(135deg,#006BB6,#F58426)'},
+    OKC:{n:'Thunder',      c:'Oklahoma City',  g:'linear-gradient(135deg,#007AC1,#EF3B24)'},
+    ORL:{n:'Magic',        c:'Orlando',        g:'linear-gradient(135deg,#0077C0,#000)'},
+    PHI:{n:'76ers',        c:'Philadelphia',   g:'linear-gradient(135deg,#006BB6,#ED174C)'},
+    PHX:{n:'Suns',         c:'Phoenix',        g:'linear-gradient(135deg,#1D1160,#E56020)'},
+    POR:{n:'Trail Blazers',c:'Portland',       g:'linear-gradient(135deg,#E03A3E,#000)'},
+    SAC:{n:'Kings',        c:'Sacramento',     g:'linear-gradient(135deg,#5A2B81,#63727A)'},
+    SAS:{n:'Spurs',        c:'San Antonio',    g:'linear-gradient(135deg,#000,#C4CED4)'},
+    TOR:{n:'Raptors',      c:'Toronto',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    UTA:{n:'Jazz',         c:'Utah',           g:'linear-gradient(135deg,#002B5C,#F9A01B)'},
+    WAS:{n:'Wizards',      c:'Washington',     g:'linear-gradient(135deg,#002B5C,#E31837)'},
+  };
+  const tm = (tri) => TM[tri] || { n: tri, c: '', g: '#333' };
+
+  /* ── ユーティリティ ────────────────────────────────────────────── */
+  function parseClock(clock) {
+    if (!clock) return '';
+    const m = clock.match(/PT(\d+)M([\d.]+)S/);
+    if (!m) return '';
+    return `${parseInt(m[1])}:${Math.floor(parseFloat(m[2])).toString().padStart(2, '0')}`;
+  }
+
+  function jstTime(utcStr) {
+    return new Date(utcStr).toLocaleString('ja-JP', {
+      timeZone: 'Asia/Tokyo',
+      month: 'numeric', day: 'numeric', weekday: 'short',
+      hour: '2-digit', minute: '2-digit',
+    });
+  }
+
+  function clockLabel(g) {
+    if (g.gameStatus === 1) return jstTime(g.gameTimeUTC) + ' TIP-OFF';
+    if (g.gameStatus === 2) {
+      const c = parseClock(g.gameClock);
+      return c ? `Q${g.period} 残り ${c}` : `Q${g.period} 進行中`;
+    }
+    return '試合終了';
+  }
+
+  /* ── ヒーロー更新 ──────────────────────────────────────────────── */
+  function renderHero(g) {
+    const away = g.awayTeam, home = g.homeTeam;
+    const am = tm(away.teamTricode), hm = tm(home.teamTricode);
+    const isLive = g.gameStatus === 2;
+
+    const badge = document.getElementById('hero-game-badge');
+    if (badge) {
+      badge.innerHTML = isLive
+        ? `<span class="inline-flex items-center gap-1.5 bg-[var(--crimson)] text-white font-bold px-2.5 py-1 rounded-sm text-xs"><span class="w-1.5 h-1.5 bg-white rounded-full live-dot"></span>LIVE</span>
+           <span class="chip uppercase text-gray-300 font-bold">${g.gameLabel || g.gameSubLabel || ''}</span>`
+        : `<span class="inline-flex items-center gap-1.5 bg-gray-700 text-white font-bold px-2.5 py-1 rounded-sm text-xs">${g.gameStatusText}</span>
+           <span class="chip uppercase text-gray-300 font-bold">${g.gameLabel || g.gameSubLabel || ''}</span>`;
+    }
+
+    const title = document.getElementById('hero-game-title');
+    if (title) title.innerHTML = `${away.teamTricode} <span class="text-gray-500">vs</span> ${home.teamTricode}`;
+
+    const sb = document.getElementById('hero-scoreboard');
+    if (!sb) return;
+
+    const numPeriods = Math.max(4, g.period || 0);
+    let periodsHtml = '';
+    for (let p = 1; p <= numPeriods; p++) {
+      const label = p <= 4 ? `Q${p}` : `OT${p - 4}`;
+      const ap = away.periods?.find(x => x.period === p);
+      const hp = home.periods?.find(x => x.period === p);
+      const score = (ap != null && hp != null)
+        ? `<div class="font-bold">${ap.score}-${hp.score}</div>`
+        : `<div class="text-gray-600">-</div>`;
+      periodsHtml += `<div><div class="text-gray-500">${label}</div>${score}</div>`;
+    }
+
+    const clockTxt = clockLabel(g);
+    const clockColor = isLive ? 'text-[var(--crimson-bright)]' : 'text-gray-400';
+
+    sb.innerHTML = `
+      <div class="flex items-center justify-between text-xs text-gray-400 mb-5">
+        <span class="font-bold ${clockColor}">${isLive ? '● ' : ''}${clockTxt}</span>
+        <span>${g.seriesText || g.gameSubLabel || ''}</span>
+      </div>
+      <div class="grid grid-cols-3 items-center gap-4">
+        <div class="text-center">
+          <div class="team-logo w-16 h-16 mx-auto rounded-full mb-2" style="background:${am.g};">${away.teamTricode}</div>
+          <div class="text-sm font-bold">${am.n}</div>
+          <div class="text-xs text-gray-400">(${away.wins}-${away.losses})</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display text-5xl md:text-6xl font-bold leading-none flex items-center justify-center gap-3">
+            <span>${away.score}</span>
+            <span class="text-gray-600 text-2xl">-</span>
+            <span>${home.score}</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="team-logo w-16 h-16 mx-auto rounded-full mb-2" style="background:${hm.g};">${home.teamTricode}</div>
+          <div class="text-sm font-bold">${hm.n}</div>
+          <div class="text-xs text-gray-400">(${home.wins}-${home.losses})</div>
+        </div>
+      </div>
+      <div class="mt-5 pt-5 border-t border-[var(--line)] grid grid-cols-${numPeriods} text-center text-xs">
+        ${periodsHtml}
+      </div>`;
+  }
+
+  /* ── ゲームカード ──────────────────────────────────────────────── */
+  function gameCard(g) {
+    const away = g.awayTeam, home = g.homeTeam;
+    const am = tm(away.teamTricode), hm = tm(home.teamTricode);
+    const isLive = g.gameStatus === 2, isFinal = g.gameStatus === 3;
+    const clock = clockLabel(g);
+    const clockColor = isLive ? 'text-[var(--crimson-bright)]' : 'text-gray-400';
+
+    const badge = isLive
+      ? `<span class="inline-flex items-center gap-1.5 bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm text-[10px] uppercase"><span class="w-1.5 h-1.5 bg-white rounded-full live-dot"></span>Live</span>`
+      : isFinal
+        ? `<span class="chip bg-gray-600 text-white font-bold px-2 py-0.5 rounded-sm uppercase">Final</span>`
+        : `<span class="chip bg-white/10 border border-white/20 text-white font-bold px-2 py-0.5 rounded-sm uppercase">予定</span>`;
+
+    const awayScore = (isLive || isFinal) ? `<div class="font-display text-2xl font-bold">${away.score}</div>` : '';
+    const homeScore = (isLive || isFinal) ? `<div class="font-display text-2xl font-bold text-gray-400">${home.score}</div>` : '';
+
+    const cta = isLive
+      ? `<div class="flex gap-2">
+           <a href="#" class="flex-1 block text-center bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] py-2 rounded text-sm font-bold transition">視聴する ▶</a>
+           <a href="game.html?id=${g.gameId}" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-2 rounded text-sm font-bold transition">詳細</a>
+         </div>`
+      : isFinal
+        ? `<div class="flex gap-2">
+           <a href="#" class="flex-1 block text-center bg-white/5 hover:bg-white/10 border border-white/10 py-2 rounded text-sm font-bold transition">ハイライト ▶</a>
+           <a href="game.html?id=${g.gameId}" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-2 rounded text-sm font-bold transition">詳細</a>
+         </div>`
+        : `<a href="#" class="block text-center bg-white/5 hover:bg-white/10 border border-white/10 py-2 rounded text-sm font-bold transition">🔔 リマインダー登録</a>`;
+
+    const gl = g.gameLeaders;
+    const leaderLink = (l) => l?.name
+      ? `<a href="player.html?id=${l.personId}&game=${g.gameId}" class="hover:text-white hover:underline">⭐ ${l.name} ${l.points}pts/${l.rebounds}reb/${l.assists}ast</a>`
+      : '';
+    const leadersHtml = isFinal && gl?.homeLeaders?.name
+      ? `<div class="text-[10px] text-gray-500 mt-2 truncate">${leaderLink(gl.homeLeaders)}</div>`
+      : '';
+
+    return `<article class="snap-start shrink-0 w-[340px] bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5 card-hover">
+      <div class="flex items-center justify-between mb-4">
+        ${badge}
+        <span class="text-xs text-gray-400">${g.gameLabel || ''}</span>
+      </div>
+      <div class="space-y-3 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="team-logo w-10 h-10 rounded-full text-sm" style="background:${am.g};">${away.teamTricode}</div>
+          <div class="flex-1"><div class="font-bold">${am.n}</div><div class="text-xs text-gray-400">${away.teamCity}</div></div>
+          ${awayScore}
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="team-logo w-10 h-10 rounded-full text-sm" style="background:${hm.g};">${home.teamTricode}</div>
+          <div class="flex-1"><div class="font-bold">${hm.n}</div><div class="text-xs text-gray-400">${home.teamCity}</div></div>
+          ${homeScore}
+        </div>
+      </div>
+      <div class="text-xs ${clockColor} font-bold mb-1">${isLive ? '● ' : ''}${clock}</div>
+      ${g.seriesText ? `<div class="text-[10px] text-gray-500 mb-2">${g.seriesText}</div>` : ''}
+      ${leadersHtml}
+      <div class="mt-3">${cta}</div>
+    </article>`;
+  }
+
+  /* ── アクション種別 → アイコン変換 ── */
+  function actionIcon(type, shotResult) {
+    if (type === '3pt') return shotResult === 'Made' ? '🎯' : '✗';
+    if (type === '2pt') return shotResult === 'Made' ? '🏀' : '✗';
+    if (type === 'freethrow') return shotResult === 'Made' ? '✓' : '✗';
+    if (type === 'rebound') return '↑';
+    if (type === 'turnover') return '↩';
+    if (type === 'steal') return '⚡';
+    if (type === 'block') return '✋';
+    if (type === 'foul') return '⚠';
+    if (type === 'timeout') return '⏸';
+    if (type === 'substitution') return '↕';
+    return '▸';
+  }
+
+  /* ── ティッカー更新 ────────────────────────────────────────────── */
+  function updateTicker(games, playItems = []) {
+    const items = [];
+
+    // ライブ中のプレイを先頭に
+    items.push(...playItems);
+
+    for (const g of games) {
+      const a = g.awayTeam, h = g.homeTeam;
+      if (g.gameStatus === 3) {
+        items.push(`🏀 ${a.teamTricode} ${a.score} - ${h.score} ${h.teamTricode} (Final)`);
+        const gl = g.gameLeaders;
+        if (gl?.homeLeaders?.name) items.push(`⭐ ${gl.homeLeaders.name} ${gl.homeLeaders.points}pts ${gl.homeLeaders.rebounds}reb ${gl.homeLeaders.assists}ast`);
+        if (gl?.awayLeaders?.name) items.push(`⭐ ${gl.awayLeaders.name} ${gl.awayLeaders.points}pts ${gl.awayLeaders.rebounds}reb ${gl.awayLeaders.assists}ast`);
+      } else if (g.gameStatus === 2) {
+        const c = parseClock(g.gameClock);
+        items.push(`🔴 LIVE: ${a.teamTricode} ${a.score}-${h.score} ${h.teamTricode}${c ? ` | Q${g.period} 残り ${c}` : ''}`);
+      } else {
+        items.push(`📅 ${a.teamTricode} vs ${h.teamTricode} | ${jstTime(g.gameTimeUTC)}`);
+      }
+      if (g.seriesText) items.push(`📊 ${g.seriesText}`);
+    }
+    const ticker = document.getElementById('ticker-inner');
+    if (ticker && items.length) {
+      const html = items.map(i => `<span>${i}</span>`).join('');
+      ticker.innerHTML = html + html;
+    }
+  }
+
+  /* ── ライブゲームのplay-by-playを取得してティッカーに変換 ── */
+  async function fetchLivePlayItems(liveGame) {
+    try {
+      const gameId = liveGame.gameId;
+      const pbpUrl = `/api/playbyplay?game=${gameId}`;
+      const r = await fetch(pbpUrl, { cache: 'no-store' });
+      const data = await r.json();
+      const actions = data.game?.actions ?? [];
+      // 最新10プレイ（スコアが動くアクション中心）を逆順で取得
+      const scoringTypes = new Set(['2pt','3pt','freethrow']);
+      const recent = actions.filter(a =>
+        scoringTypes.has(a.actionType) || ['turnover','foul','steal','block','rebound'].includes(a.actionType)
+      ).slice(-10).reverse();
+      return recent.map(a => {
+        const icon = actionIcon(a.actionType, a.shotResult);
+        const clock = parseClock(a.clock) || '';
+        const score = (a.scoreAway !== undefined && a.scoreHome !== undefined)
+          ? ` [${a.scoreAway}-${a.scoreHome}]` : '';
+        const player = a.playerName ? a.playerName : a.teamTricode;
+        return `${icon} Q${a.period}${clock ? ' ' + clock : ''} ${a.teamTricode} ${player}: ${a.description}${score}`;
+      });
+    } catch {
+      return [];
+    }
+  }
+
+  /* ── メインフェッチループ ──────────────────────────────────────── */
+  async function fetchAndRender() {
+    try {
+      const apiUrl = '/api/scoreboard';
+      const r = await fetch(apiUrl, { cache: 'no-store' });
+      const { scoreboard: sb } = await r.json();
+      const games = sb.games;
+      if (!games?.length) return;
+
+      // 日付サブタイトル
+      const dateEl = document.getElementById('games-date');
+      if (dateEl) {
+        const live = games.filter(g => g.gameStatus === 2).length;
+        const d = new Date(sb.gameDate + 'T12:00:00Z').toLocaleDateString('ja-JP', {
+          year: 'numeric', month: 'long', day: 'numeric', weekday: 'short',
+        });
+        dateEl.textContent = `${d} | 全${games.length}試合${live ? ` / LIVE ${live}試合` : ''}`;
+      }
+
+      // ヒーロー: ライブ優先、なければ最後の試合
+      const hero = games.find(g => g.gameStatus === 2) ?? games[games.length - 1];
+      renderHero(hero);
+
+      // ゲームカード
+      const scroll = document.getElementById('games-scroll');
+      if (scroll) scroll.innerHTML = games.map(gameCard).join('');
+
+      // ティッカー: ライブ試合があればplay-by-playも取得
+      const liveGame = games.find(g => g.gameStatus === 2);
+      const playItems = liveGame ? await fetchLivePlayItems(liveGame) : [];
+      updateTicker(games, playItems);
+
+    } catch (e) {
+      console.warn('[NBA API] fetch error:', e.message);
+    }
+  }
+
+  fetchAndRender();
+  // ライブ試合中は10秒、それ以外は30秒でポーリング
+  setInterval(async () => {
+    await fetchAndRender();
+  }, 15_000);
+
+  // スムーススクロール
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id && id.length > 1) {
+        const el = document.querySelector(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

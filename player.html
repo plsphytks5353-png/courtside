@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>選手詳細 | CourtSide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --crimson: #BF0000;
+      --crimson-bright: #E60012;
+      --ink: #0A0A0A;
+      --ink-2: #121212;
+      --ink-3: #1C1C1C;
+      --line: #2A2A2A;
+    }
+    html, body { background: var(--ink); color: #fff; }
+    body { font-family: "Noto Sans JP", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .font-display { font-family: "Oswald", "Noto Sans JP", sans-serif; letter-spacing: 0.02em; }
+    .hero-bg {
+      background:
+        radial-gradient(1000px 400px at 80% 0%, rgba(191,0,0,.4), transparent 70%),
+        radial-gradient(600px 300px at 10% 100%, rgba(230,0,18,.25), transparent 70%),
+        linear-gradient(180deg, #140000 0%, #0A0A0A 100%);
+    }
+    .team-logo {
+      display:flex; align-items:center; justify-content:center;
+      font-family:"Oswald",sans-serif; font-weight:700; letter-spacing:.02em; color:#fff;
+    }
+    .stat-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 0.5rem; }
+    a { color: inherit; }
+    .skeleton { background: linear-gradient(90deg, #1c1c1c 25%, #2a2a2a 50%, #1c1c1c 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    @keyframes shimmer { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- ========================= TOP INFO BAR ========================= -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="#" class="hover:text-white">ヘルプ</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white">ログイン</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= HEADER ========================= -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+      <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合</a>
+    </nav>
+    <div class="flex-1"></div>
+    <a href="index.html#plans" class="hidden sm:inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-4 py-2 rounded text-sm">
+      今すぐ視聴
+    </a>
+  </div>
+</header>
+
+<!-- ========================= PLAYER HERO ========================= -->
+<section class="hero-bg" id="player-hero">
+  <div class="max-w-[1280px] mx-auto px-4 py-8 md:py-12">
+
+    <!-- パンくず -->
+    <a id="back-link" href="index.html" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-6">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span id="back-label">試合に戻る</span>
+    </a>
+
+    <!-- ローディング中 -->
+    <div id="hero-loading" class="flex items-center gap-6 md:gap-10">
+      <div class="skeleton w-24 h-24 md:w-40 md:h-32 rounded-xl shrink-0"></div>
+      <div class="flex-1 space-y-3">
+        <div class="skeleton h-5 w-24 rounded"></div>
+        <div class="skeleton h-10 w-64 rounded"></div>
+        <div class="skeleton h-4 w-40 rounded"></div>
+      </div>
+    </div>
+
+    <!-- 選手情報（JS で表示） -->
+    <div id="player-info" class="hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-end gap-6 md:gap-10">
+        <!-- ヘッドショット -->
+        <div class="relative shrink-0">
+          <div id="player-team-bg" class="w-28 h-28 md:w-44 md:h-36 rounded-xl overflow-hidden flex items-end justify-center" style="background:linear-gradient(135deg,#333,#111);">
+            <img id="player-headshot" src="" alt="" class="w-full h-full object-cover object-top" onerror="this.style.display='none'; document.getElementById('player-initials').style.display='flex'" />
+            <div id="player-initials" class="team-logo absolute inset-0 text-4xl font-black hidden"></div>
+          </div>
+          <div id="player-jersey" class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[var(--crimson)] text-white text-xs font-bold flex items-center justify-center font-display"></div>
+        </div>
+
+        <!-- 名前・チーム情報 -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3 mb-2 flex-wrap">
+            <div id="player-team-badge" class="team-logo w-9 h-9 rounded-full text-xs shrink-0" style="background:#333;"></div>
+            <span id="player-team-name" class="text-sm text-gray-300"></span>
+            <span id="player-position" class="text-xs bg-white/10 border border-white/20 px-2 py-0.5 rounded font-bold"></span>
+          </div>
+          <h1 id="player-name" class="font-display text-4xl md:text-6xl font-bold leading-none mb-2 truncate"></h1>
+          <div id="player-game-context" class="text-sm text-gray-400"></div>
+        </div>
+      </div>
+
+      <!-- キースタッツ（大きい数字） -->
+      <div id="key-stats" class="grid grid-cols-3 sm:grid-cols-5 gap-3 mt-8"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= DETAILED STATS ========================= -->
+<section class="py-10 md:py-14">
+  <div class="max-w-[1280px] mx-auto px-4">
+
+    <div id="stats-loading" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="skeleton h-48 rounded-xl"></div>
+      <div class="skeleton h-48 rounded-xl"></div>
+    </div>
+
+    <div id="detailed-stats" class="hidden space-y-6">
+
+      <!-- シューティング -->
+      <div class="stat-card p-6">
+        <h2 class="font-display text-xl font-bold mb-5 text-gray-200">シューティング</h2>
+        <div class="grid grid-cols-3 gap-4" id="shooting-stats"></div>
+      </div>
+
+      <!-- その他スタッツ -->
+      <div class="stat-card p-6">
+        <h2 class="font-display text-xl font-bold mb-5 text-gray-200">スタッツ詳細</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="other-stats"></div>
+      </div>
+
+      <!-- ゲームログ（この試合） -->
+      <div class="stat-card p-6">
+        <h2 class="font-display text-xl font-bold mb-4 text-gray-200">この試合の記録</h2>
+        <div id="game-log" class="overflow-x-auto">
+          <table class="w-full text-sm min-w-[500px]">
+            <thead class="text-gray-400 text-xs border-b border-[var(--line)]">
+              <tr>
+                <th class="text-left py-2 font-normal">試合</th>
+                <th class="text-right py-2 font-normal">MIN</th>
+                <th class="text-right py-2 font-normal">PTS</th>
+                <th class="text-right py-2 font-normal">REB</th>
+                <th class="text-right py-2 font-normal">AST</th>
+                <th class="text-right py-2 font-normal">STL</th>
+                <th class="text-right py-2 font-normal">BLK</th>
+                <th class="text-right py-2 font-normal">TO</th>
+                <th class="text-right py-2 font-normal">+/-</th>
+                <th class="text-right py-2 font-normal">FG</th>
+                <th class="text-right py-2 font-normal">3P</th>
+              </tr>
+            </thead>
+            <tbody id="game-log-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="bg-black border-t border-[var(--line)] py-8">
+  <div class="max-w-[1280px] mx-auto px-4 text-center text-xs text-gray-500">
+    © 2026 CourtSide. All rights reserved.
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const TM = {
+    ATL:{n:'Hawks',        c:'Atlanta',        g:'linear-gradient(135deg,#E03A3E,#C1D32F)'},
+    BOS:{n:'Celtics',      c:'Boston',         g:'linear-gradient(135deg,#007A33,#BA9653)'},
+    BKN:{n:'Nets',         c:'Brooklyn',       g:'linear-gradient(135deg,#000,#CFCFCF)'},
+    CHA:{n:'Hornets',      c:'Charlotte',      g:'linear-gradient(135deg,#1D1160,#00788C)'},
+    CHI:{n:'Bulls',        c:'Chicago',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    CLE:{n:'Cavaliers',    c:'Cleveland',      g:'linear-gradient(135deg,#860038,#041E42)'},
+    DAL:{n:'Mavericks',    c:'Dallas',         g:'linear-gradient(135deg,#00538C,#002B5C)'},
+    DEN:{n:'Nuggets',      c:'Denver',         g:'linear-gradient(135deg,#5D76A9,#0C2340)'},
+    DET:{n:'Pistons',      c:'Detroit',        g:'linear-gradient(135deg,#C8102E,#1D42BA)'},
+    GSW:{n:'Warriors',     c:'Golden State',   g:'linear-gradient(135deg,#1D428A,#FFC72C)'},
+    HOU:{n:'Rockets',      c:'Houston',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    IND:{n:'Pacers',       c:'Indiana',        g:'linear-gradient(135deg,#002D62,#FDBB30)'},
+    LAC:{n:'Clippers',     c:'LA',             g:'linear-gradient(135deg,#C8102E,#1D1160)'},
+    LAL:{n:'Lakers',       c:'Los Angeles',    g:'linear-gradient(135deg,#552583,#FDB927)'},
+    MEM:{n:'Grizzlies',    c:'Memphis',        g:'linear-gradient(135deg,#5D76A9,#12173F)'},
+    MIA:{n:'Heat',         c:'Miami',          g:'linear-gradient(135deg,#98002E,#F9A01B)'},
+    MIL:{n:'Bucks',        c:'Milwaukee',      g:'linear-gradient(135deg,#00471B,#EEE1C6)'},
+    MIN:{n:'Timberwolves', c:'Minnesota',      g:'linear-gradient(135deg,#0C2340,#236192)'},
+    NOP:{n:'Pelicans',     c:'New Orleans',    g:'linear-gradient(135deg,#0C2340,#C8102E)'},
+    NYK:{n:'Knicks',       c:'New York',       g:'linear-gradient(135deg,#006BB6,#F58426)'},
+    OKC:{n:'Thunder',      c:'Oklahoma City',  g:'linear-gradient(135deg,#007AC1,#EF3B24)'},
+    ORL:{n:'Magic',        c:'Orlando',        g:'linear-gradient(135deg,#0077C0,#000)'},
+    PHI:{n:'76ers',        c:'Philadelphia',   g:'linear-gradient(135deg,#006BB6,#ED174C)'},
+    PHX:{n:'Suns',         c:'Phoenix',        g:'linear-gradient(135deg,#1D1160,#E56020)'},
+    POR:{n:'Trail Blazers',c:'Portland',       g:'linear-gradient(135deg,#E03A3E,#000)'},
+    SAC:{n:'Kings',        c:'Sacramento',     g:'linear-gradient(135deg,#5A2B81,#63727A)'},
+    SAS:{n:'Spurs',        c:'San Antonio',    g:'linear-gradient(135deg,#000,#C4CED4)'},
+    TOR:{n:'Raptors',      c:'Toronto',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    UTA:{n:'Jazz',         c:'Utah',           g:'linear-gradient(135deg,#002B5C,#F9A01B)'},
+    WAS:{n:'Wizards',      c:'Washington',     g:'linear-gradient(135deg,#002B5C,#E31837)'},
+  };
+  const tm = (tri) => TM[tri] || { n: tri, c: '', g: '#333' };
+
+  function pct(made, att) {
+    if (!att) return '-';
+    return (made / att * 100).toFixed(1) + '%';
+  }
+
+  function parseMinutes(min) {
+    if (!min) return '0:00';
+    const m = min.match(/PT(\d+)M([\d.]+)S/);
+    if (!m) return min;
+    return `${m[1]}:${Math.floor(parseFloat(m[2])).toString().padStart(2, '0')}`;
+  }
+
+  function statItem(label, value, sub) {
+    return `<div class="text-center">
+      <div class="font-display text-3xl md:text-4xl font-bold mb-1">${value}</div>
+      ${sub ? `<div class="text-xs text-gray-500 mb-1">${sub}</div>` : ''}
+      <div class="text-xs text-gray-400 uppercase tracking-wider">${label}</div>
+    </div>`;
+  }
+
+  function shootingBar(label, made, att) {
+    const p = att > 0 ? made / att : 0;
+    const pctStr = att > 0 ? pct(made, att) : '-';
+    return `<div>
+      <div class="flex justify-between text-sm mb-1">
+        <span class="text-gray-300 font-bold">${label}</span>
+        <span class="font-display font-bold">${pctStr}</span>
+      </div>
+      <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+        <div class="h-full bg-[var(--crimson)] rounded-full" style="width:${(p * 100).toFixed(1)}%"></div>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">${made}/${att}</div>
+    </div>`;
+  }
+
+  function otherStatItem(label, value) {
+    return `<div class="stat-card p-4 text-center">
+      <div class="font-display text-2xl font-bold mb-1">${value}</div>
+      <div class="text-xs text-gray-400">${label}</div>
+    </div>`;
+  }
+
+  async function init() {
+    const params = new URLSearchParams(location.search);
+    const personId = params.get('id');
+    const gameId = params.get('game');
+
+    if (!personId || !gameId) {
+      document.getElementById('hero-loading').innerHTML =
+        '<p class="text-gray-400">選手情報が見つかりません。<a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>';
+      return;
+    }
+
+    // ボックススコア取得
+    const apiUrl = `/api/boxscore?game=${gameId}`;
+
+    let data;
+    try {
+      const r = await fetch(apiUrl, { cache: 'no-store' });
+      data = await r.json();
+    } catch (e) {
+      document.getElementById('hero-loading').innerHTML =
+        '<p class="text-gray-400">データの取得に失敗しました。<a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>';
+      return;
+    }
+
+    const game = data.game;
+    const allPlayers = [
+      ...game.homeTeam.players.map(p => ({ ...p, teamTricode: game.homeTeam.teamTricode, side: 'home' })),
+      ...game.awayTeam.players.map(p => ({ ...p, teamTricode: game.awayTeam.teamTricode, side: 'away' })),
+    ];
+    const player = allPlayers.find(p => String(p.personId) === String(personId));
+
+    if (!player) {
+      document.getElementById('hero-loading').innerHTML =
+        '<p class="text-gray-400">選手情報が見つかりません。<a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>';
+      return;
+    }
+
+    const s = player.statistics;
+    const meta = tm(player.teamTricode);
+
+    // 対戦相手
+    const opponent = player.side === 'home' ? game.awayTeam : game.homeTeam;
+    const myTeam   = player.side === 'home' ? game.homeTeam : game.awayTeam;
+    const isWin = parseInt(myTeam.score) > parseInt(opponent.score);
+    const result = isWin ? 'W' : 'L';
+
+    // 戻るリンク
+    document.getElementById('back-link').href = `game.html?id=${gameId}`;
+    document.getElementById('back-label').textContent = `${game.awayTeam.teamTricode} vs ${game.homeTeam.teamTricode} の試合に戻る`;
+
+    // ヘッドショット
+    document.getElementById('player-headshot').src =
+      `https://cdn.nba.com/headshots/nba/latest/260x190/${personId}.png`;
+    document.getElementById('player-initials').textContent =
+      (player.firstName[0] || '') + (player.familyName[0] || '');
+    document.getElementById('player-jersey').textContent = '#' + player.jerseyNum;
+
+    // チームバッジ
+    document.getElementById('player-team-bg').style.background = meta.g;
+    const badge = document.getElementById('player-team-badge');
+    badge.style.background = meta.g;
+    badge.textContent = player.teamTricode;
+
+    document.getElementById('player-team-name').textContent = `${meta.c} ${meta.n}`;
+    document.getElementById('player-position').textContent = player.position || '-';
+    document.getElementById('player-name').textContent = player.name;
+    document.getElementById('player-game-context').textContent =
+      `vs ${opponent.teamTricode} | ${result} ${myTeam.score}-${opponent.score} | ${game.gameLabel || ''} ${game.gameSubLabel || ''}`;
+
+    // キースタッツ
+    document.getElementById('key-stats').innerHTML = [
+      statItem('得点', s.points),
+      statItem('リバウンド', s.reboundsTotal, `攻${s.reboundsOffensive} 守${s.reboundsDefensive}`),
+      statItem('アシスト', s.assists),
+      statItem('スティール', s.steals),
+      statItem('ブロック', s.blocks),
+    ].join('');
+
+    // シューティング
+    document.getElementById('shooting-stats').innerHTML = [
+      shootingBar('フィールドゴール', s.fieldGoalsMade, s.fieldGoalsAttempted),
+      shootingBar('3ポイント', s.threePointersMade, s.threePointersAttempted),
+      shootingBar('フリースロー', s.freeThrowsMade, s.freeThrowsAttempted),
+    ].join('');
+
+    // その他
+    const pm = s.plusMinusPoints > 0 ? '+' + s.plusMinusPoints : s.plusMinusPoints;
+    document.getElementById('other-stats').innerHTML = [
+      otherStatItem('出場時間', parseMinutes(s.minutes)),
+      otherStatItem('+/-', pm),
+      otherStatItem('ターンオーバー', s.turnovers),
+      otherStatItem('ファウル', s.foulsPersonal),
+      otherStatItem('速攻得点', s.pointsFastBreak),
+      otherStatItem('ペイント内得点', s.pointsInThePaint),
+      otherStatItem('セカンドチャンス', s.pointsSecondChance),
+      otherStatItem('ドロー(FT)', s.foulsDrawn),
+    ].join('');
+
+    // ゲームログ行
+    const oppTri = opponent.teamTricode;
+    const mins = parseMinutes(s.minutes);
+    document.getElementById('game-log-body').innerHTML = `
+      <tr class="border-b border-[var(--line)]/40">
+        <td class="py-3 font-medium">vs ${oppTri} <span class="text-xs ${isWin ? 'text-green-400' : 'text-red-400'} font-bold">${result}</span></td>
+        <td class="py-3 text-right">${mins}</td>
+        <td class="py-3 text-right font-bold text-white">${s.points}</td>
+        <td class="py-3 text-right">${s.reboundsTotal}</td>
+        <td class="py-3 text-right">${s.assists}</td>
+        <td class="py-3 text-right">${s.steals}</td>
+        <td class="py-3 text-right">${s.blocks}</td>
+        <td class="py-3 text-right">${s.turnovers}</td>
+        <td class="py-3 text-right ${s.plusMinusPoints >= 0 ? 'text-green-400' : 'text-red-400'}">${pm}</td>
+        <td class="py-3 text-right">${s.fieldGoalsMade}/${s.fieldGoalsAttempted}</td>
+        <td class="py-3 text-right">${s.threePointersMade}/${s.threePointersAttempted}</td>
+      </tr>`;
+
+    // ローディング非表示 → コンテンツ表示
+    document.getElementById('hero-loading').classList.add('hidden');
+    document.getElementById('player-info').classList.remove('hidden');
+    document.getElementById('stats-loading').classList.add('hidden');
+    document.getElementById('detailed-stats').classList.remove('hidden');
+
+    // ページタイトル更新
+    document.title = `${player.name} | CourtSide`;
+  }
+
+  init();
+})();
+</script>
+
+</body>
+</html>

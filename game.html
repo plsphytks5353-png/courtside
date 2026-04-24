@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>試合詳細 | CourtSide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --crimson: #BF0000;
+      --crimson-bright: #E60012;
+      --ink: #0A0A0A;
+      --ink-2: #121212;
+      --ink-3: #1C1C1C;
+      --line: #2A2A2A;
+    }
+    html, body { background: var(--ink); color: #fff; }
+    body { font-family: "Noto Sans JP", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .font-display { font-family: "Oswald", "Noto Sans JP", sans-serif; letter-spacing: 0.02em; }
+    .hero-bg {
+      background:
+        radial-gradient(1000px 400px at 70% 0%, rgba(191,0,0,.35), transparent 70%),
+        linear-gradient(180deg, #140000 0%, #0A0A0A 100%);
+    }
+    .team-logo {
+      display:flex; align-items:center; justify-content:center;
+      font-family:"Oswald",sans-serif; font-weight:700; letter-spacing:.02em; color:#fff;
+    }
+    .skeleton { background: linear-gradient(90deg,#1c1c1c 25%,#2a2a2a 50%,#1c1c1c 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .tab-active { background: var(--crimson); color: #fff; }
+    .starter-row { border-left: 2px solid var(--crimson); }
+    tr:hover td { background: rgba(255,255,255,.03); }
+    a { color: inherit; }
+    /* モバイル: 重要カラムのみ表示 */
+    .col-hide-mobile { display: none; }
+    @media (min-width: 640px) {
+      .col-hide-mobile { display: table-cell; }
+    }
+    /* タップしやすい行高 */
+    @media (max-width: 639px) {
+      .player-row td { padding-top: 10px; padding-bottom: 10px; }
+      .player-name-cell { min-width: 120px; }
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOP BAR -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+    <div class="flex items-center gap-4">
+      <a href="#" class="hover:text-white">ヘルプ</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white">ログイン</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+      <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合</a>
+    </nav>
+    <div class="flex-1"></div>
+    <a href="index.html#plans" class="hidden sm:inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-4 py-2 rounded text-sm">今すぐ視聴</a>
+  </div>
+</header>
+
+<!-- GAME HERO -->
+<section class="hero-bg" id="game-hero">
+  <div class="max-w-[1280px] mx-auto px-4 py-8">
+    <a href="index.html#games" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-6">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      今日の試合に戻る
+    </a>
+
+    <!-- ローディング -->
+    <div id="hero-loading" class="space-y-4">
+      <div class="skeleton h-5 w-40 rounded"></div>
+      <div class="skeleton h-16 w-full max-w-lg rounded-xl"></div>
+      <div class="skeleton h-4 w-32 rounded"></div>
+    </div>
+
+    <!-- スコアボード -->
+    <div id="game-scoreboard" class="hidden">
+      <!-- JS で描画 -->
+    </div>
+  </div>
+</section>
+
+<!-- BOXSCORE -->
+<section class="py-8 md:py-12">
+  <div class="max-w-[1280px] mx-auto px-4">
+
+    <!-- ローディング -->
+    <div id="box-loading" class="space-y-4">
+      <div class="skeleton h-8 w-48 rounded"></div>
+      <div class="skeleton h-64 w-full rounded-xl"></div>
+    </div>
+
+    <!-- Play-by-Play セクション -->
+    <div id="pbp-section" class="hidden mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-title-bar w-1 h-5 rounded-sm" style="background:var(--crimson)"></div>
+        <h2 class="font-display font-bold text-lg">プレイログ</h2>
+        <span id="pbp-live-badge" class="hidden inline-flex items-center gap-1.5 text-xs bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm">
+          <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>LIVE
+        </span>
+      </div>
+      <div class="bg-[var(--ink-2)] border border-[var(--line)] rounded-xl overflow-hidden">
+        <!-- ピリオドタブ -->
+        <div id="pbp-period-tabs" class="flex gap-1 p-3 border-b border-[var(--line)] overflow-x-auto hide-scrollbar"></div>
+        <!-- プレイリスト -->
+        <div id="pbp-list" class="divide-y divide-[var(--line)] max-h-[480px] overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <div id="boxscore-content" class="hidden space-y-8">
+
+      <!-- チームタブ -->
+      <div class="flex gap-2" id="team-tabs"></div>
+
+      <!-- アウェイチーム -->
+      <div id="away-section"></div>
+
+      <!-- ホームチーム -->
+      <div id="home-section"></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-black border-t border-[var(--line)] py-8">
+  <div class="max-w-[1280px] mx-auto px-4 text-center text-xs text-gray-500">
+    © 2026 CourtSide. All rights reserved.
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const TM = {
+    ATL:{n:'Hawks',        c:'Atlanta',        g:'linear-gradient(135deg,#E03A3E,#C1D32F)'},
+    BOS:{n:'Celtics',      c:'Boston',         g:'linear-gradient(135deg,#007A33,#BA9653)'},
+    BKN:{n:'Nets',         c:'Brooklyn',       g:'linear-gradient(135deg,#000,#CFCFCF)'},
+    CHA:{n:'Hornets',      c:'Charlotte',      g:'linear-gradient(135deg,#1D1160,#00788C)'},
+    CHI:{n:'Bulls',        c:'Chicago',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    CLE:{n:'Cavaliers',    c:'Cleveland',      g:'linear-gradient(135deg,#860038,#041E42)'},
+    DAL:{n:'Mavericks',    c:'Dallas',         g:'linear-gradient(135deg,#00538C,#002B5C)'},
+    DEN:{n:'Nuggets',      c:'Denver',         g:'linear-gradient(135deg,#5D76A9,#0C2340)'},
+    DET:{n:'Pistons',      c:'Detroit',        g:'linear-gradient(135deg,#C8102E,#1D42BA)'},
+    GSW:{n:'Warriors',     c:'Golden State',   g:'linear-gradient(135deg,#1D428A,#FFC72C)'},
+    HOU:{n:'Rockets',      c:'Houston',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    IND:{n:'Pacers',       c:'Indiana',        g:'linear-gradient(135deg,#002D62,#FDBB30)'},
+    LAC:{n:'Clippers',     c:'LA',             g:'linear-gradient(135deg,#C8102E,#1D1160)'},
+    LAL:{n:'Lakers',       c:'Los Angeles',    g:'linear-gradient(135deg,#552583,#FDB927)'},
+    MEM:{n:'Grizzlies',    c:'Memphis',        g:'linear-gradient(135deg,#5D76A9,#12173F)'},
+    MIA:{n:'Heat',         c:'Miami',          g:'linear-gradient(135deg,#98002E,#F9A01B)'},
+    MIL:{n:'Bucks',        c:'Milwaukee',      g:'linear-gradient(135deg,#00471B,#EEE1C6)'},
+    MIN:{n:'Timberwolves', c:'Minnesota',      g:'linear-gradient(135deg,#0C2340,#236192)'},
+    NOP:{n:'Pelicans',     c:'New Orleans',    g:'linear-gradient(135deg,#0C2340,#C8102E)'},
+    NYK:{n:'Knicks',       c:'New York',       g:'linear-gradient(135deg,#006BB6,#F58426)'},
+    OKC:{n:'Thunder',      c:'Oklahoma City',  g:'linear-gradient(135deg,#007AC1,#EF3B24)'},
+    ORL:{n:'Magic',        c:'Orlando',        g:'linear-gradient(135deg,#0077C0,#000)'},
+    PHI:{n:'76ers',        c:'Philadelphia',   g:'linear-gradient(135deg,#006BB6,#ED174C)'},
+    PHX:{n:'Suns',         c:'Phoenix',        g:'linear-gradient(135deg,#1D1160,#E56020)'},
+    POR:{n:'Trail Blazers',c:'Portland',       g:'linear-gradient(135deg,#E03A3E,#000)'},
+    SAC:{n:'Kings',        c:'Sacramento',     g:'linear-gradient(135deg,#5A2B81,#63727A)'},
+    SAS:{n:'Spurs',        c:'San Antonio',    g:'linear-gradient(135deg,#000,#C4CED4)'},
+    TOR:{n:'Raptors',      c:'Toronto',        g:'linear-gradient(135deg,#CE1141,#000)'},
+    UTA:{n:'Jazz',         c:'Utah',           g:'linear-gradient(135deg,#002B5C,#F9A01B)'},
+    WAS:{n:'Wizards',      c:'Washington',     g:'linear-gradient(135deg,#002B5C,#E31837)'},
+  };
+  const tm = t => TM[t] || { n:t, c:'', g:'#333' };
+
+  function parseMin(m) {
+    if (!m) return '-';
+    const r = m.match(/PT(\d+)M([\d.]+)S/);
+    if (!r) return '-';
+    const mins = parseInt(r[1], 10);
+    const secs = Math.floor(parseFloat(r[2]));
+    return `${mins}:${secs.toString().padStart(2,'0')}`;
+  }
+  function pct(a, b) { return b ? (a/b*100).toFixed(1)+'%' : '-'; }
+
+  /* ── スコアボード描画 ── */
+  function renderScoreboard(game) {
+    const away = game.awayTeam, home = game.homeTeam;
+    const am = tm(away.teamTricode), hm = tm(home.teamTricode);
+    const isLive = game.gameStatus === 2;
+    const numP = Math.max(4, game.period || 0);
+
+    const periodHeader = Array.from({length: numP}, (_,i) =>
+      `<th class="text-center py-2 font-normal text-gray-400">${i<4?'Q'+(i+1):'OT'+(i-3)}</th>`
+    ).join('') + '<th class="text-center py-2 font-bold text-white pl-3">計</th>';
+
+    const periodRow = (team) =>
+      Array.from({length: numP}, (_,i) => {
+        const p = team.periods?.find(x => x.period === i+1);
+        return `<td class="text-center py-2 text-sm">${p ? p.score : '-'}</td>`;
+      }).join('') + `<td class="text-center py-2 font-display text-2xl font-bold pl-3">${team.score}</td>`;
+
+    const statusBadge = isLive
+      ? `<span class="inline-flex items-center gap-1.5 text-xs bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm"><span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>LIVE Q${game.period}</span>`
+      : `<span class="text-xs bg-gray-700 text-white font-bold px-2 py-0.5 rounded-sm">Final</span>`;
+
+    document.getElementById('game-scoreboard').innerHTML = `
+      <div class="mb-3 flex items-center gap-3 flex-wrap">
+        ${statusBadge}
+        <span class="text-sm text-gray-400">${game.gameLabel || ''} ${game.gameSubLabel || ''}</span>
+        ${game.seriesText ? `<span class="text-xs bg-white/10 border border-white/20 px-2 py-0.5 rounded text-gray-300">${game.seriesText}</span>` : ''}
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[400px]">
+          <thead><tr><th class="text-left py-2"></th>${periodHeader}</tr></thead>
+          <tbody>
+            <tr class="border-t border-[var(--line)]">
+              <td class="py-3 pr-4">
+                <div class="flex items-center gap-3">
+                  <div class="team-logo w-10 h-10 rounded-full shrink-0 text-sm" style="background:${am.g};">${away.teamTricode}</div>
+                  <div>
+                    <div class="font-bold">${am.n}</div>
+                    <div class="text-xs text-gray-400">${away.teamCity}</div>
+                  </div>
+                </div>
+              </td>
+              ${periodRow(away)}
+            </tr>
+            <tr class="border-t border-[var(--line)]">
+              <td class="py-3 pr-4">
+                <div class="flex items-center gap-3">
+                  <div class="team-logo w-10 h-10 rounded-full shrink-0 text-sm" style="background:${hm.g};">${home.teamTricode}</div>
+                  <div>
+                    <div class="font-bold">${hm.n}</div>
+                    <div class="text-xs text-gray-400">${home.teamCity}</div>
+                  </div>
+                </div>
+              </td>
+              ${periodRow(home)}
+            </tr>
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  /* ── チームボックススコア描画 ── */
+  function renderTeamBox(team, gameId, sectionId) {
+    const meta = tm(team.teamTricode);
+    const starters = team.players.filter(p => p.starter === '1' && p.played === '1');
+    const bench    = team.players.filter(p => p.starter === '0' && p.played === '1');
+    const totals   = team.statistics;
+
+    // モバイルで表示するカラム: MIN PTS REB AST +/-
+    // デスクトップのみ: STL BLK TO FG 3P FT
+    const cols = [
+      {k:'MIN',  mobile:true},
+      {k:'PTS',  mobile:true},
+      {k:'REB',  mobile:true},
+      {k:'AST',  mobile:true},
+      {k:'+/-',  mobile:true},
+      {k:'STL',  mobile:false},
+      {k:'BLK',  mobile:false},
+      {k:'TO',   mobile:false},
+      {k:'FG',   mobile:false},
+      {k:'3P',   mobile:false},
+      {k:'FT',   mobile:false},
+    ];
+    const thead = `<tr class="text-gray-400 text-xs border-b border-[var(--line)]">
+      <th class="text-left py-2 font-normal player-name-cell">選手</th>
+      ${cols.map(c => `<th class="text-right py-2 font-normal${c.mobile ? '' : ' col-hide-mobile'}">${c.k}</th>`).join('')}
+    </tr>`;
+
+    const playerRow = (p, isStarter) => {
+      const s = p.statistics;
+      const pm = s.plusMinusPoints >= 0 ? '+'+s.plusMinusPoints : s.plusMinusPoints;
+      const pmColor = s.plusMinusPoints > 0 ? 'text-green-400' : s.plusMinusPoints < 0 ? 'text-red-400' : 'text-gray-400';
+      return `<tr class="player-row ${isStarter ? 'starter-row' : ''} cursor-pointer" onclick="location.href='player.html?id=${p.personId}&game=${gameId}'">
+        <td class="py-2.5 pr-2 player-name-cell">
+          <div class="flex items-center gap-2">
+            <img src="https://cdn.nba.com/headshots/nba/latest/260x190/${p.personId}.png"
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover object-top bg-[var(--ink-3)] shrink-0"
+              onerror="this.style.display='none';" />
+            <div class="min-w-0">
+              <a href="player.html?id=${p.personId}&game=${gameId}" class="font-bold text-xs sm:text-sm hover:text-[var(--crimson-bright)] hover:underline block truncate max-w-[100px] sm:max-w-none">${p.name}</a>
+              <div class="text-[10px] text-gray-500">#${p.jerseyNum}${p.position ? ' '+p.position : ''}</div>
+            </div>
+          </div>
+        </td>
+        <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300">${parseMin(s.minutes)}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm font-bold text-white">${s.points}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm">${s.reboundsTotal}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm">${s.assists}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm ${pmColor}">${pm}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm col-hide-mobile">${s.steals}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm col-hide-mobile">${s.blocks}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm text-gray-400 col-hide-mobile">${s.turnovers}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300 col-hide-mobile">${s.fieldGoalsMade}/${s.fieldGoalsAttempted}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300 col-hide-mobile">${s.threePointersMade}/${s.threePointersAttempted}</td>
+        <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300 col-hide-mobile">${s.freeThrowsMade}/${s.freeThrowsAttempted}</td>
+      </tr>`;
+    };
+
+    const totalRow = totals ? `<tr class="border-t-2 border-[var(--line)] bg-white/5">
+      <td class="py-2.5 text-xs font-bold text-gray-400 pl-2 player-name-cell">チーム合計</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm text-gray-400">-</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm font-bold text-white">${totals.points}</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm">${totals.reboundsTotal}</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm">${totals.assists}</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm text-gray-400">-</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm col-hide-mobile">${totals.steals}</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm col-hide-mobile">${totals.blocks}</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm text-gray-400 col-hide-mobile">${totals.turnovers}</td>
+      <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300 col-hide-mobile">${totals.fieldGoalsMade}/${totals.fieldGoalsAttempted} <span class="text-gray-500 hidden sm:inline">${pct(totals.fieldGoalsMade,totals.fieldGoalsAttempted)}</span></td>
+      <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300 col-hide-mobile">${totals.threePointersMade}/${totals.threePointersAttempted} <span class="text-gray-500 hidden sm:inline">${pct(totals.threePointersMade,totals.threePointersAttempted)}</span></td>
+      <td class="py-2.5 text-right text-xs sm:text-sm text-gray-300 col-hide-mobile">${totals.freeThrowsMade}/${totals.freeThrowsAttempted} <span class="text-gray-500 hidden sm:inline">${pct(totals.freeThrowsMade,totals.freeThrowsAttempted)}</span></td>
+    </tr>` : '';
+
+    document.getElementById(sectionId).innerHTML = `
+      <div class="bg-[var(--ink-2)] border border-[var(--line)] rounded-xl overflow-hidden">
+        <div class="flex items-center gap-3 px-5 py-4 border-b border-[var(--line)]">
+          <div class="team-logo w-9 h-9 rounded-full text-xs shrink-0" style="background:${meta.g};">${team.teamTricode}</div>
+          <div>
+            <div class="font-display font-bold text-lg">${meta.c} ${meta.n}</div>
+            <div class="text-xs text-gray-400">スターター <span class="text-[var(--crimson-bright)]">|</span> ベンチ</div>
+          </div>
+          <div class="ml-auto font-display text-3xl font-bold">${team.score}</div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[320px] sm:min-w-[580px]">
+            <thead class="px-5">${thead}</thead>
+            <tbody>
+              ${starters.map(p => playerRow(p, true)).join('')}
+              <tr><td colspan="12" class="py-1 px-3 text-[10px] text-gray-600 uppercase tracking-widest bg-white/5">ベンチ</td></tr>
+              ${bench.map(p => playerRow(p, false)).join('')}
+              ${totalRow}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  }
+
+  /* ── アクション種別 → アイコン/ラベル ── */
+  const ACTION_LABEL = {
+    '2pt':         { icon: '🏀', label: '2Pシュート' },
+    '3pt':         { icon: '🎯', label: '3Pシュート' },
+    'freethrow':   { icon: '🎳', label: 'FT' },
+    'rebound':     { icon: '💪', label: 'リバウンド' },
+    'turnover':    { icon: '↩',  label: 'TO' },
+    'steal':       { icon: '⚡', label: 'スティール' },
+    'block':       { icon: '✋', label: 'ブロック' },
+    'foul':        { icon: '⚠',  label: 'ファウル' },
+    'timeout':     { icon: '⏸',  label: 'タイムアウト' },
+    'substitution':{ icon: '↕',  label: '交代' },
+    'jumpball':    { icon: '🔄', label: 'ジャンプボール' },
+    'violation':   { icon: '❌', label: 'バイオレーション' },
+  };
+
+  /* ── play-by-play 描画 ── */
+  function renderPlayByPlay(actions, game) {
+    if (!actions?.length) return;
+
+    const away = game.awayTeam.teamTricode;
+    const home = game.homeTeam.teamTricode;
+    const awayMeta = tm(away), homeMeta = tm(home);
+
+    // ピリオド別に分類
+    const byPeriod = {};
+    for (const a of actions) {
+      if (!byPeriod[a.period]) byPeriod[a.period] = [];
+      byPeriod[a.period].push(a);
+    }
+    const periods = Object.keys(byPeriod).map(Number).sort((a,b)=>a-b);
+    const latestPeriod = periods[periods.length - 1];
+
+    // ピリオドタブ
+    const tabsEl = document.getElementById('pbp-period-tabs');
+    tabsEl.innerHTML = periods.map(p => {
+      const label = p <= 4 ? `Q${p}` : `OT${p-4}`;
+      const isActive = p === latestPeriod;
+      return `<button onclick="showPbpPeriod(${p})" id="pbp-tab-${p}"
+        class="pbp-tab shrink-0 px-3 py-1 text-xs font-bold rounded transition-colors ${isActive ? 'bg-[var(--crimson)] text-white' : 'bg-white/10 text-gray-400 hover:bg-white/20'}">
+        ${label}
+      </button>`;
+    }).join('');
+
+    // 全ピリオドのプレイをDOMに保存
+    window._pbpByPeriod = byPeriod;
+    window._pbpGame = { away, home, awayMeta, homeMeta };
+    showPbpPeriod(latestPeriod);
+    document.getElementById('pbp-section').classList.remove('hidden');
+  }
+
+  window.showPbpPeriod = function(period) {
+    const byPeriod = window._pbpByPeriod;
+    const { away, home, awayMeta, homeMeta } = window._pbpGame;
+    if (!byPeriod?.[period]) return;
+
+    // タブアクティブ切り替え
+    document.querySelectorAll('.pbp-tab').forEach(t => {
+      t.classList.remove('bg-[var(--crimson)]','text-white');
+      t.classList.add('bg-white/10','text-gray-400');
+    });
+    const activeTab = document.getElementById(`pbp-tab-${period}`);
+    if (activeTab) {
+      activeTab.classList.add('bg-[var(--crimson)]','text-white');
+      activeTab.classList.remove('bg-white/10','text-gray-400');
+    }
+
+    // 表示不要なアクションを除外して新しい順に
+    const SKIP_TYPES = new Set(['game','period','jumpball']);
+    const plays = [...byPeriod[period]]
+      .filter(a => !SKIP_TYPES.has(a.actionType))
+      .reverse();
+    const listEl = document.getElementById('pbp-list');
+    if (!plays.length) {
+      listEl.innerHTML = '<div class="px-4 py-6 text-center text-sm text-gray-500">データなし</div>';
+      return;
+    }
+    listEl.innerHTML = plays.map(a => {
+      const al = ACTION_LABEL[a.actionType] || { icon: '▸', label: a.actionType };
+      const isAway = a.teamTricode === away;
+      const meta = a.teamTricode ? (isAway ? awayMeta : homeMeta) : { g: '#333' };
+      const clockStr = parseMin(a.clock);
+      const score = (a.scoreAway != null && a.scoreHome != null && a.scoreAway !== '' && a.scoreHome !== '')
+        ? `<span class="text-xs font-mono font-bold text-white ml-auto shrink-0 pl-2">${a.scoreAway}–${a.scoreHome}</span>` : '';
+      const isMiss = a.shotResult === 'Missed';
+      const rowOpacity = isMiss ? 'opacity-40' : '';
+      const teamLabel = a.teamTricode ? `${a.teamTricode} · ` : '';
+      return `
+        <div class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 transition-colors ${rowOpacity}">
+          <span class="text-gray-500 text-xs font-mono w-9 shrink-0 text-right">${clockStr}</span>
+          <span class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-xs" style="background:${meta.g}">${al.icon}</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm leading-snug truncate">${a.description || ''}</div>
+            <div class="text-[10px] text-gray-500">${teamLabel}${al.label}</div>
+          </div>
+          ${score}
+        </div>`;
+    }).join('');
+  };
+
+  /* ── メイン ── */
+  async function init() {
+    const params = new URLSearchParams(location.search);
+    const gameId = params.get('id');
+    if (!gameId) { location.href = 'index.html'; return; }
+
+    const apiUrl = `/api/boxscore?game=${gameId}`;
+
+    let data;
+    try {
+      const r = await fetch(apiUrl, { cache: 'no-store' });
+      data = await r.json();
+    } catch {
+      document.getElementById('hero-loading').innerHTML =
+        '<p class="text-gray-400">データ取得に失敗しました。<a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>';
+      return;
+    }
+
+    const game = data.game;
+    document.title = `${game.awayTeam.teamTricode} vs ${game.homeTeam.teamTricode} | CourtSide`;
+
+    // スコアボード
+    renderScoreboard(game);
+    document.getElementById('hero-loading').classList.add('hidden');
+    document.getElementById('game-scoreboard').classList.remove('hidden');
+
+    // ボックススコア
+    renderTeamBox(game.awayTeam, gameId, 'away-section');
+    renderTeamBox(game.homeTeam, gameId, 'home-section');
+    document.getElementById('box-loading').classList.add('hidden');
+    document.getElementById('boxscore-content').classList.remove('hidden');
+
+    // play-by-play
+    const pbpUrl = `/api/playbyplay?game=${gameId}`;
+
+    async function refreshPbp() {
+      try {
+        const rp = await fetch(pbpUrl, { cache: 'no-store' });
+        const pd = await rp.json();
+        renderPlayByPlay(pd.game?.actions ?? [], game);
+        if (game.gameStatus === 2) {
+          document.getElementById('pbp-live-badge')?.classList.remove('hidden');
+        }
+      } catch {}
+    }
+    refreshPbp();
+
+    // ライブ中は10秒ごとに全データ更新
+    if (game.gameStatus === 2) {
+      setInterval(async () => {
+        try {
+          const r2 = await fetch(apiUrl, { cache: 'no-store' });
+          const d2 = await r2.json();
+          renderScoreboard(d2.game);
+          renderTeamBox(d2.game.awayTeam, gameId, 'away-section');
+          renderTeamBox(d2.game.homeTeam, gameId, 'home-section');
+          refreshPbp();
+        } catch {}
+      }, 10_000);
+    }
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
