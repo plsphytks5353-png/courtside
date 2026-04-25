@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CourtSide | NBA ライブスコア・速報</title>
   <meta name="description" content="CourtSide なら NBA レギュラーシーズン・プレーオフの全試合をライブ配信。ハイライト動画、最新ニュース、選手・チーム情報もすべて日本語で。" />
+  <!-- OGP -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CourtSide" />
+  <meta property="og:title" content="CourtSide | NBA ライブスコア・速報" />
+  <meta property="og:description" content="NBA 全試合のライブスコア・速報を日本語でお届け。プレーオフ情報もリアルタイム更新。" />
+  <meta property="og:url" content="https://courtsidelive.jp/" />
+  <meta property="og:image" content="https://courtsidelive.jp/ogp.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@courtsidelive" />
+  <meta name="twitter:title" content="CourtSide | NBA ライブスコア・速報" />
+  <meta name="twitter:description" content="NBA 全試合のライブスコア・速報を日本語でお届け。プレーオフ情報もリアルタイム更新。" />
+  <meta name="twitter:image" content="https://courtsidelive.jp/ogp.png" />
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1001,6 +1015,23 @@
       ${g.seriesText ? `<div class="text-[10px] text-gray-500 mb-2">${g.seriesText}</div>` : ''}
       ${leadersHtml}
       <div class="mt-3">${cta}</div>
+      ${(isLive || isFinal) ? (() => {
+        const st = `${away.teamTricode} ${away.score}-${home.score} ${home.teamTricode} ${isLive ? `Q${g.period}進行中` : 'Final'}${g.seriesText ? ' ' + g.seriesText : ''}`;
+        const su = encodeURIComponent(`https://courtsidelive.jp/game.html?id=${g.gameId}`);
+        const se = encodeURIComponent(`【CourtSide】${st}`);
+        return `<div class="flex gap-2 mt-2">
+          <a href="https://x.com/intent/tweet?text=${se}&url=${su}" target="_blank" rel="noopener"
+            class="flex-1 inline-flex items-center justify-center gap-1 bg-black border border-white/20 hover:border-white/40 text-white text-[10px] font-bold px-2 py-1.5 rounded-full transition">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            シェア
+          </a>
+          <a href="https://social-plugins.line.me/lineit/share?url=${su}&text=${se}" target="_blank" rel="noopener"
+            class="flex-1 inline-flex items-center justify-center gap-1 bg-[#06C755] hover:bg-[#05b34d] text-white text-[10px] font-bold px-2 py-1.5 rounded-full transition">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+            LINE
+          </a>
+        </div>`;
+      })() : ''}
     </article>`;
   }
 
