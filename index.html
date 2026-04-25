@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CourtSide | NBA ライブスコア・速報</title>
-  <meta name="description" content="CourtSide なら NBA レギュラーシーズン・プレーオフの全試合をライブ配信。ハイライト動画、最新ニュース、選手・チーム情報もすべて日本語で。" />
+  <meta name="description" content="NBA のリアルタイムスコア・ボックススコア・プレーオフ情報を日本語でお届け。CourtSide で試合結果・選手スタッツをいつでもチェック。" />
   <!-- OGP -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="CourtSide" />
@@ -75,18 +75,8 @@
 <!-- ========================= TOP INFO BAR ========================= -->
 <div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
   <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
-    <div class="flex items-center gap-4">
-      <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
-      <span class="text-gray-500 hidden md:inline">|</span>
-      <a href="#plans" class="hidden md:inline hover:text-white">初月500円で全試合見放題 ▶</a>
-    </div>
-    <div class="flex items-center gap-4">
-      <a href="#" class="hover:text-white">ヘルプ</a>
-      <span class="text-gray-600">|</span>
-      <a href="#" class="hover:text-white">アプリ</a>
-      <span class="text-gray-600">|</span>
-      <a href="#" class="hover:text-white">ログイン</a>
-    </div>
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+    <a href="#" class="hover:text-white">お問い合わせ</a>
   </div>
 </div>
 
@@ -102,19 +92,9 @@
       <a href="schedule.html" class="text-gray-300 hover:text-white">試合</a>
       <a href="bracket.html" class="text-gray-300 hover:text-white">ブラケット</a>
       <a href="#games" class="text-gray-300 hover:text-white">ライブ</a>
-      <a href="#highlights" class="text-gray-300 hover:text-white">動画</a>
-      <a href="#news" class="text-gray-300 hover:text-white">ニュース</a>
-      <a href="#standings" class="text-gray-300 hover:text-white">順位表</a>
       <a href="#teams" class="text-gray-300 hover:text-white">チーム</a>
-      <a href="#plans" class="text-gray-300 hover:text-white">プラン</a>
     </nav>
     <div class="flex-1"></div>
-    <button aria-label="検索" class="p-2 text-gray-300 hover:text-white">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-    </button>
-    <a href="#plans" class="hidden sm:inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-4 py-2 rounded text-sm">
-      今すぐ視聴
-    </a>
   </div>
 </header>
 
@@ -130,29 +110,12 @@
           </span>
           <span class="chip uppercase text-gray-300 font-bold">プレーオフ 第1ラウンド Game 1</span>
         </div>
-        <h1 id="hero-game-title" class="font-display text-5xl md:text-7xl font-bold leading-none mb-3">
+        <h1 id="hero-game-title" class="font-display text-5xl md:text-7xl font-bold leading-none mb-6">
           LAKERS <span class="text-gray-500">vs</span> CELTICS
         </h1>
-        <p class="text-gray-300 text-base md:text-lg mb-6 leading-relaxed">
-          レギュラーシーズン西地区2位のレイカーズと東地区1位のセルティックスが激突。<br class="hidden md:block" />
-          プレーオフ幕開けのゴールデンカードを日本語実況・解説で完全生中継。
-        </p>
-        <div class="flex flex-wrap items-center gap-3 mb-8 text-sm text-gray-300">
-          <span>4月22日(水) 10:30 TIP-OFF</span>
-          <span class="text-gray-600">|</span>
-          <span>TD Garden</span>
-          <span class="text-gray-600">|</span>
-          <span>実況: 中村信博 / 解説: 佐々木クリス</span>
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <a href="#" class="inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white font-bold px-6 py-3 rounded text-base">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            今すぐ視聴する
-          </a>
-          <a href="#" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded text-base backdrop-blur">
-            試合の詳細
-          </a>
-        </div>
+        <a href="schedule.html" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded text-base backdrop-blur">
+          全試合スケジュールを見る →
+        </a>
       </div>
 
       <!-- Scoreboard card -->
@@ -252,8 +215,8 @@
   </div>
 </section>
 
-<!-- ========================= HIGHLIGHTS ========================= -->
-<section id="highlights" class="py-12 md:py-16 bg-[var(--ink-2)] border-y border-[var(--line)]">
+<!-- ========================= HIGHLIGHTS REMOVED ========================= -->
+<section id="highlights" class="hidden">
   <div class="max-w-[1280px] mx-auto px-4">
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
       <div class="flex items-stretch gap-3">
@@ -418,8 +381,8 @@
   </div>
 </section>
 
-<!-- ========================= NEWS + STANDINGS ========================= -->
-<section id="news" class="py-12 md:py-16">
+<!-- ========================= NEWS REMOVED ========================= -->
+<section id="news" class="hidden">
   <div class="max-w-[1280px] mx-auto px-4 grid lg:grid-cols-12 gap-8">
     <!-- News -->
     <div class="lg:col-span-8">
@@ -702,8 +665,8 @@
   </div>
 </section>
 
-<!-- ========================= PLANS CTA ========================= -->
-<section id="plans" class="py-14 md:py-20 relative overflow-hidden">
+<!-- ========================= PLANS REMOVED ========================= -->
+<section id="plans" class="hidden">
   <div class="absolute inset-0 hero-bg"></div>
   <div class="relative max-w-[1280px] mx-auto px-4">
     <div class="text-center mb-10">
@@ -770,8 +733,8 @@
           <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
         </div>
         <p class="text-sm text-gray-400 leading-relaxed mb-4">
-          NBA 全試合を日本語でライブ配信。<br />
-          日本唯一の NBA 公式ライセンス・ストリーミングサービス。
+          NBA のリアルタイムスコア・統計・プレーオフ情報を<br />
+          日本語でお届けする速報サイトです。
         </p>
         <div class="flex gap-3">
           <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10" aria-label="X">
@@ -787,33 +750,24 @@
       </div>
 
       <div>
-        <div class="text-sm font-bold mb-3">サービス</div>
+        <div class="text-sm font-bold mb-3">コンテンツ</div>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="#" class="hover:text-white">ホーム</a></li>
+          <li><a href="index.html" class="hover:text-white">ホーム</a></li>
           <li><a href="schedule.html" class="hover:text-white">試合スケジュール</a></li>
-          <li><a href="#highlights" class="hover:text-white">ハイライト動画</a></li>
-          <li><a href="#standings" class="hover:text-white">順位表</a></li>
-          <li><a href="#plans" class="hover:text-white">プラン</a></li>
+          <li><a href="bracket.html" class="hover:text-white">プレーオフ ブラケット</a></li>
         </ul>
       </div>
       <div>
         <div class="text-sm font-bold mb-3">サポート</div>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="#" class="hover:text-white">ヘルプセンター</a></li>
           <li><a href="#" class="hover:text-white">お問い合わせ</a></li>
-          <li><a href="#" class="hover:text-white">視聴環境</a></li>
-          <li><a href="#" class="hover:text-white">解約方法</a></li>
-          <li><a href="#" class="hover:text-white">アプリをダウンロード</a></li>
         </ul>
       </div>
       <div>
         <div class="text-sm font-bold mb-3">CourtSideについて</div>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="#" class="hover:text-white">会社情報</a></li>
           <li><a href="#" class="hover:text-white">プライバシーポリシー</a></li>
           <li><a href="#" class="hover:text-white">利用規約</a></li>
-          <li><a href="#" class="hover:text-white">特定商取引法</a></li>
-          <li><a href="#" class="hover:text-white">採用情報</a></li>
         </ul>
       </div>
     </div>
@@ -974,17 +928,9 @@
     const awayScore = (isLive || isFinal) ? `<div class="font-display text-2xl font-bold">${away.score}</div>` : '';
     const homeScore = (isLive || isFinal) ? `<div class="font-display text-2xl font-bold text-gray-400">${home.score}</div>` : '';
 
-    const cta = isLive
-      ? `<div class="flex gap-2">
-           <a href="#" class="flex-1 block text-center bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] py-2 rounded text-sm font-bold transition">視聴する ▶</a>
-           <a href="game.html?id=${g.gameId}" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-2 rounded text-sm font-bold transition">詳細</a>
-         </div>`
-      : isFinal
-        ? `<div class="flex gap-2">
-           <a href="#" class="flex-1 block text-center bg-white/5 hover:bg-white/10 border border-white/10 py-2 rounded text-sm font-bold transition">ハイライト ▶</a>
-           <a href="game.html?id=${g.gameId}" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-2 rounded text-sm font-bold transition">詳細</a>
-         </div>`
-        : `<a href="#" class="block text-center bg-white/5 hover:bg-white/10 border border-white/10 py-2 rounded text-sm font-bold transition">🔔 リマインダー登録</a>`;
+    const cta = (isLive || isFinal)
+      ? `<a href="game.html?id=${g.gameId}" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 py-2 rounded text-sm font-bold transition">詳細を見る →</a>`
+      : `<a href="schedule.html" class="block text-center bg-white/5 hover:bg-white/10 border border-white/10 py-2 rounded text-sm font-bold transition text-gray-400">スケジュールを確認</a>`;
 
     const gl = g.gameLeaders;
     const leaderLink = (l) => l?.name
