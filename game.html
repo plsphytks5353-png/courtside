@@ -214,7 +214,7 @@
   function pct(a, b) { return b ? (a/b*100).toFixed(1)+'%' : '-'; }
 
   /* ── スコアボード描画 ── */
-  function renderScoreboard(game) {
+  function renderScoreboard(game, gameId) {
     const away = game.awayTeam, home = game.homeTeam;
     const am = tm(away.teamTricode), hm = tm(home.teamTricode);
     const isLive = game.gameStatus === 2;
@@ -529,7 +529,7 @@
     document.title = `${game.awayTeam.teamTricode} vs ${game.homeTeam.teamTricode} | CourtSide`;
 
     // スコアボード
-    renderScoreboard(game);
+    renderScoreboard(game, gameId);
     document.getElementById('hero-loading').classList.add('hidden');
     document.getElementById('game-scoreboard').classList.remove('hidden');
 
@@ -560,7 +560,7 @@
         try {
           const r2 = await fetch(apiUrl, { cache: 'no-store' });
           const d2 = await r2.json();
-          renderScoreboard(d2.game);
+          renderScoreboard(d2.game, gameId);
           renderTeamBox(d2.game.awayTeam, gameId, 'away-section');
           renderTeamBox(d2.game.homeTeam, gameId, 'home-section');
           refreshPbp();
