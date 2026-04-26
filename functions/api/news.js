@@ -1,4 +1,4 @@
-// ESPN NBA RSS → DeepL 和訳 → キャッシュ30分
+// ESPN NBA News API → DeepL 和訳 → キャッシュ30分
 let cache = null;
 let cacheTime = 0;
 const CACHE_TTL = 30 * 60 * 1000;
@@ -12,33 +12,20 @@ export async function onRequest({ env }) {
   }
 
   try {
-    // ESPN NBA RSS取得
-    const rssRes = await fetch('https://www.espn.com/espn/rss/nba/news', {
-      headers: { 'User-Agent': 'Mozilla/5.0' },
-    });
-    const rssText = await rssRes.text();
+    // ESPN 公開JSON API
+    const espnRes = await fetch(
+      'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news?limit=8',
+      { headers: { 'User-Agent': 'Mozilla/5.0' } }
+    );
+    const espnData = await espnRes.json();
+    const rawArticles = espnData.articles ?? [];
 
-    // RSS パース（簡易）
-    const items = [];
-    const itemMatches = rssText.matchAll(/<item>([\s\S]*?)<\/item>/g);
-    for (const m of itemMatches) {
-      const block = m[1];
-      const title = (block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) ||
-                     block.match(/<title>(.*?)<\/title>/))?.[1]?.trim() ?? '';
-      const desc  = (block.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/) ||
-                     block.match(/<description>(.*?)<\/description>/))?.[1]
-                       ?.replace(/<[^>]+>/g, '').trim() ?? '';
-      const linkRaw = block.match(/<link[^>]*href="([^"]+)"/)?.[1] ??
-                      block.match(/<link[^>]*>(https?:\/\/[^\s<]+)/)?.[1] ??
-                      block.match(/<link>([\s\S]*?)<\/link>/)?.[1]?.trim() ??
-                      block.match(/<guid[^>]*>(https?:\/\/[^\s<]+)/)?.[1] ??
-                      block.match(/<guid[^>]*>([\s\S]*?)<\/guid>/)?.[1]?.trim() ??
-                      '';
-      const link = (linkRaw && linkRaw.startsWith('http')) ? linkRaw : 'https://www.espn.com/nba/';
-      const pubDate = block.match(/<pubDate>(.*?)<\/pubDate>/)?.[1]?.trim() ?? '';
-      if (title) items.push({ title, desc, link, pubDate });
-      if (items.length >= 8) break;
-    }
+    const items = rawArticles.slice(0, 8).map(a => ({
+      title:   a.headline ?? '',
+      desc:    a.description ?? '',
+      link:    a.links?.web?.href ?? a.links?.mobile?.href ?? 'https://www.espn.com/nba/',
+      pubDate: a.published ?? '',
+    })).filter(a => a.title);
 
     if (items.length === 0) {
       return new Response(JSON.stringify({ articles: [] }), {
@@ -46,7 +33,7 @@ export async function onRequest({ env }) {
       });
     }
 
-    // DeepL で和訳（タイトル＋説明文をまとめて送信）
+    // DeepL で和訳
     const apiKey = env.DEEPL_API_KEY;
     const texts = items.flatMap(i => [i.title, i.desc]);
 
