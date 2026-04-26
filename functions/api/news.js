@@ -28,8 +28,13 @@ export async function onRequest({ env }) {
       const desc  = (block.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/) ||
                      block.match(/<description>(.*?)<\/description>/))?.[1]
                        ?.replace(/<[^>]+>/g, '').trim() ?? '';
-      const link  = block.match(/<link>(.*?)<\/link>/)?.[1]?.trim() ??
-                    block.match(/<guid[^>]*>(.*?)<\/guid>/)?.[1]?.trim() ?? '';
+      const linkRaw = block.match(/<link[^>]*href="([^"]+)"/)?.[1] ??
+                      block.match(/<link[^>]*>(https?:\/\/[^\s<]+)/)?.[1] ??
+                      block.match(/<link>([\s\S]*?)<\/link>/)?.[1]?.trim() ??
+                      block.match(/<guid[^>]*>(https?:\/\/[^\s<]+)/)?.[1] ??
+                      block.match(/<guid[^>]*>([\s\S]*?)<\/guid>/)?.[1]?.trim() ??
+                      '';
+      const link = (linkRaw && linkRaw.startsWith('http')) ? linkRaw : 'https://www.espn.com/nba/';
       const pubDate = block.match(/<pubDate>(.*?)<\/pubDate>/)?.[1]?.trim() ?? '';
       if (title) items.push({ title, desc, link, pubDate });
       if (items.length >= 8) break;
