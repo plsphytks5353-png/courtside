@@ -507,11 +507,21 @@
 
     let data;
     try {
-      const r = await fetch(apiUrl, { cache: 'no-store' });
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 15000);
+      const r = await fetch(apiUrl, { cache: 'no-store', signal: ctrl.signal });
+      clearTimeout(timer);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
       data = await r.json();
-    } catch {
+    } catch (e) {
       document.getElementById('hero-loading').innerHTML =
-        '<p class="text-gray-400">データ取得に失敗しました。<a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>';
+        `<p class="text-gray-400">データ取得に失敗しました (${e.message})。<br><a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>`;
+      return;
+    }
+
+    if (!data?.game) {
+      document.getElementById('hero-loading').innerHTML =
+        '<p class="text-gray-400">試合データが見つかりませんでした。<br><a href="index.html" class="text-[var(--crimson-bright)] underline">トップに戻る</a></p>';
       return;
     }
 
