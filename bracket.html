@@ -282,21 +282,16 @@
 
   /* TBDカード */
   function tbdCard(label, topLabel = null, botLabel = null) {
-    const teamRow = (lbl) => lbl
-      ? `<div class="flex items-center gap-3 px-4 py-3">
-           <div class="w-9 h-9 rounded-full bg-[var(--ink-3)] shrink-0 flex items-center justify-center">
-             <span class="text-gray-600 text-xs font-bold">?</span>
-           </div>
-           <div class="flex-1 min-w-0">
-             <div class="text-xs text-gray-500 leading-tight truncate">${lbl}</div>
-           </div>
-           <div class="font-display text-2xl font-bold text-gray-700">–</div>
-         </div>`
-      : `<div class="flex items-center gap-3 px-4 py-3">
-           <div class="w-9 h-9 rounded-full bg-[var(--ink-3)] shrink-0"></div>
-           <div class="flex-1"><div class="w-24 h-3 skeleton rounded"></div></div>
-           <div class="font-display text-2xl font-bold text-gray-700">–</div>
-         </div>`;
+    const teamRow = (lbl) =>
+      `<div class="flex items-center gap-3 px-4 py-3">
+         <div class="w-9 h-9 rounded-full bg-[var(--ink-3)] shrink-0 flex items-center justify-center">
+           <span class="text-gray-700 text-xs font-bold">?</span>
+         </div>
+         <div class="flex-1 min-w-0">
+           <div class="text-xs text-gray-600 leading-tight">${lbl || '未定'}</div>
+         </div>
+         <div class="font-display text-2xl font-bold text-gray-700">–</div>
+       </div>`;
     return `
       <div class="bg-[var(--ink-2)] border border-dashed border-[var(--line)] rounded-xl overflow-hidden">
         <div class="px-4 pt-3 pb-1">
@@ -348,13 +343,16 @@
       }
       rounds.push(roundColumn('2nd Round', r2));
 
-      // Conf Finals — TBD時はr2の対戦カードから表示
+      // Conf Finals — r2があればr2から、なければr1から導出
       const cf = (data[conf].cf || []).map(s => matchupCard(s));
       if (!cf.length) {
-        const m1 = r2Data[0];
-        const m2 = r2Data[1];
-        const topLabel = m1 ? `${tm(m1.top).n} vs ${tm(m1.bot).n} の勝者` : null;
-        const botLabel = m2 ? `${tm(m2.top).n} vs ${tm(m2.bot).n} の勝者` : null;
+        const cfLabel = (r2m, r1a, r1b) => {
+          if (r2m) return `${tm(r2m.top).n} vs ${tm(r2m.bot).n} の勝者`;
+          if (r1a && r1b) return `(${tm(r1a.top).n}/${tm(r1a.bot).n}) と (${tm(r1b.top).n}/${tm(r1b.bot).n}) の勝者`;
+          return null;
+        };
+        const topLabel = cfLabel(r2Data[0], r1Data[0], r1Data[1]);
+        const botLabel = cfLabel(r2Data[1], r1Data[2], r1Data[3]);
         cf.push(tbdCard('Conf. Finals', topLabel, botLabel));
       }
       rounds.push(roundColumn('Conf. Finals', cf, true));
