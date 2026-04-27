@@ -72,7 +72,7 @@
 <div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
   <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
     <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
-    <a href="#" class="hover:text-white">お問い合わせ</a>
+    <a href="contact.html" class="hover:text-white">お問い合わせ</a>
   </div>
 </div>
 
@@ -86,10 +86,10 @@
         <span class="text-[10px] text-gray-500 font-medium tracking-widest uppercase">NBA 速報</span>
       </div>
     </a>
-    <nav class="hidden md:flex items-center gap-6 text-sm ml-4">
-      <a href="index.html" class="text-gray-400 hover:text-white transition-colors">今日の試合</a>
-      <a href="bracket.html" class="text-white font-bold border-b-2 border-[var(--crimson)] pb-0.5">対戦表</a>
-      <a href="schedule.html" class="text-gray-400 hover:text-white transition-colors">スケジュール</a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合日程</a>
+      <a href="bracket.html" class="text-white border-b-2 border-[var(--crimson)] pb-1">プレイオフ</a>
     </nav>
   </div>
 </header>
@@ -311,7 +311,7 @@
   function roundColumn(title, cards, isLast = false) {
     return `
       <div class="flex flex-col gap-3" style="min-width:220px; flex:1;">
-        <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest text-center pb-1 border-b border-[var(--line)]">${title}</div>
+        <div class="text-[10px] font-bold text-gray-300 uppercase tracking-widest text-center pb-1 border-b border-[var(--line)]">${title}</div>
         <div class="flex flex-col gap-3 ${isLast ? 'justify-center flex-1' : ''}">
           ${cards.join('')}
         </div>
