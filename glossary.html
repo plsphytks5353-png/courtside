@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NBA用語集｜知っておくと観戦がもっと楽しくなる50語 | CourtSide</title>
+  <meta name="description" content="NBAを観戦する際に役立つ用語を厳選してまとめました。スタッツ・戦術・チーム運営まで、これを読めばNBAがもっと楽しくなります。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>" />
+  <style>
+    :root { --crimson:#BF0000; --crimson-bright:#E60012; --ink:#0A0A0A; --ink-2:#121212; --line:#2A2A2A; }
+    body { background:var(--ink); color:#fff; font-family:'Noto Sans JP',sans-serif; }
+    .font-display { font-family:'Oswald',sans-serif; }
+
+    /* 記事本文 */
+    .prose h2 {
+      font-family:'Oswald',sans-serif;
+      font-size:1.1rem;
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:#E60012;
+      border-bottom:1px solid #2A2A2A;
+      padding-bottom:.5rem;
+      margin-top:3rem;
+      margin-bottom:1.5rem;
+    }
+    .prose p { color:#aaa; font-size:.875rem; line-height:1.85; margin-bottom:.5rem; }
+
+    /* 用語カード */
+    .term-block {
+      border-left: 3px solid #2A2A2A;
+      padding: .75rem 0 .75rem 1.25rem;
+      margin-bottom: 1.5rem;
+      transition: border-color .15s;
+    }
+    .term-block:hover { border-color: var(--crimson); }
+    .term-title {
+      font-weight:700;
+      font-size:.95rem;
+      color:#fff;
+      margin-bottom:.35rem;
+    }
+    .term-body {
+      color:#aaa;
+      font-size:.875rem;
+      line-height:1.85;
+    }
+    .term-body ol {
+      list-style: decimal;
+      padding-left: 1.25rem;
+      margin-top: .5rem;
+    }
+    .term-body ol li {
+      margin-bottom: .25rem;
+    }
+
+    /* 目次 */
+    .toc a { color:#aaa; font-size:.8rem; text-decoration:none; }
+    .toc a:hover { color:#fff; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOP BAR -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+    <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+      <div class="flex flex-col leading-none">
+        <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+        <span class="text-[10px] text-gray-500 font-medium tracking-widest uppercase">NBA 速報</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合</a>
+      <a href="bracket.html" class="text-gray-300 hover:text-white">ブラケット</a>
+    </nav>
+    <div class="flex-1"></div>
+  </div>
+</header>
+
+<!-- ARTICLE -->
+<main class="max-w-[760px] mx-auto px-4 py-14 md:py-20">
+
+  <!-- タイトル -->
+  <div class="mb-10">
+    <div class="text-xs text-[var(--crimson-bright)] font-bold tracking-widest uppercase mb-3">NBA Guide</div>
+    <h1 class="font-display text-3xl md:text-4xl font-bold leading-snug mb-4">
+      NBA用語集<br class="sm:hidden" /><span class="text-gray-400 text-2xl md:text-3xl">｜知っておくと観戦がもっと楽しくなる</span>
+    </h1>
+    <p class="text-gray-500 text-sm">公開日：2026年4月27日</p>
+  </div>
+
+  <!-- リード文 -->
+  <div class="prose mb-10">
+    <p>NBAを観ていると、実況や解説でよく耳にするけれど意味がよくわからない言葉はありませんか？この記事では、スタッツ・戦術・チーム運営まで、観戦に役立つ用語をまとめました。</p>
+  </div>
+
+  <!-- 目次 -->
+  <nav class="toc bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5 mb-12">
+    <div class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">目次</div>
+    <ol class="space-y-1 list-decimal list-inside">
+      <li><a href="#stats">スタッツ（統計）編</a></li>
+      <li><a href="#tactics">戦術・プレイ編</a></li>
+      <li><a href="#rules">ルール・反則編</a></li>
+      <li><a href="#playoffs">プレイオフ・チーム運営編</a></li>
+      <li><a href="#salary">サラリー・ロスター編</a></li>
+    </ol>
+  </nav>
+
+  <!-- ① スタッツ編 -->
+  <section id="stats" class="prose">
+    <h2>スタッツ（統計）編</h2>
+
+    <div class="term-block">
+      <div class="term-title">ダブルダブル（Double-Double）</div>
+      <div class="term-body">得点・リバウンド・アシスト・スティール・ブロックのうち、2つの項目で2桁（10以上）を記録すること。例：20得点・12リバウンド。オールラウンドな活躍の証。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">トリプルダブル（Triple-Double）</div>
+      <div class="term-body">上記5項目のうち3つで2桁を記録すること。アシストが10を超えるゲームメーカー型の選手がよく達成する。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">+/−（プラスマイナス）</div>
+      <div class="term-body">ある選手がコートにいた時間帯に、チームが何点差で上回ったか（または下回ったか）を示す数値。勝利への貢献度を測る指標のひとつ。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">FG%（フィールドゴール成功率）</div>
+      <div class="term-body">シュート試投数に対する成功率。ダンク・ミドル・3ポイントなどフリースローを除くすべてのショットを含む。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">3P%（スリーポイント成功率）</div>
+      <div class="term-body">3ポイントシュートの成功率。40%以上で「一流なシューター」とされる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">FT%（フリースロー成功率）</div>
+      <div class="term-body">フリースローの成功率。85%以上は超一流レベル。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">TS%（真のシュート成功率 / True Shooting %）</div>
+      <div class="term-body">フィールドゴール・3ポイント・フリースローの価値をまとめて評価する総合的なシュート効率指標。単純なFG%より実態を反映しやすい。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">PER（選手効率レーティング / Player Efficiency Rating）</div>
+      <div class="term-body">1分あたりのあらゆるプレイを数値化した総合指標。リーグ平均は15。20以上ならオールスタークラス。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">USG%（使用率 / Usage Rate）</div>
+      <div class="term-body">チームのオフェンスポゼッションのうち、その選手が関与した割合。エースは30%前後、ロールプレイヤーは10〜15%程度。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">セカンドチャンス得点</div>
+      <div class="term-body">オフェンスリバウンドを奪ってから生まれた得点。</div>
+    </div>
+  </section>
+
+  <!-- ② 戦術編 -->
+  <section id="tactics" class="prose">
+    <h2>戦術・プレイ編</h2>
+
+    <div class="term-block">
+      <div class="term-title">ピック＆ロール（Pick & Roll）</div>
+      <div class="term-body">スクリーン（壁）を使い、ボールハンドラーが相手ディフェンスを振り切ってドライブ、またはスクリーンをかけた選手がゴールに向かって走る（ロール）連携プレイ。NBAで最も多用される基本戦術。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ピック＆ポップ（Pick & Pop）</div>
+      <div class="term-body">ピック＆ロールの応用。スクリーン後にゴールへ走らず、3ポイントラインの外に開いてジャンプショットを狙うプレイ。ビッグマンが外角シュートを得意とする場合に使われる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">アイソレーション（Isolation / アイソ）</div>
+      <div class="term-body">他の4人を離してスペースを作り、エース1人が1対1で仕掛けるプレイ。クラッチシーンや、個人技が突出した選手がいるチームで多用される。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">キックアウト</div>
+      <div class="term-body">ドライブでディフェンスを引きつけた後、コーナーや3ポイントライン付近で待つ味方へパスを出すプレイ。オープン（フリー）な3ポイントシュートを生み出す起点になる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">スペーシング</div>
+      <div class="term-body">コート上で5人の選手が広がりスペースを確保すること。ドライブのコースを開けたり、ディフェンスを分散させる現代NBAの根幹的概念。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ヘルプディフェンス</div>
+      <div class="term-body">マークする選手とは別に、味方のピンチを助けに行く守備。正しいヘルプがあると、相手のドライブやポストプレイを止めやすくなる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">スイッチ（Switch）</div>
+      <div class="term-body">スクリーンなどで守備のマークがずれた際に、担当を入れ替えること。近年のNBAではスイッチのしやすいユーティリティ選手の価値が高まっている。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ゾーンディフェンス</div>
+      <div class="term-body">マンツーマン（1人が1人をマーク）とは異なり、選手ではなくエリアを守る守備方式。2-3ゾーン（フロント2・バック3）が代表的。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">クラッチ（Clutch）</div>
+      <div class="term-body">試合終盤の僅差の場面。「クラッチプレイヤー」とは重要な場面で実力を発揮できる選手を指す。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ポストアップ（Post Up）</div>
+      <div class="term-body">ゴール近く（ポストポジション）でボールを受け、背中を向けた状態から相手を押し込んでシュートを狙うプレイ。長身のビッグマン向け。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">カットプレイ（Cut）</div>
+      <div class="term-body">オフボール（ボールを持っていない状態）でゴールへ向かって走り込む動き。マークが甘くなった瞬間を突いてイージーシュートを狙う。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">トランジション（Transition）</div>
+      <div class="term-body">攻守の切り替え場面。速攻を「オフェンストランジション」、速攻を防ぐ走り戻りを「ディフェンストランジション」という。</div>
+    </div>
+  </section>
+
+  <!-- ③ ルール編 -->
+  <section id="rules" class="prose">
+    <h2>ルール・反則編</h2>
+
+    <div class="term-block">
+      <div class="term-title">チャージング</div>
+      <div class="term-body">ディフェンスがすでに位置を確保している状態でオフェンスが突っ込んだ場合に取られるオフェンスファウル。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ブロッキング</div>
+      <div class="term-body">ディフェンスがまだポジションを確保できていない状態でプレイを妨害した場合に取られるファウル。シュートモーションに入っている場合、相手チームにフリースロー等が与えられる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">テクニカルファウル</div>
+      <div class="term-body">プレイ外の行為（審判への抗議、過度な挑発など）に対するファウル。相手チームにフリースロー1本が与えられる。2回で退場。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">フレグラントファウル</div>
+      <div class="term-body">故意または過度に乱暴なファウル。悪質度に応じてフレグラント1（相手にフリースロー2本＋ボール保持）とフレグラント2（即退場）がある。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ハック・ア・シャック（Hack-a-Shaq）戦術</div>
+      <div class="term-body">フリースロー成功率が低い選手を意図的にファウルして、フリースローを打たせる戦術。フリースローを外させることで失点を抑える狙い。シャキール・オニールに多用されたことからこの名前がついた。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ポゼッション（Possession）</div>
+      <div class="term-body">1回の攻撃権のこと。ショットクロック（24秒）が1ポゼッションの時間制限。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ショットクロック</div>
+      <div class="term-body">オフェンス側がシュートを打つまでの制限時間（24秒）。オフェンスリバウンド後は14秒にリセットされる。</div>
+    </div>
+  </section>
+
+  <!-- ④ プレイオフ編 -->
+  <section id="playoffs" class="prose">
+    <h2>プレイオフ・チーム運営編</h2>
+
+    <div class="term-block">
+      <div class="term-title">シード（Seed）</div>
+      <div class="term-body">プレイオフの出場順位。カンファレンス1〜8位で決まる。上位シードがホームコートアドバンテージを得る。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ホームコートアドバンテージ</div>
+      <div class="term-body">シリーズの試合数が多い方の本拠地で試合を開催できる権利。上位シードが持つ。ホームの雰囲気・移動疲労の差が勝率に影響する。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">NBAカップ（インシーズン・トーナメント）</div>
+      <div class="term-body">レギュラーシーズン中に行われる短期トーナメント。2023〜24シーズンからNBAが導入。優勝チームには賞金が贈られる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">プレイイン・トーナメント（Play-In）</div>
+      <div class="term-body">
+        各カンファレンス7〜10位のチームがプレイオフ出場を懸けて争う1試合勝ち残りトーナメント。
+        <ol>
+          <li>第1戦（7位 vs 8位）：勝者が第7シードでプレイオフ進出。</li>
+          <li>第2戦（9位 vs 10位）：勝者がセカンドチャンスへ進出、敗者はここで終了。</li>
+          <li>第3戦（第1戦の敗者 vs 第2戦の勝者）：勝者が第8シードでプレイオフ進出。</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ サラリー編 -->
+  <section id="salary" class="prose">
+    <h2>サラリー・ロスター編</h2>
+
+    <div class="term-block">
+      <div class="term-title">サラリーキャップ</div>
+      <div class="term-body">各チームが選手に支払える総年俸の上限額。チーム間の戦力均衡を保つための制度。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ラグジュアリータックス</div>
+      <div class="term-body">サラリーキャップを超えた金額に対して課せられる追加税金。リッチなオーナーが高年俸選手を集めすぎないようにする抑止力。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">バードライツ（Bird Rights）</div>
+      <div class="term-body">同一チームに3年以上在籍した選手を、サラリーキャップを超えても再契約できる特例制度。1983年に当時のセルティクス所属ラリー・バードの契約をめぐり初めて適用されたことからこの名前がついた。他チームがオファーできる金額を超えた条件を提示できるため、フリーエージェント市場でも自チームの選手に最も有利な契約を結ぶことが可能。長年貢献してきた選手を手放さずに済む「ホームタウン優遇」の役割を果たしている。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ミッドレベル例外条項（MLE）</div>
+      <div class="term-body">すでにサラリーキャップを超えているチームが、例外的に選手と新規契約できる制度。リーグが定める「リーグ平均年俸付近」の金額で1〜4年の契約を結ぶことができる。ただし、ラグジュアリータックスの納税状況によって使える金額の上限が異なり、タックスを多く支払うチームほど枠が小さくなる。優勝争いに加わる強豪チームが、補強のラストピースとして中堅選手を獲得する際によく活用される。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">トレードデッドライン</div>
+      <div class="term-body">各シーズンのトレードができる期限。例年2月中旬に設定されている。この時期に多くのトレードが成立する。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">ウェーバー（Waiver）</div>
+      <div class="term-body">選手を放出すること。ウェーバーにかけられた選手は他チームが一定期間内に獲得を申請できる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">Gリーグ（NBA Gリーグ）</div>
+      <div class="term-body">NBAの下部リーグ（育成リーグ）。各NBAチームに提携するGリーグチームがあり、若手選手の育成や復帰選手のコンディション調整に使われる。</div>
+    </div>
+
+    <div class="term-block">
+      <div class="term-title">2way契約</div>
+      <div class="term-body">NBAチームとGリーグチームの両方と契約できる特殊な契約形態。若手選手の登竜門となっている。</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-black border-t border-[var(--line)] py-8 mt-10">
+  <div class="max-w-[1280px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+    <div>© 2026 CourtSide. All rights reserved.</div>
+    <div class="flex gap-4">
+      <a href="about.html" class="hover:text-white">サイトについて</a>
+      <a href="privacy.html" class="hover:text-white">プライバシーポリシー</a>
+      <a href="terms.html" class="hover:text-white">利用規約</a>
+      <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
