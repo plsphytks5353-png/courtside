@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NBAプレイオフの仕組みを徹底解説｜出場条件からファイナルまで | CourtSide</title>
+  <meta name="description" content="NBAプレイオフの出場条件・ラウンド構成・7戦4勝制・ホームコートアドバンテージまで、仕組みをわかりやすく解説。プレイイン・トーナメントも詳しく説明。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>" />
+  <style>
+    :root { --crimson:#BF0000; --crimson-bright:#E60012; --ink:#0A0A0A; --ink-2:#121212; --line:#2A2A2A; }
+    body { background:var(--ink); color:#fff; font-family:'Noto Sans JP',sans-serif; }
+    .font-display { font-family:'Oswald',sans-serif; }
+
+    .prose h2 {
+      font-family:'Oswald',sans-serif;
+      font-size:1.1rem;
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:#E60012;
+      border-bottom:1px solid #2A2A2A;
+      padding-bottom:.5rem;
+      margin-top:3rem;
+      margin-bottom:1.5rem;
+    }
+    .prose p { color:#aaa; font-size:.875rem; line-height:1.85; margin-bottom:.75rem; }
+    .prose ul { list-style:disc; padding-left:1.5rem; margin-bottom:.75rem; }
+    .prose ul li { color:#aaa; font-size:.875rem; line-height:1.85; margin-bottom:.25rem; }
+    .prose strong { color:#fff; }
+
+    /* 情報ボックス */
+    .info-box {
+      background:var(--ink-2);
+      border:1px solid var(--line);
+      border-left:3px solid var(--crimson);
+      border-radius:.5rem;
+      padding:1.25rem 1.5rem;
+      margin-bottom:1.5rem;
+    }
+
+    /* 表 */
+    .data-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+    .data-table th { background:#1C1C1C; color:#aaa; font-weight:700; padding:.65rem .75rem; text-align:left; border-bottom:1px solid var(--line); }
+    .data-table td { padding:.65rem .75rem; border-bottom:1px solid #1C1C1C; color:#aaa; }
+    .data-table tr:last-child td { border-bottom:none; }
+
+    /* ラウンドステップ */
+    .round-step {
+      display:flex;
+      gap:1rem;
+      align-items:flex-start;
+      padding:1rem 0;
+      border-bottom:1px solid var(--line);
+    }
+    .round-step:last-child { border-bottom:none; }
+    .round-num {
+      flex-shrink:0;
+      width:2rem;
+      height:2rem;
+      background:var(--crimson);
+      border-radius:.25rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Oswald',sans-serif;
+      font-weight:700;
+      font-size:.9rem;
+    }
+    .round-body { flex:1; }
+    .round-title { font-weight:700; font-size:.9rem; color:#fff; margin-bottom:.25rem; }
+    .round-desc { font-size:.8rem; color:#aaa; line-height:1.7; }
+
+    /* 目次 */
+    .toc a { color:#aaa; font-size:.8rem; text-decoration:none; }
+    .toc a:hover { color:#fff; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOP BAR -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+    <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-[var(--crimson)] text-white font-black text-xl font-display">C</span>
+      <div class="flex flex-col leading-none">
+        <span class="font-black text-xl tracking-tight">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
+        <span class="text-[10px] text-gray-500 font-medium tracking-widest uppercase">NBA 速報</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合</a>
+      <a href="bracket.html" class="text-gray-300 hover:text-white">対戦表</a>
+    </nav>
+    <div class="flex-1"></div>
+  </div>
+</header>
+
+<!-- ARTICLE -->
+<main class="max-w-[760px] mx-auto px-4 py-14 md:py-20">
+
+  <!-- タイトル -->
+  <div class="mb-10">
+    <div class="text-xs text-[var(--crimson-bright)] font-bold tracking-widest uppercase mb-3">NBA Guide</div>
+    <h1 class="font-display text-3xl md:text-4xl font-bold leading-snug mb-4">
+      NBAプレイオフの仕組みを徹底解説<br /><span class="text-gray-400 text-xl md:text-2xl">出場条件からファイナルまで</span>
+    </h1>
+    <p class="text-gray-500 text-sm">公開日：2026年4月27日</p>
+  </div>
+
+  <!-- リード -->
+  <div class="prose mb-8">
+    <p>毎年春、NBAシーズンの佳境を迎えるのがプレイオフです。「なんとなく観ているけど、どういうルールで勝ち上がっているのかわからない」という方に向けて、出場条件からチャンピオン決定までの仕組みをわかりやすく解説します。</p>
+  </div>
+
+  <!-- 目次 -->
+  <nav class="toc bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5 mb-12">
+    <div class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">目次</div>
+    <ol class="space-y-1 list-decimal list-inside">
+      <li><a href="#overview">NBAプレイオフとは</a></li>
+      <li><a href="#qualify">出場できるのは16チーム</a></li>
+      <li><a href="#playin">プレイイン・トーナメントとは</a></li>
+      <li><a href="#rounds">4つのラウンド構成</a></li>
+      <li><a href="#bestof7">7戦4勝制の仕組み</a></li>
+      <li><a href="#homecourt">ホームコートアドバンテージとは</a></li>
+      <li><a href="#finals">NBAファイナル</a></li>
+      <li><a href="#tips">プレイオフをもっと楽しむポイント</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 概要 -->
+  <section id="overview" class="prose">
+    <h2>NBAプレイオフとは</h2>
+    <p>NBAプレイオフは、レギュラーシーズン（10月〜4月）を終えた後に行われるトーナメントです。東西カンファレンスからそれぞれ8チームが出場し、最終的に頂点に立った1チームが「NBAチャンピオン」となります。</p>
+    <p>レギュラーシーズンは全30チームが1,230試合以上を戦いますが、プレイオフに進めるのはそのうち16チームだけ。1試合のミスが命取りになる緊張感がプレイオフ最大の魅力です。</p>
+  </section>
+
+  <!-- 2. 出場 -->
+  <section id="qualify" class="prose">
+    <h2>出場できるのは16チーム</h2>
+    <p>NBA全30チームはイースタン・カンファレンスとウエスタン・カンファレンスに15チームずつ分かれています。プレイオフには各カンファレンスから8チームが出場するため、合計16チームでトーナメントを争います。</p>
+    <p>出場チームの決め方は以下のとおりです。</p>
+    <ul>
+      <li><strong>1〜6位</strong>：自動的にプレイオフ出場権を獲得</li>
+      <li><strong>7〜10位</strong>：「プレイイン・トーナメント」で残り2枠を争う</li>
+    </ul>
+  </section>
+
+  <!-- 3. プレイイン -->
+  <section id="playin" class="prose">
+    <h2>プレイイン・トーナメントとは</h2>
+    <p>2021年から導入された「プレイイン・トーナメント」は、7〜10位の4チームが残り2つのプレイオフ枠を争う短期トーナメントです。</p>
+    <div class="not-prose bg-[var(--ink-2)] border border-[var(--line)] rounded-lg divide-y divide-[var(--line)] my-5">
+      <div class="round-step px-4">
+        <div class="round-num">1</div>
+        <div class="round-body">
+          <div class="round-title">第1戦（7位 vs 8位）</div>
+          <div class="round-desc">勝者が第7シードとしてプレイオフ進出。敗者はセカンドチャンスへ。</div>
+        </div>
+      </div>
+      <div class="round-step px-4">
+        <div class="round-num">2</div>
+        <div class="round-body">
+          <div class="round-title">第2戦（9位 vs 10位）</div>
+          <div class="round-desc">勝者がセカンドチャンスへ進出。敗者はここで敗退。</div>
+        </div>
+      </div>
+      <div class="round-step px-4">
+        <div class="round-num">3</div>
+        <div class="round-body">
+          <div class="round-title">第3戦（第1戦の敗者 vs 第2戦の勝者）</div>
+          <div class="round-desc">勝者が第8シードとしてプレイオフ進出。敗者は敗退。</div>
+        </div>
+      </div>
+    </div>
+    <p>レギュラーシーズン終盤まで順位争いが白熱する理由のひとつがこのプレイインです。8位以内に入れなくても9・10位であれば逆転の可能性があるため、ギリギリまで目が離せない展開が続きます。</p>
+  </section>
+
+  <!-- 4. ラウンド -->
+  <section id="rounds" class="prose">
+    <h2>4つのラウンド構成</h2>
+    <p>プレイオフは全4ラウンドで構成されています。</p>
+  </section>
+  <div class="overflow-x-auto mb-10">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ラウンド</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-white font-medium whitespace-nowrap">第1ラウンド</td>
+          <td>各カンファレンス8チームが4カードに分かれて対戦</td>
+        </tr>
+        <tr>
+          <td class="text-white font-medium whitespace-nowrap">カンファレンス準決勝</td>
+          <td>各カンファレンス残り4チームが2カードに</td>
+        </tr>
+        <tr>
+          <td class="text-white font-medium whitespace-nowrap">カンファレンス決勝</td>
+          <td>各カンファレンスの頂点を決める一戦</td>
+        </tr>
+        <tr>
+          <td class="text-white font-medium whitespace-nowrap">NBAファイナル</td>
+          <td>イースト代表 vs ウエスト代表。チャンピオンが決まる</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>第1ラウンドから決勝まで、すべてのラウンドで<strong>7戦4勝制</strong>が採用されています。</p>
+  </div>
+
+  <!-- 5. 7戦4勝 -->
+  <section id="bestof7" class="prose">
+    <h2>7戦4勝制の仕組み</h2>
+    <p>プレイオフの全対戦は「7戦4勝制（Best of 7）」です。先に4勝したチームがラウンドを突破します。最大7試合行われますが、早ければ4試合で決着することもあります（これを「スウィープ」と呼びます）。</p>
+    <p>試合数は最短4試合から最長7試合まで変動するため、1試合ごとの重みがレギュラーシーズンとはまったく異なります。特に第7戦（ゲーム7）は一発勝負の真剣勝負となり、多くの名勝負が生まれてきました。</p>
+  </section>
+
+  <!-- 6. ホームコート -->
+  <section id="homecourt" class="prose">
+    <h2>ホームコートアドバンテージとは</h2>
+    <p>7戦シリーズでは、シード順が上のチームがホームコートアドバンテージを持ちます。具体的には、試合会場の割り振りが以下のようになります。</p>
+    <ul>
+      <li><strong>第1・2戦</strong>：上位シードのホーム</li>
+      <li><strong>第3・4戦</strong>：下位シードのホーム</li>
+      <li><strong>第5戦</strong>：上位シードのホーム</li>
+      <li><strong>第6戦</strong>：下位シードのホーム</li>
+      <li><strong>第7戦</strong>：上位シードのホーム</li>
+    </ul>
+    <p>ホームでは地元ファンの声援を背に戦える上、長距離移動が少ないため体力的な優位性もあります。レギュラーシーズンで上位に入ることがいかに大切か、この制度がよく表しています。</p>
+  </section>
+
+  <!-- 7. ファイナル -->
+  <section id="finals" class="prose">
+    <h2>NBAファイナル</h2>
+    <p>各カンファレンスの頂点に立った2チームが、NBAチャンピオンをかけて戦う最終決戦です。こちらも7戦4勝制で行われます。</p>
+    <p>ファイナルで最も活躍した選手には<strong>ファイナルMVP（Finals MVP）</strong>が贈られます。チャンピオンリングとともに、選手にとって最高の栄誉とされています。</p>
+  </section>
+
+  <!-- 8. 楽しむポイント -->
+  <section id="tips" class="prose">
+    <h2>プレイオフをもっと楽しむポイント</h2>
+
+    <p><strong>シリーズの流れを追う</strong><br />
+    プレイオフはシリーズを通じて「流れ」があります。序盤で圧倒されたチームが中盤から修正してくる、コーチの戦術変更が勝敗を分けるなど、試合ごとに変化する駆け引きを観るのが醍醐味です。</p>
+
+    <p><strong>選手のファウルトラブルに注目</strong><br />
+    エース選手がファウルを重ねてベンチに下がる「ファウルトラブル」は、プレイオフの流れを変える重要な要素です。スタッツだけでなくファウル数にも注目すると、観戦がより深くなります。</p>
+
+    <p><strong>ゲーム7は別格</strong><br />
+    シリーズが3勝3敗で並んだ最終第7戦は「ゲーム7」と呼ばれ、一発勝負の緊張感から特別な試合として語り継がれます。NBA史上に残るゲーム7の名勝負を振り返るだけでも楽しめます。</p>
+  </section>
+
+  <!-- 対戦表へのリンク -->
+  <div class="info-box mt-10 not-prose">
+    <p class="text-sm text-white font-bold mb-2">2026年プレイオフ 対戦表はこちら</p>
+    <p class="text-sm text-gray-400 mb-3">現在進行中のプレイオフの組み合わせ・シリーズ状況をリアルタイムで確認できます。</p>
+    <a href="bracket.html" class="inline-block text-sm font-bold bg-[var(--crimson)] hover:bg-[var(--crimson-bright)] text-white px-4 py-2 rounded transition-colors">対戦表を見る →</a>
+  </div>
+
+  <!-- 関連記事 -->
+  <div class="mt-14 pt-8 border-t border-[var(--line)]">
+    <div class="text-xs text-gray-500 font-bold tracking-widest uppercase mb-4">関連記事</div>
+    <div class="space-y-3">
+      <a href="glossary.html" class="group flex items-center gap-4 bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 hover:border-gray-600 transition-colors">
+        <div class="flex-1">
+          <div class="text-xs text-[var(--crimson-bright)] font-bold mb-1">用語集</div>
+          <div class="text-sm font-bold group-hover:text-[var(--crimson-bright)] transition-colors">NBA用語集｜知っておくと観戦がもっと楽しくなる</div>
+        </div>
+        <span class="text-gray-500 text-sm shrink-0">→</span>
+      </a>
+      <a href="watch-nba.html" class="group flex items-center gap-4 bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 hover:border-gray-600 transition-colors">
+        <div class="flex-1">
+          <div class="text-xs text-[var(--crimson-bright)] font-bold mb-1">視聴ガイド</div>
+          <div class="text-sm font-bold group-hover:text-[var(--crimson-bright)] transition-colors">NBAを日本で観る方法【2025-26版】料金・サービス徹底比較</div>
+        </div>
+        <span class="text-gray-500 text-sm shrink-0">→</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-black border-t border-[var(--line)] py-8 mt-10">
+  <div class="max-w-[1280px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+    <div>© 2026 CourtSide. All rights reserved.</div>
+    <div class="flex gap-4">
+      <a href="about.html" class="hover:text-white">サイトについて</a>
+      <a href="privacy.html" class="hover:text-white">プライバシーポリシー</a>
+      <a href="terms.html" class="hover:text-white">利用規約</a>
+      <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
