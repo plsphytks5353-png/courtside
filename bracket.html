@@ -81,11 +81,18 @@
 <header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
   <div class="max-w-[1280px] mx-auto px-4 h-14 flex items-center gap-4">
     <a href="index.html" class="flex items-center gap-2 shrink-0">
-      <div class="w-8 h-8 bg-[var(--crimson)] rounded flex items-center justify-center font-display font-bold text-sm">C</div>
-      <div class="flex flex-col leading-none">
-        <span class="font-display font-bold text-xl tracking-wide">Court<span class="text-[var(--crimson-bright)]">Side</span></span>
-        <span class="text-[10px] text-gray-500 font-medium tracking-widest uppercase">NBA 速報</span>
-      </div>
+      <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="47" fill="#0a0a0f" stroke="#dc143c" stroke-width="3"/>
+        <line x1="50" y1="3" x2="50" y2="97" stroke="#dc143c" stroke-width="2"/>
+        <line x1="33" y1="3" x2="33" y2="33" stroke="#dc143c" stroke-width="2"/>
+        <line x1="67" y1="3" x2="67" y2="33" stroke="#dc143c" stroke-width="2"/>
+        <path d="M33 33 Q50 18 67 33" stroke="#dc143c" stroke-width="2" stroke-dasharray="5 3" fill="none"/>
+        <line x1="33" y1="97" x2="33" y2="67" stroke="#dc143c" stroke-width="2"/>
+        <line x1="67" y1="97" x2="67" y2="67" stroke="#dc143c" stroke-width="2"/>
+        <path d="M33 67 Q50 82 67 67" stroke="#dc143c" stroke-width="2" stroke-dasharray="5 3" fill="none"/>
+        <text x="50" y="63" text-anchor="middle" fill="#dc143c" font-family="Arial Black,Impact,sans-serif" font-size="40" font-weight="900" font-style="italic">CS</text>
+      </svg>
+      <span class="font-display font-black text-xl tracking-tight text-white italic">CourtSide</span>
     </a>
     <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
       <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
