@@ -1021,23 +1021,28 @@
   let selectedDateStr = null; // null = 今日
 
   async function fetchAndRender(dateStr) {
-    if (dateStr) selectedDateStr = dateStr;
+    if (dateStr !== undefined) selectedDateStr = dateStr;
     try {
       let games;
+      let gameDate = selectedDateStr; // fallback for date label
       if (!selectedDateStr) {
         // 今日 → scoreboard API
         const r = await fetch('/api/scoreboard', { cache: 'no-store' });
-        const { scoreboard: sb } = await r.json();
-        games = sb.games;
+        const json = await r.json();
+        const sb = json.scoreboard;
+        games = sb?.games ?? [];
+        gameDate = sb?.gameDate ?? null;
       } else {
         // 指定日 → weekly API
         const r = await fetch(`/api/weekly?date=${selectedDateStr}`, { cache: 'no-store' });
         const data = await r.json();
-        games = data.games;
+        games = data.games ?? [];
       }
       if (!games?.length) {
         const scroll = document.getElementById('games-scroll');
         if (scroll) scroll.innerHTML = '<div class="text-gray-400 py-8 text-center w-full">この日の試合はありません</div>';
+        const dateEl = document.getElementById('games-date');
+        if (dateEl) dateEl.textContent = '試合なし';
         return;
       }
 
@@ -1045,9 +1050,11 @@
       const dateEl = document.getElementById('games-date');
       if (dateEl) {
         const live = games.filter(g => g.gameStatus === 2).length;
-        const d = new Date(sb.gameDate + 'T12:00:00Z').toLocaleDateString('ja-JP', {
-          year: 'numeric', month: 'long', day: 'numeric', weekday: 'short',
-        });
+        const dateForLabel = gameDate ?? (games[0]?.gameDateTimeUTC ?? '');
+        const d = dateForLabel
+          ? new Date(dateForLabel.length === 10 ? dateForLabel + 'T12:00:00Z' : dateForLabel)
+              .toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })
+          : '';
         dateEl.textContent = `${d} | 全${games.length}試合${live ? ` / LIVE ${live}試合` : ''}`;
       }
 
@@ -1065,7 +1072,7 @@
       updateTicker(games, playItems);
 
     } catch (e) {
-      console.warn('[NBA API] fetch error:', e.message);
+      console.error('[NBA API] fetch error:', e.message, e);
     }
   }
 
