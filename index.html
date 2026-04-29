@@ -86,7 +86,7 @@
     <a href="#" class="flex items-center gap-2 shrink-0">
       <img src="logo.png" alt="CourtSide" class="w-9 h-9 rounded-full">
       <div class="flex flex-col leading-none">
-        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto" style="filter: brightness(0) invert(1);">
+        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto">
         <span class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">NBA速報</span>
       </div>
     </a>
@@ -1020,13 +1020,28 @@
   }
 
   /* ── メインフェッチループ ──────────────────────────────────────── */
-  async function fetchAndRender() {
+  let selectedDateStr = null; // null = 今日
+
+  async function fetchAndRender(dateStr) {
+    if (dateStr) selectedDateStr = dateStr;
     try {
-      const apiUrl = '/api/scoreboard';
-      const r = await fetch(apiUrl, { cache: 'no-store' });
-      const { scoreboard: sb } = await r.json();
-      const games = sb.games;
-      if (!games?.length) return;
+      let games;
+      if (!selectedDateStr) {
+        // 今日 → scoreboard API
+        const r = await fetch('/api/scoreboard', { cache: 'no-store' });
+        const { scoreboard: sb } = await r.json();
+        games = sb.games;
+      } else {
+        // 指定日 → weekly API
+        const r = await fetch(`/api/weekly?date=${selectedDateStr}`, { cache: 'no-store' });
+        const data = await r.json();
+        games = data.games;
+      }
+      if (!games?.length) {
+        const scroll = document.getElementById('games-scroll');
+        if (scroll) scroll.innerHTML = '<div class="text-gray-400 py-8 text-center w-full">この日の試合はありません</div>';
+        return;
+      }
 
       // 日付サブタイトル
       const dateEl = document.getElementById('games-date');
@@ -1056,7 +1071,7 @@
     }
   }
 
-  // 日付タブを動的生成
+  // 日付タブを動的生成＋クリック処理
   (function buildDateTabs() {
     const tabs = document.getElementById('date-tabs');
     if (!tabs) return;
@@ -1066,9 +1081,25 @@
       const d = new Date(today);
       d.setDate(today.getDate() + offset);
       const label = `${d.getMonth()+1}/${d.getDate()}`;
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const dd = String(d.getDate()).padStart(2,'0');
+      const dateVal = offset === 0 ? '' : `${yyyy}-${mm}-${dd}`;
       const isToday = offset === 0;
-      return `<button class="px-3 py-1.5 rounded ${isToday ? 'bg-[var(--crimson)] text-white font-bold' : 'text-gray-400 hover:text-white'}">${label}</button>`;
+      return `<button data-date="${dateVal}" class="date-tab px-3 py-1.5 rounded ${isToday ? 'bg-[var(--crimson)] text-white font-bold' : 'text-gray-400 hover:text-white'}">${label}</button>`;
     }).join('');
+
+    tabs.addEventListener('click', e => {
+      const btn = e.target.closest('.date-tab');
+      if (!btn) return;
+      tabs.querySelectorAll('.date-tab').forEach(b => {
+        b.className = 'date-tab px-3 py-1.5 rounded text-gray-400 hover:text-white';
+      });
+      btn.className = 'date-tab px-3 py-1.5 rounded bg-[var(--crimson)] text-white font-bold';
+      const dateVal = btn.dataset.date || null;
+      selectedDateStr = dateVal;
+      fetchAndRender(dateVal);
+    });
   })();
 
   fetchAndRender();

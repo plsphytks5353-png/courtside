@@ -81,7 +81,7 @@
     <a href="index.html" class="flex items-center gap-2 shrink-0">
       <img src="logo.png" alt="CourtSide" class="w-9 h-9 rounded-full">
       <div class="flex flex-col leading-none">
-        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto" style="filter: brightness(0) invert(1);">
+        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto">
         <span class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">NBA速報</span>
       </div>
     </a>
@@ -92,8 +92,31 @@
       <a href="index.html#teams" class="text-gray-300 hover:text-white">チーム</a>
     </nav>
     <div class="flex-1"></div>
+    <!-- ハンバーガーボタン（モバイル） -->
+    <button id="menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2 ml-auto" aria-label="メニュー">
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+    </button>
+  </div>
+  <!-- モバイルメニュードロワー -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-black/98 border-t border-[var(--line)] px-4 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="index.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏠 ホーム</a>
+    <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
+    <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
+    <a href="glossary.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📖 用語集</a>
+    <a href="watch-nba.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📺 観戦ガイド</a>
+    <a href="playoff-guide.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📋 プレイオフ解説</a>
+    <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
   </div>
 </header>
+<script>
+(function(){
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if(btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+})();
+</script>
 
 <!-- ========================= PAGE TITLE + WEEK NAV ========================= -->
 <section class="subheader-bg border-b border-[var(--line)]">
@@ -274,36 +297,36 @@
   'use strict';
 
   const TM = {
-    ATL:{n:'Hawks',c:'Atlanta',g:'linear-gradient(135deg,#E03A3E,#C1D32F)'},
-    BOS:{n:'Celtics',c:'Boston',g:'linear-gradient(135deg,#007A33,#BA9653)'},
-    BKN:{n:'Nets',c:'Brooklyn',g:'linear-gradient(135deg,#000,#CFCFCF)'},
-    CHA:{n:'Hornets',c:'Charlotte',g:'linear-gradient(135deg,#1D1160,#00788C)'},
-    CHI:{n:'Bulls',c:'Chicago',g:'linear-gradient(135deg,#CE1141,#000)'},
-    CLE:{n:'Cavaliers',c:'Cleveland',g:'linear-gradient(135deg,#860038,#041E42)'},
-    DAL:{n:'Mavericks',c:'Dallas',g:'linear-gradient(135deg,#00538C,#002B5C)'},
-    DEN:{n:'Nuggets',c:'Denver',g:'linear-gradient(135deg,#5D76A9,#0C2340)'},
-    DET:{n:'Pistons',c:'Detroit',g:'linear-gradient(135deg,#C8102E,#1D42BA)'},
-    GSW:{n:'Warriors',c:'Golden State',g:'linear-gradient(135deg,#1D428A,#FFC72C)'},
-    HOU:{n:'Rockets',c:'Houston',g:'linear-gradient(135deg,#CE1141,#000)'},
-    IND:{n:'Pacers',c:'Indiana',g:'linear-gradient(135deg,#002D62,#FDBB30)'},
-    LAC:{n:'Clippers',c:'LA',g:'linear-gradient(135deg,#C8102E,#1D1160)'},
-    LAL:{n:'Lakers',c:'Los Angeles',g:'linear-gradient(135deg,#552583,#FDB927)'},
-    MEM:{n:'Grizzlies',c:'Memphis',g:'linear-gradient(135deg,#5D76A9,#12173F)'},
-    MIA:{n:'Heat',c:'Miami',g:'linear-gradient(135deg,#98002E,#F9A01B)'},
-    MIL:{n:'Bucks',c:'Milwaukee',g:'linear-gradient(135deg,#00471B,#EEE1C6)'},
-    MIN:{n:'Timberwolves',c:'Minnesota',g:'linear-gradient(135deg,#0C2340,#236192)'},
-    NOP:{n:'Pelicans',c:'New Orleans',g:'linear-gradient(135deg,#0C2340,#C8102E)'},
-    NYK:{n:'Knicks',c:'New York',g:'linear-gradient(135deg,#006BB6,#F58426)'},
-    OKC:{n:'Thunder',c:'Oklahoma City',g:'linear-gradient(135deg,#007AC1,#EF3B24)'},
-    ORL:{n:'Magic',c:'Orlando',g:'linear-gradient(135deg,#0077C0,#000)'},
-    PHI:{n:'76ers',c:'Philadelphia',g:'linear-gradient(135deg,#006BB6,#ED174C)'},
-    PHX:{n:'Suns',c:'Phoenix',g:'linear-gradient(135deg,#1D1160,#E56020)'},
-    POR:{n:'Trail Blazers',c:'Portland',g:'linear-gradient(135deg,#E03A3E,#000)'},
-    SAC:{n:'Kings',c:'Sacramento',g:'linear-gradient(135deg,#5A2B81,#63727A)'},
-    SAS:{n:'Spurs',c:'San Antonio',g:'linear-gradient(135deg,#000,#C4CED4)'},
-    TOR:{n:'Raptors',c:'Toronto',g:'linear-gradient(135deg,#CE1141,#000)'},
-    UTA:{n:'Jazz',c:'Utah',g:'linear-gradient(135deg,#002B5C,#F9A01B)'},
-    WAS:{n:'Wizards',c:'Washington',g:'linear-gradient(135deg,#002B5C,#E31837)'},
+    ATL:{n:'ホークス',c:'アトランタ',g:'linear-gradient(135deg,#E03A3E,#C1D32F)'},
+    BOS:{n:'セルティックス',c:'ボストン',g:'linear-gradient(135deg,#007A33,#BA9653)'},
+    BKN:{n:'ネッツ',c:'ブルックリン',g:'linear-gradient(135deg,#000,#CFCFCF)'},
+    CHA:{n:'ホーネッツ',c:'シャーロット',g:'linear-gradient(135deg,#1D1160,#00788C)'},
+    CHI:{n:'ブルズ',c:'シカゴ',g:'linear-gradient(135deg,#CE1141,#000)'},
+    CLE:{n:'キャバリアーズ',c:'クリーブランド',g:'linear-gradient(135deg,#860038,#041E42)'},
+    DAL:{n:'マーベリックス',c:'ダラス',g:'linear-gradient(135deg,#00538C,#002B5C)'},
+    DEN:{n:'ナゲッツ',c:'デンバー',g:'linear-gradient(135deg,#5D76A9,#0C2340)'},
+    DET:{n:'ピストンズ',c:'デトロイト',g:'linear-gradient(135deg,#C8102E,#1D42BA)'},
+    GSW:{n:'ウォリアーズ',c:'ゴールデンステート',g:'linear-gradient(135deg,#1D428A,#FFC72C)'},
+    HOU:{n:'ロケッツ',c:'ヒューストン',g:'linear-gradient(135deg,#CE1141,#000)'},
+    IND:{n:'ペイサーズ',c:'インディアナ',g:'linear-gradient(135deg,#002D62,#FDBB30)'},
+    LAC:{n:'クリッパーズ',c:'LAクリッパーズ',g:'linear-gradient(135deg,#C8102E,#1D1160)'},
+    LAL:{n:'レイカーズ',c:'ロサンゼルス',g:'linear-gradient(135deg,#552583,#FDB927)'},
+    MEM:{n:'グリズリーズ',c:'メンフィス',g:'linear-gradient(135deg,#5D76A9,#12173F)'},
+    MIA:{n:'ヒート',c:'マイアミ',g:'linear-gradient(135deg,#98002E,#F9A01B)'},
+    MIL:{n:'バックス',c:'ミルウォーキー',g:'linear-gradient(135deg,#00471B,#EEE1C6)'},
+    MIN:{n:'ティンバーウルブズ',c:'ミネソタ',g:'linear-gradient(135deg,#0C2340,#236192)'},
+    NOP:{n:'ペリカンズ',c:'ニューオーリンズ',g:'linear-gradient(135deg,#0C2340,#C8102E)'},
+    NYK:{n:'ニックス',c:'ニューヨーク',g:'linear-gradient(135deg,#006BB6,#F58426)'},
+    OKC:{n:'サンダー',c:'オクラホマシティ',g:'linear-gradient(135deg,#007AC1,#EF3B24)'},
+    ORL:{n:'マジック',c:'オーランド',g:'linear-gradient(135deg,#0077C0,#000)'},
+    PHI:{n:'76ers',c:'フィラデルフィア',g:'linear-gradient(135deg,#006BB6,#ED174C)'},
+    PHX:{n:'サンズ',c:'フェニックス',g:'linear-gradient(135deg,#1D1160,#E56020)'},
+    POR:{n:'トレイルブレイザーズ',c:'ポートランド',g:'linear-gradient(135deg,#E03A3E,#000)'},
+    SAC:{n:'キングス',c:'サクラメント',g:'linear-gradient(135deg,#5A2B81,#63727A)'},
+    SAS:{n:'スパーズ',c:'サンアントニオ',g:'linear-gradient(135deg,#000,#C4CED4)'},
+    TOR:{n:'ラプターズ',c:'トロント',g:'linear-gradient(135deg,#CE1141,#000)'},
+    UTA:{n:'ジャズ',c:'ユタ',g:'linear-gradient(135deg,#002B5C,#F9A01B)'},
+    WAS:{n:'ウィザーズ',c:'ワシントン',g:'linear-gradient(135deg,#002B5C,#E31837)'},
   };
   const tm = t => TM[t] || {n:t, c:'', g:'#333'};
 
