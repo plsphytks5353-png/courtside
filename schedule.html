@@ -307,6 +307,23 @@
   };
   const tm = t => TM[t] || {n:t, c:'', g:'#333'};
 
+  function jpLabel(label) {
+    if (!label) return '';
+    return label
+      .replace(/East/i, 'イースト').replace(/West/i, 'ウエスト')
+      .replace(/First Round/i, '第1ラウンド').replace(/Second Round/i, '第2ラウンド')
+      .replace(/Conference Finals/i, 'カンファレンスファイナル')
+      .replace(/NBA Finals/i, 'NBAファイナル')
+      .replace(/Game (\d+)/i, (_, n) => `第${n}戦`);
+  }
+  function jpSeries(text) {
+    if (!text) return text;
+    return text
+      .replace(/Series tied (\d+)-(\d+)/i, 'シリーズ $1-$1 タイ')
+      .replace(/(\w+)\s+lead[s]?\s+(?:series\s+)?(\d+)-(\d+)/i, (_, t, a, b) => `${TM[t]?.n||t} ${a}-${b} でリード`)
+      .replace(/Series tied/i, 'シリーズタイ');
+  }
+
   const DAY_JA = ['日','月','火','水','木','金','土'];
   const DAY_EN = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
@@ -368,15 +385,15 @@
       statusBadge = `<span class="inline-flex items-center gap-1 chip bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm">
         <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>LIVE${period ? ' Q'+period : ''}${clock ? ' '+clock : ''}</span>`;
     } else if (status === 3) {
-      statusBadge = `<span class="chip bg-gray-700 text-white font-bold px-2 py-0.5 rounded-sm">Final</span>`;
+      statusBadge = `<span class="chip bg-gray-700 text-white font-bold px-2 py-0.5 rounded-sm">終了</span>`;
     } else {
       const t = jstTime(g.gameDateTimeUTC);
       statusBadge = `<span class="chip text-gray-400 px-1">${t ? t+' JST' : g.gameStatusText}</span>`;
     }
 
     const seriesInfo = g.seriesText
-      ? `<div class="text-gray-500 text-[10px] mt-0.5">${g.gameLabel} · ${g.seriesText}</div>`
-      : g.gameLabel ? `<div class="text-gray-500 text-[10px] mt-0.5">${g.gameLabel}</div>` : '';
+      ? `<div class="text-gray-500 text-[10px] mt-0.5">${jpLabel(g.gameLabel)} · ${jpSeries(g.seriesText)}</div>`
+      : g.gameLabel ? `<div class="text-gray-500 text-[10px] mt-0.5">${jpLabel(g.gameLabel)}</div>` : '';
 
     const detailLink = (status === 2 || status === 3)
       ? `<a href="game.html?id=${g.gameId}" class="block text-center bg-[var(--crimson)]/80 hover:bg-[var(--crimson)] border border-[var(--crimson)] py-2 rounded text-sm font-bold transition-colors">試合詳細 ›</a>`

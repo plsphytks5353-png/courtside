@@ -50,9 +50,9 @@
     tr:hover td { background: rgba(255,255,255,.03); }
     a { color: inherit; }
     /* モバイル: 重要カラムのみ表示 */
-    .col-hide-mobile { display: none; }
+    .col-hide-mobile { display: table-cell; }
+    .stats-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     @media (min-width: 640px) {
-      .col-hide-mobile { display: table-cell; }
     }
     /* タップしやすい行高 */
     @media (max-width: 639px) {
@@ -207,6 +207,23 @@
   };
   const tm = t => TM[t] || { n:t, c:'', g:'#333' };
 
+  function jpLabel(label) {
+    if (!label) return '';
+    return label
+      .replace(/East/i, 'イースト').replace(/West/i, 'ウエスト')
+      .replace(/First Round/i, '第1ラウンド').replace(/Second Round/i, '第2ラウンド')
+      .replace(/Conference Finals/i, 'カンファレンスファイナル')
+      .replace(/NBA Finals/i, 'NBAファイナル')
+      .replace(/Game (\d+)/i, (_, n) => `第${n}戦`);
+  }
+  function jpSeries(text) {
+    if (!text) return text;
+    return text
+      .replace(/Series tied (\d+)-(\d+)/i, 'シリーズ $1-$1 タイ')
+      .replace(/(\w+)\s+lead[s]?\s+(?:series\s+)?(\d+)-(\d+)/i, (_, t, a, b) => `${TM[t]?.n||t} ${a}-${b} でリード`)
+      .replace(/Series tied/i, 'シリーズタイ');
+  }
+
   function parseMin(m) {
     if (!m) return '-';
     const r = m.match(/PT(\d+)M([\d.]+)S/);
@@ -236,11 +253,11 @@
 
     const statusBadge = isLive
       ? `<span class="inline-flex items-center gap-1.5 text-xs bg-[var(--crimson)] text-white font-bold px-2 py-0.5 rounded-sm"><span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>LIVE Q${game.period}</span>`
-      : `<span class="text-xs bg-gray-700 text-white font-bold px-2 py-0.5 rounded-sm">Final</span>`;
+      : `<span class="text-xs bg-gray-700 text-white font-bold px-2 py-0.5 rounded-sm">終了</span>`;
 
     // SNSシェア用テキスト生成
     const shareTitle = `${away.teamTricode} ${away.score} - ${home.score} ${home.teamTricode}`;
-    const shareStatus = isLive ? `Q${game.period} 進行中` : 'Final';
+    const shareStatus = isLive ? `Q${game.period} 進行中` : '終了';
     const shareText = `【CourtSide】${shareTitle} (${shareStatus})${game.seriesText ? ' ' + game.seriesText : ''}`;
     const shareUrl = encodeURIComponent(`https://courtsidelive.jp/game.html?id=${gameId}`);
     const shareTextEnc = encodeURIComponent(shareText);
@@ -257,8 +274,8 @@
     document.getElementById('game-scoreboard').innerHTML = `
       <div class="mb-3 flex items-center gap-3 flex-wrap">
         ${statusBadge}
-        <span class="text-sm text-gray-400">${game.gameLabel || ''} ${game.gameSubLabel || ''}</span>
-        ${game.seriesText ? `<span class="text-xs bg-white/10 border border-white/20 px-2 py-0.5 rounded text-gray-300">${game.seriesText}</span>` : ''}
+        <span class="text-sm text-gray-400">${jpLabel(game.gameLabel || '')} ${jpLabel(game.gameSubLabel || '')}</span>
+        ${game.seriesText ? `<span class="text-xs bg-white/10 border border-white/20 px-2 py-0.5 rounded text-gray-300">${jpSeries(game.seriesText)}</span>` : ''}
         <div class="ml-auto flex items-center gap-2">
           <a href="${xUrl}" target="_blank" rel="noopener"
             class="inline-flex items-center gap-1.5 bg-black border border-white/20 hover:border-white/50 text-white text-xs font-bold px-3 py-1.5 rounded-full transition">
@@ -388,7 +405,7 @@
           <div class="ml-auto font-display text-3xl font-bold">${team.score}</div>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full min-w-[320px] sm:min-w-[580px]">
+          <table class="w-full min-w-[640px]">
             <thead class="px-5">${thead}</thead>
             <tbody>
               ${starters.map(p => playerRow(p, true)).join('')}

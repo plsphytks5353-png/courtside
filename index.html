@@ -96,6 +96,22 @@
       <a href="bracket.html" class="text-gray-300 hover:text-white">プレイオフ</a>
     </nav>
     <div class="flex-1"></div>
+    <!-- ハンバーガーボタン（モバイル） -->
+    <button id="menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="メニュー">
+      <span class="w-6 h-0.5 bg-white block transition-all"></span>
+      <span class="w-6 h-0.5 bg-white block transition-all"></span>
+      <span class="w-6 h-0.5 bg-white block transition-all"></span>
+    </button>
+  </div>
+  <!-- モバイルメニュードロワー -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-black/98 border-t border-[var(--line)] px-4 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="index.html" class="text-white py-2 border-b border-[var(--line)]">🏠 ホーム</a>
+    <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
+    <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
+    <a href="glossary.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📖 用語集</a>
+    <a href="watch-nba.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📺 観戦ガイド</a>
+    <a href="playoff-guide.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📋 プレイオフ解説</a>
+    <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
   </div>
 </header>
 
@@ -114,9 +130,14 @@
         <h1 id="hero-game-title" class="font-display text-5xl md:text-7xl font-bold leading-none mb-6">
           LAKERS <span class="text-gray-500">vs</span> CELTICS
         </h1>
-        <a href="schedule.html" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded text-base backdrop-blur">
-          全試合スケジュールを見る →
-        </a>
+        <div class="flex flex-wrap gap-3">
+          <a id="hero-detail-btn" href="schedule.html" class="inline-flex items-center gap-2 bg-[var(--crimson)] hover:bg-red-700 text-white font-bold px-6 py-3 rounded text-base">
+            詳細を見る →
+          </a>
+          <a href="schedule.html" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3 rounded text-base backdrop-blur">
+            全試合スケジュールを見る →
+          </a>
+        </div>
       </div>
 
       <!-- Scoreboard card -->
@@ -195,13 +216,7 @@
           <p id="games-date" class="text-gray-400 text-sm mt-1">読み込み中...</p>
         </div>
       </div>
-      <div class="flex gap-1 bg-[var(--ink-2)] rounded p-1 text-xs border border-[var(--line)]">
-        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/20</button>
-        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/21</button>
-        <button class="px-3 py-1.5 rounded bg-[var(--crimson)] text-white font-bold">4/22</button>
-        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/23</button>
-        <button class="px-3 py-1.5 rounded text-gray-400 hover:text-white">4/24</button>
-      </div>
+      <div id="date-tabs" class="flex gap-1 bg-[var(--ink-2)] rounded p-1 text-xs border border-[var(--line)]"></div>
     </div>
 
     <div id="games-scroll" class="flex gap-4 overflow-x-auto hide-scrollbar pb-2 snap-x">
@@ -814,6 +829,8 @@
 
     const title = document.getElementById('hero-game-title');
     if (title) title.innerHTML = `${away.teamTricode} <span class="text-gray-500">vs</span> ${home.teamTricode}`;
+    const detailBtn = document.getElementById('hero-detail-btn');
+    if (detailBtn) detailBtn.href = `game.html?id=${g.gameId}`;
 
     const sb = document.getElementById('hero-scoreboard');
     if (!sb) return;
@@ -1039,11 +1056,35 @@
     }
   }
 
+  // 日付タブを動的生成
+  (function buildDateTabs() {
+    const tabs = document.getElementById('date-tabs');
+    if (!tabs) return;
+    const today = new Date();
+    const days = [-2, -1, 0, 1, 2];
+    tabs.innerHTML = days.map(offset => {
+      const d = new Date(today);
+      d.setDate(today.getDate() + offset);
+      const label = `${d.getMonth()+1}/${d.getDate()}`;
+      const isToday = offset === 0;
+      return `<button class="px-3 py-1.5 rounded ${isToday ? 'bg-[var(--crimson)] text-white font-bold' : 'text-gray-400 hover:text-white'}">${label}</button>`;
+    }).join('');
+  })();
+
   fetchAndRender();
   // ライブ試合中は10秒、それ以外は30秒でポーリング
   setInterval(async () => {
     await fetchAndRender();
   }, 15_000);
+
+  // ハンバーガーメニュー
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
 
   // スムーススクロール
   document.querySelectorAll('a[href^="#"]').forEach(a => {
