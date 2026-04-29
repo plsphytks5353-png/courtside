@@ -77,7 +77,6 @@
 <div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
   <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
     <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
-    <a href="#" class="hover:text-white">お問い合わせ</a>
   </div>
 </div>
 
@@ -746,6 +745,18 @@
   };
   const tm = (tri) => TM[tri] || { n: tri, c: '', g: '#333' };
 
+  function jpLabel(label) {
+    if (!label) return '';
+    return label
+      .replace(/East/i, 'イースト')
+      .replace(/West/i, 'ウエスト')
+      .replace(/First Round/i, '第1ラウンド')
+      .replace(/Second Round/i, '第2ラウンド')
+      .replace(/Conference Finals/i, 'カンファレンスファイナル')
+      .replace(/NBA Finals/i, 'NBAファイナル')
+      .replace(/Game (\d+)/i, (_, n) => `第${n}戦`);
+  }
+
   function jpSeries(text) {
     if (!text) return text;
     return text
@@ -796,9 +807,9 @@
     if (badge) {
       badge.innerHTML = isLive
         ? `<span class="inline-flex items-center gap-1.5 bg-[var(--crimson)] text-white font-bold px-2.5 py-1 rounded-sm text-xs"><span class="w-1.5 h-1.5 bg-white rounded-full live-dot"></span>LIVE</span>
-           <span class="chip uppercase text-gray-300 font-bold">${g.gameLabel || g.gameSubLabel || ''}</span>`
+           <span class="chip uppercase text-gray-300 font-bold">${jpLabel(g.gameLabel || g.gameSubLabel || '')}</span>`
         : `<span class="inline-flex items-center gap-1.5 bg-gray-700 text-white font-bold px-2.5 py-1 rounded-sm text-xs">${g.gameStatusText}</span>
-           <span class="chip uppercase text-gray-300 font-bold">${g.gameLabel || g.gameSubLabel || ''}</span>`;
+           <span class="chip uppercase text-gray-300 font-bold">${jpLabel(g.gameLabel || g.gameSubLabel || '')}</span>`;
     }
 
     const title = document.getElementById('hero-game-title');
@@ -827,22 +838,22 @@
         <span class="font-bold ${clockColor}">${isLive ? '● ' : ''}${clockTxt}</span>
         <span>${g.seriesText || g.gameSubLabel || ''}</span>
       </div>
-      <div class="grid grid-cols-3 items-center gap-4">
-        <div class="text-center">
-          <div class="team-logo w-16 h-16 mx-auto rounded-full mb-2" style="background:${am.g};">${away.teamTricode}</div>
-          <div class="text-sm font-bold">${am.n}</div>
+      <div class="grid grid-cols-3 items-start gap-4">
+        <div class="text-center flex flex-col items-center">
+          <div class="team-logo w-16 h-16 rounded-full mb-2" style="background:${am.g};">${away.teamTricode}</div>
+          <div class="text-sm font-bold leading-tight">${am.n}</div>
           <div class="text-xs text-gray-400">(${away.wins}-${away.losses})</div>
         </div>
-        <div class="text-center">
+        <div class="text-center flex flex-col items-center justify-center pt-3">
           <div class="font-display text-5xl md:text-6xl font-bold leading-none flex items-center justify-center gap-3">
             <span>${away.score}</span>
             <span class="text-gray-600 text-2xl">-</span>
             <span>${home.score}</span>
           </div>
         </div>
-        <div class="text-center">
-          <div class="team-logo w-16 h-16 mx-auto rounded-full mb-2" style="background:${hm.g};">${home.teamTricode}</div>
-          <div class="text-sm font-bold">${hm.n}</div>
+        <div class="text-center flex flex-col items-center">
+          <div class="team-logo w-16 h-16 rounded-full mb-2" style="background:${hm.g};">${home.teamTricode}</div>
+          <div class="text-sm font-bold leading-tight">${hm.n}</div>
           <div class="text-xs text-gray-400">(${home.wins}-${home.losses})</div>
         </div>
       </div>
@@ -883,7 +894,7 @@
     return `<article class="snap-start shrink-0 w-[340px] bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5 card-hover">
       <div class="flex items-center justify-between mb-4">
         ${badge}
-        <span class="text-xs text-gray-400">${g.gameLabel || ''}</span>
+        <span class="text-xs text-gray-400">${jpLabel(g.gameLabel || '')}</span>
       </div>
       <div class="space-y-3 mb-4">
         <div class="flex items-center gap-3">
