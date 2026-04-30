@@ -94,6 +94,8 @@
       <a href="index.html" class="text-white">ホーム</a>
       <a href="schedule.html" class="text-gray-300 hover:text-white">試合日程</a>
       <a href="bracket.html" class="text-gray-300 hover:text-white">プレイオフ</a>
+      <a href="guide.html" class="text-gray-300 hover:text-white">NBAガイド</a>
+      <a href="teams.html" class="text-gray-300 hover:text-white">チーム</a>
     </nav>
     <div class="flex-1"></div>
     <!-- ハンバーガーボタン（モバイル） -->
@@ -108,7 +110,8 @@
     <a href="index.html" class="text-white py-2 border-b border-[var(--line)]">🏠 ホーム</a>
     <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
     <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
-    <a href="index.html#guide" class="text-gray-300 py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="guide.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="teams.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏀 チーム</a>
     <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
   </div>
 </header>
@@ -1050,10 +1053,13 @@
       const dateEl = document.getElementById('games-date');
       if (dateEl) {
         const live = games.filter(g => g.gameStatus === 2).length;
-        const dateForLabel = gameDate ?? (games[0]?.gameDateTimeUTC ?? '');
+        // gameDateTimeUTC を優先しJSTで日付表示（現地日付ではなく日本時間）
+        const dateForLabel = games[0]?.gameDateTimeUTC ?? gameDate ?? null;
         const d = dateForLabel
-          ? new Date(dateForLabel.length === 10 ? dateForLabel + 'T12:00:00Z' : dateForLabel)
-              .toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })
+          ? new Date(dateForLabel).toLocaleDateString('ja-JP', {
+              timeZone: 'Asia/Tokyo',
+              year: 'numeric', month: 'long', day: 'numeric', weekday: 'short',
+            })
           : '';
         dateEl.textContent = `${d} | 全${games.length}試合${live ? ` / LIVE ${live}試合` : ''}`;
       }

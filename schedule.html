@@ -89,7 +89,7 @@
       <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
       <a href="schedule.html" class="text-white border-b-2 border-[var(--crimson)] pb-1">試合日程</a>
       <a href="bracket.html" class="text-gray-300 hover:text-white">プレイオフ</a>
-      <a href="index.html#teams" class="text-gray-300 hover:text-white">チーム</a>
+      <a href="teams.html" class="text-gray-300 hover:text-white">チーム</a>
     </nav>
     <div class="flex-1"></div>
     <!-- ハンバーガーボタン（モバイル） -->
@@ -104,7 +104,8 @@
     <a href="index.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏠 ホーム</a>
     <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
     <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
-    <a href="index.html#guide" class="text-gray-300 py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="guide.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="teams.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏀 チーム</a>
     <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
   </div>
 </header>
@@ -478,7 +479,12 @@
   /* ── メイン描画 ── */
   function render() {
     const today = todayUTC();
-    const weekDates = Array.from({length:7}, (_,i) => addDays(currentMonday, i));
+    const allDates = Array.from({length:7}, (_,i) => addDays(currentMonday, i));
+    // 今日を先頭に、それより前を降順、それより後を昇順
+    const todayIdx = allDates.findIndex(d => isoDate(d) === today);
+    const weekDates = todayIdx >= 0
+      ? [...allDates.slice(0, todayIdx + 1).reverse(), ...allDates.slice(todayIdx + 1)]
+      : allDates;
 
     // 日付タブ
     const tabsEl = document.getElementById('date-tabs');
@@ -501,7 +507,7 @@
     // 週サブタイトル
     const sub = document.getElementById('week-subtitle');
     if (sub) {
-      const mon = weekDates[0], sun = weekDates[6];
+      const mon = allDates[0], sun = allDates[6];
       const total = weekGames.length;
       const liveCount = weekGames.filter(g => (todayMap[g.gameId]?.gameStatus || g.gameStatus) === 2).length;
       sub.innerHTML = `${mon.getUTCFullYear()}年${mon.getUTCMonth()+1}月${mon.getUTCDate()}日(${DAY_JA[mon.getUTCDay()]}) – ${sun.getUTCMonth()+1}月${sun.getUTCDate()}日(${DAY_JA[sun.getUTCDay()]}) ／

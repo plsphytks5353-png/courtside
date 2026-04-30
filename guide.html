@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1530445077032503" crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NBAガイド | CourtSide</title>
+  <meta name="description" content="NBA観戦がもっと楽しくなる解説記事まとめ。用語集・視聴方法・プレイオフの仕組みをわかりやすく解説。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>" />
+  <style>
+    :root { --crimson:#BF0000; --crimson-bright:#E60012; --ink:#0A0A0A; --ink-2:#121212; --line:#2A2A2A; }
+    html, body { background:var(--ink); color:#fff; }
+    body { font-family:"Noto Sans JP",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+    .font-display { font-family:"Oswald","Noto Sans JP",sans-serif; }
+    .card-hover { transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease; }
+    .card-hover:hover { transform:translateY(-3px); border-color:#555; box-shadow:0 10px 30px rgba(191,0,0,.15); }
+    a { color:inherit; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOP BAR -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <img src="logo.png" alt="CourtSide" class="w-9 h-9 rounded-full">
+      <div class="flex flex-col leading-none">
+        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto">
+        <span class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">NBA速報</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合日程</a>
+      <a href="bracket.html" class="text-gray-300 hover:text-white">プレイオフ</a>
+      <a href="guide.html" class="text-white">NBAガイド</a>
+      <a href="teams.html" class="text-gray-300 hover:text-white">チーム</a>
+    </nav>
+    <div class="flex-1"></div>
+    <button id="menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2 ml-auto" aria-label="メニュー">
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden bg-black/98 border-t border-[var(--line)] px-4 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="index.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏠 ホーム</a>
+    <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
+    <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
+    <a href="guide.html" class="text-white py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="teams.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏀 チーム</a>
+    <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
+  </div>
+</header>
+<script>
+(function(){
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if(btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+})();
+</script>
+
+<!-- HERO -->
+<section class="bg-black border-b border-[var(--line)] py-12 md:py-16">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="max-w-2xl">
+      <p class="text-[var(--crimson-bright)] text-xs font-bold tracking-widest uppercase mb-3">NBA GUIDE</p>
+      <h1 class="font-display text-4xl md:text-5xl font-bold mb-4">NBAガイド</h1>
+      <p class="text-gray-400 text-base leading-relaxed">
+        観戦初心者から上級者まで役立つ解説記事を集めました。<br>
+        ルール・用語・視聴方法など、NBAをもっと楽しむための情報をわかりやすくお届けします。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section class="py-12 md:py-16">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <a href="glossary.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-6 card-hover flex flex-col gap-3">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-2xl">📖</span>
+          <span class="text-xs text-[var(--crimson-bright)] font-bold tracking-widest uppercase">用語集</span>
+        </div>
+        <h2 class="font-bold text-lg leading-snug group-hover:text-[var(--crimson-bright)] transition-colors">NBA用語集｜知っておくと観戦がもっと楽しくなる</h2>
+        <p class="text-gray-400 text-sm leading-relaxed flex-1">スタッツ・戦術・チーム運営まで、観戦に役立つ用語をわかりやすくまとめました。ダブルダブル・ペイントタッチ・ファイブアウトなど必須ワード解説。</p>
+        <div class="flex items-center justify-between mt-2">
+          <span class="text-xs text-gray-500">2026年4月27日</span>
+          <span class="text-xs text-[var(--crimson-bright)] font-bold">読む →</span>
+        </div>
+      </a>
+
+      <a href="watch-nba.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-6 card-hover flex flex-col gap-3">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-2xl">📺</span>
+          <span class="text-xs text-[var(--crimson-bright)] font-bold tracking-widest uppercase">視聴ガイド</span>
+        </div>
+        <h2 class="font-bold text-lg leading-snug group-hover:text-[var(--crimson-bright)] transition-colors">NBAを日本で観る方法【2025-26版】料金・サービス徹底比較</h2>
+        <p class="text-gray-400 text-sm leading-relaxed flex-1">楽天NBAが終了。AmazonプライムビデオでNBAが視聴可能に。League Pass・ABEMAなど最新の視聴方法と料金を徹底比較します。</p>
+        <div class="flex items-center justify-between mt-2">
+          <span class="text-xs text-gray-500">2026年4月27日</span>
+          <span class="text-xs text-[var(--crimson-bright)] font-bold">読む →</span>
+        </div>
+      </a>
+
+      <a href="playoff-guide.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-6 card-hover flex flex-col gap-3">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-2xl">🏆</span>
+          <span class="text-xs text-[var(--crimson-bright)] font-bold tracking-widest uppercase">プレイオフ解説</span>
+        </div>
+        <h2 class="font-bold text-lg leading-snug group-hover:text-[var(--crimson-bright)] transition-colors">NBAプレイオフの仕組みを徹底解説｜出場条件からファイナルまで</h2>
+        <p class="text-gray-400 text-sm leading-relaxed flex-1">7戦4勝制・ホームコート・プレイインなど、プレイオフの全体像をわかりやすく解説。トーナメント表の見方もバッチリわかります。</p>
+        <div class="flex items-center justify-between mt-2">
+          <span class="text-xs text-gray-500">2026年4月27日</span>
+          <span class="text-xs text-[var(--crimson-bright)] font-bold">読む →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-black border-t border-[var(--line)] py-8 mt-4">
+  <div class="max-w-[1280px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+    <div>© 2026 CourtSide. All rights reserved.</div>
+    <div class="flex gap-4 flex-wrap justify-center">
+      <a href="about.html" class="hover:text-white">サイトについて</a>
+      <a href="privacy.html" class="hover:text-white">プライバシーポリシー</a>
+      <a href="terms.html" class="hover:text-white">利用規約</a>
+      <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

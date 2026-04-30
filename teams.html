@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1530445077032503" crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>チーム一覧 | CourtSide</title>
+  <meta name="description" content="NBA全30チームの日本語情報一覧。イースト・ウエスト各カンファレンス、ディビジョン別にチームを掲載。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>" />
+  <style>
+    :root { --crimson:#BF0000; --crimson-bright:#E60012; --ink:#0A0A0A; --ink-2:#121212; --line:#2A2A2A; }
+    html, body { background:var(--ink); color:#fff; }
+    body { font-family:"Noto Sans JP",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+    .font-display { font-family:"Oswald","Noto Sans JP",sans-serif; }
+    .team-logo { display:flex; align-items:center; justify-content:center; font-family:"Oswald",sans-serif; font-weight:700; color:#fff; }
+    .card-hover { transition:transform .2s ease,border-color .2s ease; }
+    .card-hover:hover { transform:translateY(-2px); border-color:#555; }
+    a { color:inherit; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOP BAR -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第1ラウンド 開幕中</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <img src="logo.png" alt="CourtSide" class="w-9 h-9 rounded-full">
+      <div class="flex flex-col leading-none">
+        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto">
+        <span class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">NBA速報</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合日程</a>
+      <a href="bracket.html" class="text-gray-300 hover:text-white">プレイオフ</a>
+      <a href="guide.html" class="text-gray-300 hover:text-white">NBAガイド</a>
+      <a href="teams.html" class="text-white">チーム</a>
+    </nav>
+    <div class="flex-1"></div>
+    <button id="menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2 ml-auto" aria-label="メニュー">
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden bg-black/98 border-t border-[var(--line)] px-4 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="index.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏠 ホーム</a>
+    <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
+    <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
+    <a href="guide.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="teams.html" class="text-white py-2 border-b border-[var(--line)]">🏀 チーム</a>
+    <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
+  </div>
+</header>
+<script>
+(function(){
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if(btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+})();
+</script>
+
+<!-- HERO -->
+<section class="bg-black border-b border-[var(--line)] py-12 md:py-16">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <p class="text-[var(--crimson-bright)] text-xs font-bold tracking-widest uppercase mb-3">NBA TEAMS</p>
+    <h1 class="font-display text-4xl md:text-5xl font-bold mb-4">チーム一覧</h1>
+    <p class="text-gray-400 text-base">NBA全30チーム。イースト・ウエストカンファレンス別に掲載。</p>
+  </div>
+</section>
+
+<!-- EAST -->
+<section class="py-10 md:py-14">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-1 h-8 bg-[var(--crimson)] rounded-sm"></div>
+      <h2 class="font-display text-3xl font-bold">イースタン・カンファレンス</h2>
+    </div>
+
+    <!-- Atlantic -->
+    <div class="mb-10">
+      <h3 class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">アトランティック</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#007A33,#BA9653);">BOS</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">セルティックス</div><div class="text-xs text-gray-500">ボストン</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#000,#CFCFCF);">BKN</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ネッツ</div><div class="text-xs text-gray-500">ブルックリン</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#006BB6,#F58426);">NYK</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ニックス</div><div class="text-xs text-gray-500">ニューヨーク</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#006BB6,#ED174C);">PHI</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">76ers</div><div class="text-xs text-gray-500">フィラデルフィア</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#CE1141,#000);">TOR</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ラプターズ</div><div class="text-xs text-gray-500">トロント</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Central -->
+    <div class="mb-10">
+      <h3 class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">セントラル</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#CE1141,#000);">CHI</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ブルズ</div><div class="text-xs text-gray-500">シカゴ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#860038,#041E42);">CLE</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">キャバリアーズ</div><div class="text-xs text-gray-500">クリーブランド</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#C8102E,#1D42BA);">DET</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ピストンズ</div><div class="text-xs text-gray-500">デトロイト</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#002D62,#FDBB30);">IND</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ペイサーズ</div><div class="text-xs text-gray-500">インディアナ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#00471B,#EEE1C6);">MIL</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">バックス</div><div class="text-xs text-gray-500">ミルウォーキー</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Southeast -->
+    <div class="mb-2">
+      <h3 class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">サウスイースト</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#E03A3E,#C1D32F);">ATL</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ホークス</div><div class="text-xs text-gray-500">アトランタ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#1D1160,#00788C);">CHA</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ホーネッツ</div><div class="text-xs text-gray-500">シャーロット</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#98002E,#F9A01B);">MIA</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ヒート</div><div class="text-xs text-gray-500">マイアミ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#0077C0,#000);">ORL</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">マジック</div><div class="text-xs text-gray-500">オーランド</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#002B5C,#E31837);">WAS</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ウィザーズ</div><div class="text-xs text-gray-500">ワシントン</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEST -->
+<section class="py-10 md:py-14 bg-[var(--ink-2)] border-t border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4">
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-1 h-8 bg-[var(--crimson)] rounded-sm"></div>
+      <h2 class="font-display text-3xl font-bold">ウエスタン・カンファレンス</h2>
+    </div>
+
+    <!-- Northwest -->
+    <div class="mb-10">
+      <h3 class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">ノースウエスト</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#5D76A9,#0C2340);">DEN</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ナゲッツ</div><div class="text-xs text-gray-500">デンバー</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#0C2340,#236192);">MIN</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ティンバーウルブズ</div><div class="text-xs text-gray-500">ミネソタ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#007AC1,#EF3B24);">OKC</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">サンダー</div><div class="text-xs text-gray-500">オクラホマシティ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#E03A3E,#000);">POR</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">トレイルブレイザーズ</div><div class="text-xs text-gray-500">ポートランド</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#002B5C,#F9A01B);">UTA</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ジャズ</div><div class="text-xs text-gray-500">ユタ</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pacific -->
+    <div class="mb-10">
+      <h3 class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">パシフィック</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#1D428A,#FFC72C);">GSW</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ウォリアーズ</div><div class="text-xs text-gray-500">ゴールデンステート</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#C8102E,#1D1160);">LAC</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">クリッパーズ</div><div class="text-xs text-gray-500">LAクリッパーズ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#552583,#FDB927);">LAL</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">レイカーズ</div><div class="text-xs text-gray-500">ロサンゼルス</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#1D1160,#E56020);">PHX</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">サンズ</div><div class="text-xs text-gray-500">フェニックス</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#5A2B81,#63727A);">SAC</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">キングス</div><div class="text-xs text-gray-500">サクラメント</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Southwest -->
+    <div class="mb-2">
+      <h3 class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">サウスウエスト</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#00538C,#002B5C);">DAL</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">マーベリックス</div><div class="text-xs text-gray-500">ダラス</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#CE1141,#000);">HOU</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ロケッツ</div><div class="text-xs text-gray-500">ヒューストン</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#5D76A9,#12173F);">MEM</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">グリズリーズ</div><div class="text-xs text-gray-500">メンフィス</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#0C2340,#C8102E);">NOP</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">ペリカンズ</div><div class="text-xs text-gray-500">ニューオーリンズ</div></div>
+        </a>
+        <a href="schedule.html" class="group bg-[var(--ink)] border border-[var(--line)] rounded-lg p-4 card-hover flex flex-col items-center gap-3 text-center">
+          <div class="team-logo w-16 h-16 rounded-full text-sm" style="background:linear-gradient(135deg,#000,#C4CED4);">SAS</div>
+          <div><div class="font-bold text-sm group-hover:text-[var(--crimson-bright)]">スパーズ</div><div class="text-xs text-gray-500">サンアントニオ</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-black border-t border-[var(--line)] py-8 mt-4">
+  <div class="max-w-[1280px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+    <div>© 2026 CourtSide. All rights reserved.</div>
+    <div class="flex gap-4 flex-wrap justify-center">
+      <a href="about.html" class="hover:text-white">サイトについて</a>
+      <a href="privacy.html" class="hover:text-white">プライバシーポリシー</a>
+      <a href="terms.html" class="hover:text-white">利用規約</a>
+      <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
