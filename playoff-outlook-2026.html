@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1530445077032503" crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RSFTHVMDBV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RSFTHVMDBV');
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2026 NBAプレイオフ展望・優勝予想｜第2ラウンド全カード分析 | CourtSide</title>
+  <meta name="description" content="2026 NBAプレイオフ第2ラウンドの展望と優勝予想。ESPN・Covers.comのオッズデータをもとに、Thunder本命・76ers番狂わせなど注目カードを徹底分析。" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏀</text></svg>" />
+  <style>
+    :root { --crimson:#BF0000; --crimson-bright:#E60012; --ink:#0A0A0A; --ink-2:#121212; --line:#2A2A2A; }
+    body { background:var(--ink); color:#fff; font-family:'Noto Sans JP',sans-serif; }
+    .font-display { font-family:'Oswald',sans-serif; }
+
+    .prose h2 {
+      font-family:'Oswald',sans-serif;
+      font-size:1.1rem;
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:#E60012;
+      border-bottom:1px solid #2A2A2A;
+      padding-bottom:.5rem;
+      margin-top:3rem;
+      margin-bottom:1.5rem;
+    }
+    .prose h3 {
+      font-weight:700;
+      font-size:.95rem;
+      color:#fff;
+      margin-top:1.75rem;
+      margin-bottom:.75rem;
+    }
+    .prose p { color:#aaa; font-size:.875rem; line-height:1.85; margin-bottom:.75rem; }
+    .prose ul { list-style:disc; padding-left:1.5rem; margin-bottom:.75rem; }
+    .prose ul li { color:#aaa; font-size:.875rem; line-height:1.85; margin-bottom:.25rem; }
+    .prose strong { color:#fff; }
+    .prose em { color:#E60012; font-style:normal; font-weight:700; }
+
+    /* 目次 */
+    .toc a { color:#aaa; font-size:.8rem; text-decoration:none; }
+    .toc a:hover { color:#fff; }
+
+    /* 表 */
+    .data-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+    .data-table th { background:#1C1C1C; color:#aaa; font-weight:700; padding:.65rem .75rem; text-align:left; border-bottom:1px solid var(--line); }
+    .data-table td { padding:.65rem .75rem; border-bottom:1px solid #1C1C1C; color:#aaa; }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table .highlight { color:#fff; font-weight:700; }
+
+    /* 情報ボックス */
+    .info-box {
+      background:var(--ink-2);
+      border:1px solid var(--line);
+      border-left:3px solid var(--crimson);
+      border-radius:.5rem;
+      padding:1.25rem 1.5rem;
+      margin-bottom:1.5rem;
+    }
+    .info-box .label { font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--crimson-bright); margin-bottom:.5rem; }
+    .info-box p { color:#aaa; font-size:.85rem; line-height:1.75; margin:0; }
+
+    /* シリーズカード */
+    .series-card {
+      background:var(--ink-2);
+      border:1px solid var(--line);
+      border-radius:.75rem;
+      padding:1.25rem 1.5rem;
+      margin-bottom:1.25rem;
+    }
+    .series-header {
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+      margin-bottom:.75rem;
+      flex-wrap:wrap;
+    }
+    .series-badge {
+      font-size:.65rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      padding:.2rem .6rem;
+      border-radius:999px;
+    }
+    .badge-east { background:#1a2a4a; color:#6bb5ff; }
+    .badge-west { background:#3a1a1a; color:#ff7070; }
+    .series-matchup {
+      font-family:'Oswald',sans-serif;
+      font-size:1.05rem;
+      font-weight:700;
+      color:#fff;
+    }
+    .series-odds {
+      font-size:.75rem;
+      color:#666;
+      margin-left:auto;
+    }
+    .series-body { font-size:.83rem; color:#aaa; line-height:1.8; }
+    .series-verdict {
+      margin-top:.85rem;
+      padding-top:.85rem;
+      border-top:1px solid var(--line);
+      font-size:.82rem;
+      color:#aaa;
+    }
+    .series-verdict strong { color:var(--crimson-bright); }
+
+    /* オッズバー */
+    .odds-bar-wrap { margin:1.5rem 0; }
+    .odds-row { display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem; }
+    .odds-team { width:11rem; font-size:.8rem; color:#aaa; flex-shrink:0; }
+    .odds-bar-bg { flex:1; background:#1C1C1C; border-radius:4px; height:8px; overflow:hidden; }
+    .odds-bar { height:8px; border-radius:4px; background:var(--crimson); }
+    .odds-val { width:3.5rem; text-align:right; font-size:.8rem; color:#aaa; flex-shrink:0; }
+    .odds-val.top { color:#fff; font-weight:700; }
+
+    /* 引用 */
+    .source-note { font-size:.72rem; color:#555; margin-top:2rem; padding-top:1rem; border-top:1px solid var(--line); }
+    .source-note a { color:#666; text-decoration:underline; }
+    .source-note a:hover { color:#aaa; }
+
+    /* 怪我バッジ */
+    .injury-tag {
+      display:inline-block;
+      font-size:.65rem;
+      font-weight:700;
+      padding:.15rem .5rem;
+      border-radius:999px;
+      background:#3a1a00;
+      color:#ff9a3c;
+      margin-left:.4rem;
+      vertical-align:middle;
+    }
+
+    /* 予想ボックス */
+    .pick-box {
+      background:linear-gradient(135deg,#1a0a0a,#120000);
+      border:1px solid #3a1a1a;
+      border-left:4px solid var(--crimson-bright);
+      border-radius:.75rem;
+      padding:1.5rem;
+      margin:2rem 0;
+    }
+    .pick-label { font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--crimson-bright); margin-bottom:.5rem; }
+    .pick-team { font-family:'Oswald',sans-serif; font-size:1.6rem; font-weight:700; color:#fff; margin-bottom:.4rem; }
+    .pick-reason { font-size:.82rem; color:#aaa; line-height:1.8; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOP BAR -->
+<div class="bg-black border-b border-[var(--line)] text-xs text-gray-300">
+  <div class="max-w-[1280px] mx-auto px-4 py-2 flex items-center justify-between">
+    <span class="hidden sm:inline">2026 NBA プレーオフ 第2ラウンド 開幕中</span>
+    <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-black/95 backdrop-blur border-b border-[var(--line)]">
+  <div class="max-w-[1280px] mx-auto px-4 flex items-center gap-6 h-16">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <img src="logo.png" alt="CourtSide" class="w-9 h-9 rounded-full">
+      <div class="flex flex-col leading-none">
+        <img src="logo-text.png" alt="CourtSide" class="h-6 w-auto">
+        <span class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">NBA速報</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="text-gray-300 hover:text-white">ホーム</a>
+      <a href="schedule.html" class="text-gray-300 hover:text-white">試合日程</a>
+      <a href="bracket.html" class="text-gray-300 hover:text-white">プレイオフ</a>
+      <a href="guide.html" class="text-white">NBAガイド</a>
+      <a href="teams.html" class="text-gray-300 hover:text-white">チーム</a>
+    </nav>
+    <div class="flex-1"></div>
+    <button id="menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2 ml-auto" aria-label="メニュー">
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+      <span class="w-6 h-0.5 bg-white block"></span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden bg-black/98 border-t border-[var(--line)] px-4 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="index.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏠 ホーム</a>
+    <a href="schedule.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🗓 試合日程</a>
+    <a href="bracket.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏆 プレイオフ</a>
+    <a href="guide.html" class="text-gray-300 py-2 border-b border-[var(--line)]">📚 NBAガイド</a>
+    <a href="teams.html" class="text-gray-300 py-2 border-b border-[var(--line)]">🏀 チーム</a>
+    <a href="contact.html" class="text-gray-300 py-2">✉️ お問い合わせ</a>
+  </div>
+</header>
+<script>
+(function(){
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if(btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+})();
+</script>
+
+<!-- ARTICLE -->
+<main class="max-w-[760px] mx-auto px-4 py-14 md:py-20">
+
+  <!-- タイトル -->
+  <div class="mb-10">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="text-xs text-[var(--crimson-bright)] font-bold tracking-widest uppercase">プレイオフ展望</span>
+      <span class="text-xs text-gray-600">2026年5月5日</span>
+    </div>
+    <h1 class="font-display text-3xl md:text-4xl font-bold leading-snug mb-4">
+      2026 NBAプレイオフ展望・優勝予想<br /><span class="text-gray-400 text-xl md:text-2xl">第2ラウンド全カード分析</span>
+    </h1>
+    <p class="text-gray-400 text-sm leading-relaxed">ESPN・Covers.comのオッズデータと第1ラウンドの結果をもとに、第2ラウンドの全カードを分析。今年の優勝チームはどこか、筆者の最終予想も含めて徹底解説します。</p>
+  </div>
+
+  <!-- 目次 -->
+  <nav class="toc bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-5 mb-12">
+    <div class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">目次</div>
+    <ol class="space-y-1 list-decimal list-inside">
+      <li><a href="#r1-recap">第1ラウンド振り返り</a></li>
+      <li><a href="#odds">優勝オッズ（ESPN / Covers.com）</a></li>
+      <li><a href="#injuries">注目の負傷情報</a></li>
+      <li><a href="#r2-east">第2ラウンド：イースト展望</a></li>
+      <li><a href="#r2-west">第2ラウンド：ウエスト展望</a></li>
+      <li><a href="#pick">最終優勝予想</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 第1ラウンド振り返り -->
+  <section id="r1-recap" class="prose">
+    <h2>第1ラウンド振り返り</h2>
+    <p>第1ラウンドはドラマの連続だった。3試合でGame 7にもつれ込み、<strong>3-1からの逆転</strong>が2件も発生するという波乱の幕開けとなった。</p>
+  </section>
+
+  <!-- イースト結果表 -->
+  <div class="mb-2 mt-1">
+    <div class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">EASTERN CONFERENCE 第1ラウンド結果</div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>シード</th>
+            <th>チーム</th>
+            <th>結果</th>
+            <th>チーム</th>
+            <th>シード</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-gray-500">(1)</td>
+            <td class="highlight">デトロイト・ピストンズ</td>
+            <td class="text-center font-bold text-white">4-3 ★</td>
+            <td>オーランド・マジック</td>
+            <td class="text-gray-500">(8)</td>
+          </tr>
+          <tr>
+            <td class="text-gray-500">(2)</td>
+            <td class="text-gray-500 line-through">ボストン・セルティックス</td>
+            <td class="text-center font-bold text-[var(--crimson-bright)]">3-4 番狂わせ</td>
+            <td class="highlight">フィラデルフィア・76ers</td>
+            <td class="text-gray-500">(7)</td>
+          </tr>
+          <tr>
+            <td class="text-gray-500">(3)</td>
+            <td class="highlight">ニューヨーク・ニックス</td>
+            <td class="text-center font-bold text-white">4-2</td>
+            <td>アトランタ・ホークス</td>
+            <td class="text-gray-500">(6)</td>
+          </tr>
+          <tr>
+            <td class="text-gray-500">(4)</td>
+            <td class="highlight">クリーブランド・キャバリアーズ</td>
+            <td class="text-center font-bold text-white">4-3</td>
+            <td>トロント・ラプターズ</td>
+            <td class="text-gray-500">(5)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ウエスト結果表 -->
+  <div class="mb-8 mt-4">
+    <div class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">WESTERN CONFERENCE 第1ラウンド結果</div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>シード</th>
+            <th>チーム</th>
+            <th>結果</th>
+            <th>チーム</th>
+            <th>シード</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-gray-500">(1)</td>
+            <td class="highlight">OKCサンダー</td>
+            <td class="text-center font-bold text-white">4-0 スイープ</td>
+            <td>フェニックス・サンズ</td>
+            <td class="text-gray-500">(8)</td>
+          </tr>
+          <tr>
+            <td class="text-gray-500">(2)</td>
+            <td class="highlight">サンアントニオ・スパーズ</td>
+            <td class="text-center font-bold text-white">4-1</td>
+            <td>ポートランド・トレイルブレイザーズ</td>
+            <td class="text-gray-500">(7)</td>
+          </tr>
+          <tr>
+            <td class="text-gray-500">(3)</td>
+            <td class="highlight">LAレイカーズ</td>
+            <td class="text-center font-bold text-white">4-2</td>
+            <td>ヒューストン・ロケッツ</td>
+            <td class="text-gray-500">(6)</td>
+          </tr>
+          <tr>
+            <td class="text-gray-500">(4)</td>
+            <td class="highlight">ミネソタ・ティンバーウルブズ</td>
+            <td class="text-center font-bold text-white">4-?</td>
+            <td></td>
+            <td class="text-gray-500">(5)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>最大のトピックは<strong>76ersによるセルティックス撃破</strong>だ。2位シードのボストンを7試合で下し、2016年クリーブランド・キャバリアーズ以来となる「アウェイでのGame 7勝利によるリバースサンダー3-1逆転」を達成した（出典：Bleacher Report）。</p>
+    <p>一方ウエストでは<strong>OKCサンダーがサンズを4-0でスイープ</strong>。サンズ戦通算3連続スイープという圧倒的な強さを見せつけ、優勝候補筆頭の地位を盤石にした。</p>
+  </div>
+
+  <!-- 2. 優勝オッズ -->
+  <section id="odds" class="prose">
+    <h2>優勝オッズ（ESPN / Covers.com）</h2>
+    <p>第2ラウンド開幕時点（2026年5月4〜5日）のオッズは以下のとおり。データはESPNベッティングガイドおよびCovers.comより。</p>
+  </section>
+
+  <div class="odds-bar-wrap mb-8">
+    <div class="odds-row">
+      <div class="odds-team">OKCサンダー</div>
+      <div class="odds-bar-bg"><div class="odds-bar" style="width:58%"></div></div>
+      <div class="odds-val top">-140〜-155</div>
+    </div>
+    <div class="odds-row">
+      <div class="odds-team">SAスパーズ</div>
+      <div class="odds-bar-bg"><div class="odds-bar" style="width:20%"></div></div>
+      <div class="odds-val">+375〜+400</div>
+    </div>
+    <div class="odds-row">
+      <div class="odds-team">NYニックス</div>
+      <div class="odds-bar-bg"><div class="odds-bar" style="width:11%"></div></div>
+      <div class="odds-val">+850</div>
+    </div>
+    <div class="odds-row">
+      <div class="odds-team">CLEキャバリアーズ</div>
+      <div class="odds-bar-bg"><div class="odds-bar" style="width:7%"></div></div>
+      <div class="odds-val">+1400</div>
+    </div>
+    <div class="odds-row">
+      <div class="odds-team">LAレイカーズ</div>
+      <div class="odds-bar-bg"><div class="odds-bar" style="width:3%"></div></div>
+      <div class="odds-val">+2500〜</div>
+    </div>
+    <p class="text-xs text-gray-600 mt-2">出典：ESPN Betting Guide / Covers.com（2026年5月4〜5日時点）</p>
+  </div>
+
+  <div class="prose">
+    <p>サンダーが優勝確率換算で約<strong>58〜61%</strong>と圧倒的な本命。Covers.comのベッティング市場でも「最もマネーが集まっているチーム」と報じられており（Covers.com, May 4, 2026）、マーケットのコンセンサスは一致している。</p>
+    <p>注目はニックス。第1ラウンド通過後にオッズが大きく改善し、ESPNは「プレイオフここまでで最大の受益者（biggest winner of the playoffs so far）」と位置づけている。</p>
+  </div>
+
+  <!-- 3. 負傷情報 -->
+  <section id="injuries" class="prose">
+    <h2>注目の負傷情報</h2>
+    <p>第2ラウンドを左右するケガが2件、特に注目される。</p>
+  </section>
+
+  <div class="space-y-4 mb-10">
+    <div class="info-box">
+      <div class="label">🚨 負傷情報</div>
+      <p class="font-bold text-white text-sm mb-1">ルカ・ドンチッチ（レイカーズ）<span class="injury-tag">左ハムストリング Grade 2</span></p>
+      <p>4月2日のサンダー戦で負傷。第1ラウンド全6試合欠場。サンダーとの第2ラウンドGame 1（5月5日）も欠場が確定。復帰目標はGame 4前後（5月11日頃）とされているが、専門家の見立てでは「このシリーズ中に出場できる確率は約35%」とも報じられている（Heavy.com）。レイカーズが番狂わせを起こすには欠かせない存在だけに、復帰のタイミングが大きなカギを握る。</p>
+    </div>
+    <div class="info-box">
+      <div class="label">⚠️ 負傷情報</div>
+      <p class="font-bold text-white text-sm mb-1">アンソニー・エドワーズ（ティンバーウルブズ）<span class="injury-tag">膝</span></p>
+      <p>スパーズとのシリーズ最初の2試合を欠場見込み。復帰目標はGame 3前後。ウェンバニャマを擁するスパーズにとっては序盤で主導権を握る絶好のチャンス。「エドワーズ不在のうちにリードを広げられるか」がシリーズの焦点になりそうだ。</p>
+    </div>
+  </div>
+
+  <!-- 4. イースト展望 -->
+  <section id="r2-east" class="prose">
+    <h2>第2ラウンド：イースト展望</h2>
+  </section>
+
+  <div class="mb-6">
+
+    <!-- Pistons vs Cavs -->
+    <div class="series-card">
+      <div class="series-header">
+        <span class="series-badge badge-east">EAST</span>
+        <span class="series-matchup">(1) デトロイト・ピストンズ vs (4) クリーブランド・キャバリアーズ</span>
+      </div>
+      <div class="series-body">
+        ピストンズは3-1からの逆転勝利でオーランドを退けたが、7試合を戦った消耗が懸念される。キャバリアーズも同様にGame 7をフルに戦ってきており、体力的な消耗は互角だ。ピストンズの若いロスターが第1シードとしてホームコートアドバンテージを最大限に活かせるかが焦点。キャブスはダリウス・ガーランドの安定感が光り、接戦になるほど強みが出るチームだ。
+      </div>
+      <div class="series-verdict">
+        <strong>予想：ピストンズが6試合で勝利。</strong> ホームコートの恩恵を活かし、第1シードの貫録を見せる。ただしGarlandが好調なら最終戦まで縺れる展開も十分あり得る。
+      </div>
+    </div>
+
+    <!-- Knicks vs 76ers -->
+    <div class="series-card">
+      <div class="series-header">
+        <span class="series-badge badge-east">EAST</span>
+        <span class="series-matchup">(3) ニューヨーク・ニックス vs (7) フィラデルフィア・76ers</span>
+      </div>
+      <div class="series-body">
+        今プレイオフ最大のドラマカード。ESPNの複数の専門家が「今ラウンドで最も予測困難なシリーズ」と評している（ESPN Expert Picks, 2026）。76ersはセルティックスを下した勢いとモメンタムがある一方で、7位シードで体力・ベンチ層に不安が残る。ニックスはジェイレン・ブランソンを中心に洗練されたハーフコートオフェンスを展開し、ホームのマディソン・スクエア・ガーデンは屈指のホームアドバンテージを誇る。
+      </div>
+      <div class="series-verdict">
+        <strong>予想：ニックスが7試合で勝利。</strong> ただしこのシリーズだけは正直わからない。76ersが2ラウンド連続で大番狂わせを起こす可能性は十分にある。MSGの雰囲気とブランソンの爆発力でニックスが押し切ると見るが、サンダーとの決勝を見据えた体力的な有利さもニックスには働くはず。
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. ウエスト展望 -->
+  <section id="r2-west" class="prose">
+    <h2>第2ラウンド：ウエスト展望</h2>
+  </section>
+
+  <div class="mb-6">
+
+    <!-- Thunder vs Lakers -->
+    <div class="series-card">
+      <div class="series-header">
+        <span class="series-badge badge-west">WEST</span>
+        <span class="series-matchup">(1) OKCサンダー vs (3) LAレイカーズ</span>
+      </div>
+      <div class="series-body">
+        最大の注目カード。ドンチッチ不在のレイカーズ相手にサンダーは圧倒的有利とみられるが、レブロン・ジェームズはGame 6クローザーで28点・8リバウンド・7アシストを記録しており、まだまだ健在だ。ドンチッチが戻れない場合はサンダーが楽に勝ち抜きそうだが、もし第4戦前後に復帰があれば一気にシリーズが動く可能性もある。サンダーはShai Gilgeous-Alexanderを中心としたディフェンスが今年もリーグ最高水準を維持しており、たとえドンチッチが戻っても過信は禁物という評価が大半だ。
+      </div>
+      <div class="series-verdict">
+        <strong>予想：サンダーが5試合で勝利。</strong> ドンチッチが仮に復帰しても万全でない状態では、サンダーの組織ディフェンスを崩すのは難しい。レブロンが健闘し1〜2試合は競るシーンもあるが、最終的にはOKCの地力が上回る。
+      </div>
+    </div>
+
+    <!-- Spurs vs Timberwolves -->
+    <div class="series-card">
+      <div class="series-header">
+        <span class="series-badge badge-west">WEST</span>
+        <span class="series-matchup">(2) SAスパーズ vs (4) ミネソタ・ティンバーウルブズ</span>
+      </div>
+      <div class="series-body">
+        ウエストのダークホース対決。ヴィクター・ウェンバニャマは第1ラウンドで脳震盪を乗り越え、平均21点・8.8リバウンド・4ブロック・フィールドゴール58.3%と驚異的なパフォーマンスを見せた。一方ティンバーウルブズはエドワーズが最初の2試合を欠場見込み。ESPNのベッティングガイドはこのシリーズで「スパーズによるNBA制覇（+500）」を本命ピックに挙げている（ESPN Betting Guide, 2026）。エドワーズ抜きの序盤でスパーズがどこまでリードを作れるかが分岐点。
+      </div>
+      <div class="series-verdict">
+        <strong>予想：スパーズが6試合で勝利。</strong> エドワーズ不在の序盤にリードを奪い、ウェンバニャマの支配力でシリーズを押し切る。エドワーズが戻って一時的に盛り返しても、ウェンバニャマとのマッチアップでミネソタは解決策を見つけられないだろう。
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 最終優勝予想 -->
+  <section id="pick" class="prose">
+    <h2>最終優勝予想</h2>
+    <p>第2ラウンド以降の見立てとファイナル予想をまとめる。</p>
+  </section>
+
+  <div class="pick-box mb-10">
+    <div class="pick-label">🏆 筆者の優勝予想</div>
+    <div class="pick-team">OKCサンダー</div>
+    <div class="pick-reason">
+      オッズ（-140〜-155）が示すとおり、今年のNBAで最も完成されたチームはサンダーだ。SGA率いるオフェンスとリーグ最高峰のチームディフェンス、深いロスター——すべてが噛み合っている。ドンチッチが仮にシリーズ中盤に戻ってきても、今季レギュラーシーズンの対戦成績でサンダーは優位に立っており、準備は十分だ。<br><br>
+      カンファレンスファイナルはスパーズが最大の難敵になると予想するが、ウェンバニャマのスケールがあってもSGAとOKCのシステムを崩すには至らないとみる。ファイナルはニックス対サンダーとなり、ガイ・フィールドで歓喜の瞬間を迎えるのはサンダーと予想する。
+    </div>
+  </div>
+
+  <!-- ダークホース -->
+  <div class="info-box mb-12">
+    <div class="label">🎲 ダークホース</div>
+    <p><strong class="text-white">SAスパーズ（+375〜+400）</strong>——ウェンバニャマの成長曲線は誰も正確に予測できない。彼が「プレイオフ覚醒」した場合、スパーズの優勝シナリオは十分に現実的だ。ESPNのベッティングピックがスパーズを推している点も見逃せない。オッズ的にも最もバリューのある賭けといえる。</p>
+  </div>
+
+  <!-- 引用元 -->
+  <div class="source-note">
+    <p>【主な参照データ・出典】</p>
+    <ul style="list-style:disc;padding-left:1.5rem;margin-top:.5rem;line-height:2;">
+      <li><a href="https://www.espn.com/nba/story/_/id/48629118/2026-nba-playoff-expert-picks-second-round-conference-semi-finals" target="_blank" rel="noopener">ESPN — 2026 NBA Playoff Expert Picks: Second Round</a></li>
+      <li><a href="https://www.espn.com/espn/betting/story/_/id/45539787/2026-nba-finals-odds-mvp-2025-26-championship-betting" target="_blank" rel="noopener">ESPN Betting Guide — 2026 NBA Finals Odds & MVP</a></li>
+      <li><a href="https://www.covers.com/industry/nba-finals-odds-update-thunder-lead-knicks-biggest-winner-of-playoffs-so-far-may-4-2026" target="_blank" rel="noopener">Covers.com — NBA Finals Odds Update（May 4, 2026）</a></li>
+      <li><a href="https://bleacherreport.com/articles/25424597-nba-playoff-bracket-2026-updated-picture-schedule-after-76ers-eliminate-celtics" target="_blank" rel="noopener">Bleacher Report — 76ers Eliminate Celtics</a></li>
+      <li><a href="https://heavy.com/sports/nba/los-angeles-lakers/luka-doncic-injury-update-return-timeline-thunder-series/" target="_blank" rel="noopener">Heavy.com — Luka Doncic Injury Update</a></li>
+    </ul>
+    <p style="margin-top:.75rem;">※ オッズ・情報は2026年5月5日時点のものです。</p>
+  </div>
+
+  <!-- 関連記事 -->
+  <div class="mt-16 pt-8 border-t border-[var(--line)]">
+    <div class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-5">関連記事</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <a href="playoff-guide.html" class="bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 hover:border-gray-500 transition-colors">
+        <div class="text-xs text-[var(--crimson-bright)] font-bold mb-2">プレイオフ解説</div>
+        <div class="text-sm font-bold text-white leading-snug">NBAプレイオフの仕組みを徹底解説</div>
+      </a>
+      <a href="bracket.html" class="bg-[var(--ink-2)] border border-[var(--line)] rounded-lg p-4 hover:border-gray-500 transition-colors">
+        <div class="text-xs text-[var(--crimson-bright)] font-bold mb-2">ブラケット</div>
+        <div class="text-sm font-bold text-white leading-snug">2026 プレイオフ・ブラケット（最新結果）</div>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-black border-t border-[var(--line)] py-8 mt-4">
+  <div class="max-w-[1280px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+    <div class="flex items-center gap-3">
+      <img src="logo.png" alt="CourtSide" class="w-7 h-7 rounded-full opacity-60">
+      <span>© 2026 CourtSide. All rights reserved.</span>
+    </div>
+    <div class="flex gap-4 flex-wrap justify-center">
+      <a href="about.html" class="hover:text-white">サイトについて</a>
+      <a href="privacy.html" class="hover:text-white">プライバシーポリシー</a>
+      <a href="terms.html" class="hover:text-white">利用規約</a>
+      <a href="contact.html" class="hover:text-white">お問い合わせ</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
