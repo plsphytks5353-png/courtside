@@ -1,0 +1,5 @@
+.env
+browser_data/
+__pycache__/
+*.pyc
+courtside_post.jpg
